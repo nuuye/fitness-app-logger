@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-//on ajoute ce plugin pour vérifier l'unicité, car sans il est possible d'avoir des erreurs illisibles
 const uniqueValidator = require("mongoose-unique-validator");
 
 const exerciceSchema = mongoose.Schema({
@@ -7,9 +6,12 @@ const exerciceSchema = mongoose.Schema({
     repNumber: { type: [Number], required: false },
     kgPerRep: { type: [Number], required: false },
     note: { type: String, required: false },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    userId: { type: String, required: true },
 });
 
-//we link the plugin to our model
-userSchema.plugin(uniqueValidator);
+// Link the uniqueValidator plugin to exerciceSchema
+exerciceSchema.plugin(uniqueValidator);
 
+// Export the Exercice model
 module.exports = mongoose.model("Exercice", exerciceSchema);

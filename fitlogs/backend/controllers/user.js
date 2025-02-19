@@ -82,7 +82,7 @@ exports.deleteUser = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-exports.modifyUser = (req, res, next) => {
+exports.editUser = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
             if (user && user._id === req.auth.userId) {
