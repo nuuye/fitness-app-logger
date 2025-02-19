@@ -5,11 +5,8 @@ const exerciceCtrl = require("../controllers/category");
 const auth = require("../middlewares/auth");
 
 router.post("/create", exerciceCtrl.createExercice);
-router.delete("/delete/:id", exerciceCtrl.deleteExercice);
-router.put("/edit/:id", exerciceCtrl.editExercice);
-router.get("/getAll/:userId", exerciceCtrl.getAllExercice);
-
-
-
+router.delete("/delete/:id", auth, exerciceCtrl.deleteExercice);
+router.put("/edit/:id", auth, exerciceCtrl.editExercice);
+router.get("/getAll/:userId", auth, exerciceCtrl.getAllExercice);
 
 module.exports = router;
