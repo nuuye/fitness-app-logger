@@ -1,5 +1,8 @@
 import "../styles/global.scss";
 import Head from "next/head";
+import theme from "../styles/theme";
+import { ThemeProvider } from "@mui/material";
+import "@fontsource/roboto";
 
 export default function App({ Component, pageProps }) {
     return (
@@ -7,7 +10,9 @@ export default function App({ Component, pageProps }) {
             <Head>
                 <title>Fitlogs – Your fitness logger</title>
             </Head>
-            <Component {...pageProps} />
+            <ThemeProvider theme={theme}>
+                <Component {...pageProps} />
+            </ThemeProvider>
         </>
     );
 }

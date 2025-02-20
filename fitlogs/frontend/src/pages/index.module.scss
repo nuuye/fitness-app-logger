@@ -1,6 +1,7 @@
 .mainContainer {
     background: rgb(6, 157, 142);
-    background: linear-gradient(180deg, rgba(6, 157, 142, 1) 0%, rgba(6, 95, 141, 1) 65%, rgba(3, 83, 99, 1) 90%);
+    background: linear-gradient(180deg, rgb(5, 138, 124) 0%, rgba(6, 95, 141, 1) 65%, rgba(3, 83, 99, 1) 90%);
     width: 100vw;
     height: 100vh;
+    position: relative;
 }

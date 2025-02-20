@@ -1,0 +1,53 @@
+.mainContainer {
+    position: absolute;
+    height: 54px;
+    background-color: #0d6547db;
+    left: 24px;
+    right: 24px;
+    top: 24px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+    .leftNavContainer {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        .logoContainer {
+            display: flex;
+        }
+        .sectionContainer {
+            * {
+                border-radius: 11px;
+                color: white;
+                font-family: "Roboto", sans-serif;
+                &:hover {
+                    background-color: rgb(3, 93, 66);
+                    border-radius: 13px;
+                }
+            }
+        }
+    }
+    .rightNavContainer {
+        display: flex;
+        gap: 10px;
+        * {
+            border-radius: 13px;
+            color: white;
+        }
+        .signInContainer {
+            &:hover {
+                background-color: rgb(3, 93, 66);
+                border-radius: 13px;
+            }
+        }
+        .signUpContainer {
+            background-color: white;
+            color: black;
+            &:hover {
+                background-color: rgb(39, 156, 121);
+            }
+        }
+    }
+}
