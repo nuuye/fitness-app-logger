@@ -1,6 +1,6 @@
 import styles from "./appBar.module.scss";
 import Button from "@mui/material/Button";
-import logo from "../../../public/images/dumbbell_cross.png";
+import logo from "../../../public/images/dumbbell_icon.png";
 import Image from "next/image";
 
 export default function AppBar() {

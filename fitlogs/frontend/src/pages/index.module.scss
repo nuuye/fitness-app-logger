@@ -1,7 +1,58 @@
-.mainContainer {
+.root {
     background: rgb(6, 157, 142);
     background: linear-gradient(180deg, rgb(5, 138, 124) 0%, rgba(6, 95, 141, 1) 65%, rgba(3, 83, 99, 1) 90%);
     width: 100vw;
     height: 100vh;
     position: relative;
+    .mainContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        .textContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .title {
+                font-size: xxx-large;
+                color: #a7ecee;
+                font-weight: bold;
+                margin-bottom: unset;
+            }
+            .subTitle {
+                color: #76aaa4;
+                font-weight: bold;
+            }
+            .startContainer {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                .inputContainer {
+                    min-width: 260px;
+                    border: 2px solid rgb(11, 114, 84);
+                    border-radius: 5px;
+                    background-color: rgb(127 127 127 / 34%);
+                    padding-left: 10px;
+                    &::before,
+                    &::after {
+                        border-bottom: unset;
+                    }
+                    input {
+                        color: #abbebc;
+                    }
+                    input::placeholder {
+                        color: rgba(255, 255, 255, 0.6);
+                    }
+                }
+                .startButtonContainer {
+                    border-radius: 13px;
+                    background-color: rgb(11, 114, 84);
+                    color: white;
+                    &:hover {
+                        background-color: rgb(14, 124, 93);
+                    }
+                }
+            }
+        }
+    }
 }

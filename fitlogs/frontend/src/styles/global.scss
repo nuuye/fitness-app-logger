@@ -12,3 +12,8 @@ body {
 #__next {
     height: 100%;
 }
+
+*::selection {
+    background: #39897d94;
+    color: #ffffff;
+}
