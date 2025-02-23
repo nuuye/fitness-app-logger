@@ -18,10 +18,12 @@
                 color: #a7ecee;
                 font-weight: bold;
                 margin-bottom: unset;
+                text-align: center;
             }
             .subTitle {
                 color: #76aaa4;
                 font-weight: bold;
+                text-align: center;
             }
             .startContainer {
                 display: flex;
@@ -45,11 +47,17 @@
                     }
                 }
                 .startButtonContainer {
+                    display: flex;
+                    align-items: center;
                     border-radius: 13px;
+                    padding-right: 5px;
                     background-color: rgb(11, 114, 84);
                     color: white;
                     &:hover {
                         background-color: rgb(14, 124, 93);
+                    }
+                    .arrowIcon {
+                        margin-left: 2px;
                     }
                 }
             }
