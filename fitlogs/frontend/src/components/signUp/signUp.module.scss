@@ -2,8 +2,66 @@
 
 .root {
     .cardContainer {
-        background: $darkGreen;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background: #061d20;
         width: 400px;
         height: 500px;
+        padding: 20px;
+        border: solid 2px $mediumGreen;
+        border-radius: 10px;
+
+        // Propriétés supplémentaires pour l'effet d'éclaircissement
+        background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9)); // Légère transition de couleur
+
+        .header {
+            h1 {
+                color: white;
+                margin: unset;
+            }
+        }
+        .body {
+            .formLabel {
+                color: white;
+                margin-bottom: 5px;
+            }
+            .textField {
+                border-radius: 5px;
+                input {
+                    color: #abbebc;
+                    border: 1px solid rgb(11, 114, 84);
+                }
+                input::placeholder {
+                    color: rgba(255, 255, 255, 0.6);
+                }
+            }
+
+            //autofill styling
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            input:-webkit-autofill:active {
+                appearance: none;
+                -webkit-text-fill-color: #abbebc;
+                background-color: transparent;
+                transition: background-color 5000s ease-in-out 0s;
+            }
+
+            // Ajout pour éviter le changement de style au survol des suggestions autofill
+            input:-webkit-autofill::first-line {
+                color: #abbebc;
+            }
+
+            .button {
+                background-color: rgb(11, 114, 84);
+                color: white;
+                &:hover {
+                    background-color: rgb(14, 124, 93);
+                }
+            }
+        }
+        .footer {
+        }
     }
 }
