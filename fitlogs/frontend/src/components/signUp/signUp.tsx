@@ -73,6 +73,7 @@ export default function SignUp() {
                         component="form"
                         onSubmit={handleSubmit}
                         sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                        noValidate
                     >
                         <FormControl>
                             <FormLabel className={styles.formLabel} htmlFor="name">
@@ -80,8 +81,13 @@ export default function SignUp() {
                             </FormLabel>
                             <TextField
                                 sx={{
-                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                        borderColor: "rgb(11, 114, 84)",
+                                    "& .MuiOutlinedInput-root": {
+                                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
+                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
                                     },
                                 }}
                                 className={styles.textField}
@@ -102,8 +108,13 @@ export default function SignUp() {
                             </FormLabel>
                             <TextField
                                 sx={{
-                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                        borderColor: "rgb(11, 114, 84)",
+                                    "& .MuiOutlinedInput-root": {
+                                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
+                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
                                     },
                                 }}
                                 className={styles.textField}
@@ -125,8 +136,13 @@ export default function SignUp() {
                             </FormLabel>
                             <TextField
                                 sx={{
-                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                        borderColor: "rgb(11, 114, 84)",
+                                    "& .MuiOutlinedInput-root": {
+                                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
+                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                            borderColor: "rgb(11, 114, 84)",
+                                        },
                                     },
                                 }}
                                 className={styles.textField}
