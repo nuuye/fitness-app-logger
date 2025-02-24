@@ -10,6 +10,7 @@
         padding: 20px;
         border: solid 2px $mediumGreen;
         border-radius: 10px;
+
         background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
 
         .header {
@@ -44,10 +45,21 @@
                 background-color: transparent;
                 transition: background-color 5000s ease-in-out 0s;
             }
+
             input:-webkit-autofill::first-line {
                 color: #abbebc;
             }
-
+            .middleSectionContainer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                .forgotPasswordText {
+                    color: $lightGreen;
+                    text-decoration-color: $lightGreen;
+                    font-size: 0.875rem;
+                    cursor: pointer;
+                }
+            }
             .signUpButton {
                 background-color: rgb(11, 114, 84);
                 color: white;

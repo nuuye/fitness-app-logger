@@ -1,27 +1,24 @@
 import Card from "@mui/material/Card";
-import styles from "./signUp.module.scss";
-import { Box, Button, FormControl, FormLabel, Link, TextField } from "@mui/material";
+import styles from "./signIn.module.scss";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 
-export default function SignUp() {
+export default function SignIn() {
     const [emailError, setEmailError] = useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
     const [passwordError, setPasswordError] = useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-    const [nameError, setNameError] = useState(false);
-    const [nameErrorMessage, setNameErrorMessage] = useState("");
 
     let isValid: boolean = true;
 
     const validateInputs = (): boolean => {
         const email = document.getElementById("email") as HTMLInputElement;
         const password = document.getElementById("password") as HTMLInputElement;
-        const name = document.getElementById("name") as HTMLInputElement;
 
         if (!email.value) {
             setEmailError(true);
-            setEmailErrorMessage("Please enter a valid email address.");
+            setEmailErrorMessage("You must enter an email.");
             isValid = false;
         } else {
             setEmailError(false);
@@ -30,34 +27,22 @@ export default function SignUp() {
 
         if (!password.value || password.value.length < 6) {
             setPasswordError(true);
-            setPasswordErrorMessage("Password must be at least 6 characters long.");
+            setPasswordErrorMessage("You must enter a password.");
             isValid = false;
         } else {
             setPasswordError(false);
             setPasswordErrorMessage("");
         }
-
-        if (!name.value || name.value.length < 1) {
-            setNameError(true);
-            setNameErrorMessage("Name is required.");
-            isValid = false;
-        } else {
-            setNameError(false);
-            setNameErrorMessage("");
-        }
-
         return isValid;
     };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        if (nameError || emailError || passwordError) {
+        if (emailError || passwordError) {
             event.preventDefault();
             return;
         }
         const data = new FormData(event.currentTarget);
         console.log({
-            name: data.get("name"),
-            lastName: data.get("lastName"),
             email: data.get("email"),
             password: data.get("password"),
         });
@@ -67,7 +52,7 @@ export default function SignUp() {
         <div className={styles.root}>
             <Card className={styles.cardContainer} variant="outlined">
                 <div className={styles.header}>
-                    <h1>Sign up</h1>
+                    <h1>Sign in</h1>
                 </div>
                 <div className={styles.body}>
                     <Box
@@ -76,33 +61,6 @@ export default function SignUp() {
                         sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                         noValidate
                     >
-                        <FormControl>
-                            <FormLabel className={styles.formLabel} htmlFor="name">
-                                Full name
-                            </FormLabel>
-                            <TextField
-                                sx={{
-                                    "& .MuiOutlinedInput-root": {
-                                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
-                                        },
-                                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
-                                        },
-                                    },
-                                }}
-                                className={styles.textField}
-                                autoComplete="name"
-                                name="name"
-                                required
-                                fullWidth
-                                id="name"
-                                placeholder="John Doe"
-                                error={nameError}
-                                helperText={nameErrorMessage}
-                                color={nameError ? "error" : "primary"}
-                            />
-                        </FormControl>
                         <FormControl>
                             <FormLabel className={styles.formLabel} htmlFor="email">
                                 Email
@@ -160,6 +118,31 @@ export default function SignUp() {
                                 color={passwordError ? "error" : "primary"}
                             />
                         </FormControl>
+                        <div className={styles.middleSectionContainer}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        value="remember"
+                                        color="primary"
+                                        sx={{
+                                            color: "rgb(11, 114, 84)",
+                                            "&.Mui-checked": {
+                                                color: "rgb(11, 114, 84)",
+                                            },
+                                        }}
+                                    />
+                                }
+                                label="Remember me"
+                                sx={{
+                                    color: "white",
+                                    "& .MuiFormControlLabel-label": {
+                                        fontSize: "0.875rem",
+                                    },
+                                }}
+                            />
+
+                            <Link className={styles.forgotPasswordText}>Forgot your password?</Link>
+                        </div>
                         <Button
                             className={styles.signUpButton}
                             type="submit"
@@ -167,7 +150,7 @@ export default function SignUp() {
                             variant="contained"
                             onClick={validateInputs}
                         >
-                            Sign up
+                            Sign in
                         </Button>
                     </Box>
                     <Button
@@ -177,13 +160,15 @@ export default function SignUp() {
                         onClick={() => alert("Sign up with Google")}
                         startIcon={<GoogleIcon />}
                     >
-                        Sign up with Google
+                        Sign in with Google
                     </Button>
                 </div>
                 <div className={styles.footer}>
                     <span className={styles.footerText}>
-                        Already have an account?{" "}
-                        <Link className={styles.signUpLink} variant="body2" href="/material-ui/">Sign in</Link>
+                        Don't have an account?{" "}
+                        <Link className={styles.signUpLink} variant="body2" href="/material-ui/">
+                            Sign up
+                        </Link>
                     </span>
                 </div>
             </Card>
