@@ -9,6 +9,6 @@ const categorySchema = mongoose.Schema({
 });
 
 //we link the plugin to our model
-userSchema.plugin(uniqueValidator);
+categorySchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Category", categorySchema);

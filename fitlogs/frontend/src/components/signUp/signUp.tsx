@@ -3,6 +3,7 @@ import styles from "./signUp.module.scss";
 import { Box, Button, FormControl, FormLabel, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
+import { signupRequest } from "../../services/user";
 
 export default function SignUp() {
     const [emailError, setEmailError] = useState(false);
@@ -49,18 +50,30 @@ export default function SignUp() {
         return isValid;
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (nameError || emailError || passwordError) {
             event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
-        console.log({
-            name: data.get("name"),
-            lastName: data.get("lastName"),
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        const rawData = new FormData(event.currentTarget);
+
+        const formData = {
+            name: rawData.get("name") as string,
+            email: rawData.get("email") as string,
+            password: rawData.get("password") as string,
+        };
+
+        const newUser = await signupRequest(formData);
+
+        if (newUser) {
+            localStorage.setItem('userId', newUser.userId);
+            localStorage.setItem('token', newUser.token);
+
+            console.log("new User : ", newUser);
+        } else {
+            console.log("error while creating user");
+        }
     };
 
     return (
@@ -183,7 +196,9 @@ export default function SignUp() {
                 <div className={styles.footer}>
                     <span className={styles.footerText}>
                         Already have an account?{" "}
-                        <Link className={styles.signUpLink} variant="body2" href="/material-ui/">Sign in</Link>
+                        <Link className={styles.signUpLink} variant="body2" href="/material-ui/">
+                            Sign in
+                        </Link>
                     </span>
                 </div>
             </Card>

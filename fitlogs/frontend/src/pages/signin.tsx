@@ -1,9 +1,7 @@
-import SignUp from "../components/signUp/signUp";
 import SignIn from "../components/signIn/signIn";
+import styles from "./signup.module.scss";
 
-import styles from "./identification.module.scss";
-
-export default function Identification() {
+export default function signin() {
     return (
         <div className={styles.root}>
             <SignIn />

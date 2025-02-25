@@ -10,7 +10,7 @@ exports.createExercice = (req, res, next) => {
 };
 
 //deletes an exercice based on its Id
-exports.deleteExericce = (req, res, next) => {
+exports.deleteExercice = (req, res, next) => {
     Exercice.findOne({ _id: req.params.id })
         .then((exercice) => {
             if (!exercice) {
@@ -46,7 +46,7 @@ exports.editExercice = (req, res, next) => {
 };
 
 //retrieve all exercices from a user by using its Id
-exports.getAllExercices = (req, res, next) => {
+exports.getAllExercice = (req, res, next) => {
     Exercice.find({ userId: req.params.id })
         .then((exerciceList) => {
             // Check if at least one category does not match the authenticated user

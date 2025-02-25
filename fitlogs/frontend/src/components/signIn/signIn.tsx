@@ -3,6 +3,7 @@ import styles from "./signIn.module.scss";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
+import { loginRequest } from "../../services/user";
 
 export default function SignIn() {
     const [emailError, setEmailError] = useState(false);
@@ -36,16 +37,23 @@ export default function SignIn() {
         return isValid;
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         if (emailError || passwordError) {
             event.preventDefault();
             return;
         }
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        const rawdata = new FormData(event.currentTarget);
+        const formData = {
+            email: rawdata.get("email") as string,
+            password: rawdata.get("password") as string,
+        };
+        const userData = await loginRequest(formData);
+        if(userData){
+            localStorage.setItem('userId', userData.userId);
+            localStorage.setItem('token', userData.token);
+            //redirect to main page
+        }
+
     };
 
     return (
@@ -157,7 +165,7 @@ export default function SignIn() {
                         className={styles.googleButton}
                         fullWidth
                         variant="outlined"
-                        onClick={() => alert("Sign up with Google")}
+                        onClick={() => alert("Sign in with Google")}
                         startIcon={<GoogleIcon />}
                     >
                         Sign in with Google
