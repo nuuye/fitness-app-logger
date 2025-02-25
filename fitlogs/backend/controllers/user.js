@@ -95,3 +95,15 @@ exports.editUser = (req, res, next) => {
         })
         .catch((error) => res.status(400).json({ error }));
 };
+
+exports.emailCheck = (req, res, next) => {
+    User.findOne({ email: req.body.email })
+        .then((user) => {
+            if (user) {
+                res.status(200).json({ message: "user not found" });
+            } else {
+                res.status(204).json({ message: "user not found" });
+            }
+        })
+        .catch((error) => res.status(500).json({ error }));
+};

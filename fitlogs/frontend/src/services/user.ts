@@ -51,3 +51,19 @@ export const loginRequest = async (credentials: User): Promise<AuthResponse> => 
         return null;
     }
 };
+
+export const emailCheckRequest = async (email: string): Promise<boolean> => {
+    try {
+        const response = await fetch(`${API_USER_URL}/checkUser`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(email),
+        });
+        if(!response){
+            return false;
+        }
+        return true;
+    } catch {
+        return false;
+    }
+};

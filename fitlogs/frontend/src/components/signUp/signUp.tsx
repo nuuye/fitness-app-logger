@@ -67,8 +67,8 @@ export default function SignUp() {
         const newUser = await signupRequest(formData);
 
         if (newUser) {
-            localStorage.setItem('userId', newUser.userId);
-            localStorage.setItem('token', newUser.token);
+            localStorage.setItem("userId", newUser.userId);
+            localStorage.setItem("token", newUser.token);
 
             console.log("new User : ", newUser);
         } else {
@@ -131,6 +131,7 @@ export default function SignUp() {
                                         },
                                     },
                                 }}
+                                defaultValue={localStorage.getItem("userEmail")}
                                 className={styles.textField}
                                 required
                                 fullWidth

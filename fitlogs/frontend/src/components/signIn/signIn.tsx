@@ -48,12 +48,11 @@ export default function SignIn() {
             password: rawdata.get("password") as string,
         };
         const userData = await loginRequest(formData);
-        if(userData){
-            localStorage.setItem('userId', userData.userId);
-            localStorage.setItem('token', userData.token);
+        if (userData) {
+            localStorage.setItem("userId", userData.userId);
+            localStorage.setItem("token", userData.token);
             //redirect to main page
         }
-
     };
 
     return (
@@ -84,6 +83,7 @@ export default function SignIn() {
                                         },
                                     },
                                 }}
+                                defaultValue={localStorage.getItem("userEmail")}
                                 className={styles.textField}
                                 required
                                 fullWidth
