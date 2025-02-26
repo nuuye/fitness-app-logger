@@ -1,0 +1,8 @@
+@import "../styles/colors";
+
+.root {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle, rgb(13 139 126) 10%, rgb(13 100 90) 55%, rgb(7, 71, 84) 85%);
+}

@@ -39,7 +39,7 @@ export const loginRequest = async (credentials: User): Promise<AuthResponse> => 
         const response = await fetch(`${API_USER_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify({credentials}),
         });
 
         if (!response) {
@@ -57,9 +57,9 @@ export const emailCheckRequest = async (email: string): Promise<boolean> => {
         const response = await fetch(`${API_USER_URL}/checkUser`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
-            body: JSON.stringify(email),
+            body: JSON.stringify({email}),
         });
-        if(!response){
+        if(response.status === 204){
             return false;
         }
         return true;

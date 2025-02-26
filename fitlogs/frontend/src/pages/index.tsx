@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import AppBar from "../components/appBar/appBar";
 import Input from "@mui/material/Input";
@@ -7,9 +7,16 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useRouter } from "next/router";
 import { emailCheckRequest } from "../services/user";
 
-const Home = () => {
+const Landing = () => {
     const router = useRouter();
     const [emailValue, setEmailValue] = useState<string>("");
+
+    useEffect(() => {
+        const userEmail = localStorage.getItem("userEmail");
+        if (userEmail) {
+            localStorage.removeItem("userEmail");
+        }
+    }, []);
 
     const handleStartButton = async () => {
         localStorage.setItem("userEmail", emailValue);
@@ -56,4 +63,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Landing;

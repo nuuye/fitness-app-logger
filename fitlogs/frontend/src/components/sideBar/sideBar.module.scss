@@ -1,0 +1,21 @@
+.root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    //background-color: #0d6547db;
+    border-right: 2px solid rgb(38 48 45);
+    background-color: rgb(29 69 70);
+    //background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
+    .sessionContainer {
+        width: 100%;
+        background-color: #1d4546;
+        padding: unset;
+        color: rgb(182, 181, 181);
+        .icons{
+            width: 24px;
+            height: 24px;
+        }
+    }
+}

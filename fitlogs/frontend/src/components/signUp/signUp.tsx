@@ -1,11 +1,12 @@
 import Card from "@mui/material/Card";
 import styles from "./signUp.module.scss";
 import { Box, Button, FormControl, FormLabel, Link, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { signupRequest } from "../../services/user";
 
 export default function SignUp() {
+    const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
     const [passwordError, setPasswordError] = useState(false);
@@ -13,9 +14,14 @@ export default function SignUp() {
     const [nameError, setNameError] = useState(false);
     const [nameErrorMessage, setNameErrorMessage] = useState("");
 
-    let isValid: boolean = true;
+    useEffect(() => {
+        const userEmail = localStorage.getItem("userEmail");
+        if (userEmail) {
+            setEmailValue(userEmail);
+        }
+    }, []);
 
-    const validateInputs = (): boolean => {
+    const validateInputs = (): void => {
         const email = document.getElementById("email") as HTMLInputElement;
         const password = document.getElementById("password") as HTMLInputElement;
         const name = document.getElementById("name") as HTMLInputElement;
@@ -23,7 +29,6 @@ export default function SignUp() {
         if (!email.value) {
             setEmailError(true);
             setEmailErrorMessage("Please enter a valid email address.");
-            isValid = false;
         } else {
             setEmailError(false);
             setEmailErrorMessage("");
@@ -32,7 +37,6 @@ export default function SignUp() {
         if (!password.value || password.value.length < 6) {
             setPasswordError(true);
             setPasswordErrorMessage("Password must be at least 6 characters long.");
-            isValid = false;
         } else {
             setPasswordError(false);
             setPasswordErrorMessage("");
@@ -41,13 +45,10 @@ export default function SignUp() {
         if (!name.value || name.value.length < 1) {
             setNameError(true);
             setNameErrorMessage("Name is required.");
-            isValid = false;
         } else {
             setNameError(false);
             setNameErrorMessage("");
         }
-
-        return isValid;
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -131,7 +132,8 @@ export default function SignUp() {
                                         },
                                     },
                                 }}
-                                defaultValue={localStorage.getItem("userEmail")}
+                                value={emailValue}
+                                onChange={(e) => setEmailValue(e.target.value)}
                                 className={styles.textField}
                                 required
                                 fullWidth
