@@ -9,14 +9,19 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ArticleIcon from "@mui/icons-material/Article";
 import AdjustIcon from "@mui/icons-material/Adjust";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Session from "../session/session";
 
 export default function SideBar() {
     const [open, setOpen] = useState<boolean>(true);
+    const [showMorePanel, setShowMorePanel] = useState<boolean>(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const handleCreateSection = () => {};
+
     return (
         <div className={styles.root}>
             <List component="nav" aria-labelledby="nested-list-subheader" className={styles.sessionContainer}>
@@ -24,40 +29,17 @@ export default function SideBar() {
                     <ListItemIcon>
                         <ArticleIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Sessions" />
+                    <ListItemText primary="Categories" />
                     {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 2 }}>
-                            <ListItemIcon>
-                                <AdjustIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary="Arms" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 2 }}>
-                            <ListItemIcon>
-                                <AdjustIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary="Back" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 2 }}>
-                            <ListItemIcon>
-                                <AdjustIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary="Chest" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 2 }}>
-                            <ListItemIcon>
-                                <AdjustIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText primary="Shoulders" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 2 }}>
+                        
+                        <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
                             <ListItemIcon>
                                 <AddCircleOutlineIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="Add new session" />
+                            <ListItemText primary="Add new category" />
                         </ListItemButton>
                     </List>
                 </Collapse>

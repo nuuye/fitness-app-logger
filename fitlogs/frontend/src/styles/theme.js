@@ -7,6 +7,13 @@ const theme = createTheme({
         },
     },
     components: {
+        MuiListItemText: {
+            styleOverrides: {
+                primary: {
+                    fontSize: "14px",
+                },
+            },
+        },
         MuiListItemIcon: {
             styleOverrides: {
                 root: {
