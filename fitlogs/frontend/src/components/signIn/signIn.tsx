@@ -4,8 +4,10 @@ import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, 
 import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { loginRequest } from "../../services/user";
+import { useRouter } from "next/router";
 
 export default function SignIn() {
+    const router = useRouter();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState<boolean>(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
@@ -54,7 +56,7 @@ export default function SignIn() {
         if (userData) {
             localStorage.setItem("userId", userData.userId);
             localStorage.setItem("token", userData.token);
-            //redirect to main page
+            router.push("/dashboard");
         }
     };
 

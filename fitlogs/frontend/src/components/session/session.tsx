@@ -1,4 +1,4 @@
-import { InputBase, ListItemButton, ListItemIcon, ListItemText, NativeSelect, styled } from "@mui/material";
+import { ListItemButton, ListItemIcon, ListItemText, NativeSelect, styled } from "@mui/material";
 import styles from "./session.module.scss";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import { useState } from "react";
@@ -7,10 +7,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 interface sessionProps {
     label: string;
-    onClick?: () => void;
+    onClickDelete?: () => void;
 }
 
-export default function Session({ label, onClick }: sessionProps) {
+export default function Session({ label, onClickDelete }: sessionProps) {
     const [showMore, setShowMore] = useState<boolean>(false);
 
     return (
@@ -18,16 +18,16 @@ export default function Session({ label, onClick }: sessionProps) {
             sx={{ pl: 2, pr: 1 }}
             onMouseEnter={() => setShowMore(true)}
             onMouseLeave={() => setShowMore(false)}
-            onClick={() => onClick}
+            
         >
             <ListItemIcon>
                 <AdjustIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={label} />
             {showMore && (
-                <ListItemIcon>
-                    <BorderColorIcon fontSize="small" />
-                    <DeleteIcon fontSize="small" />
+                <ListItemIcon className={styles.iconContainer}>
+                    <BorderColorIcon className={styles.editIcon} fontSize="small" />
+                    <DeleteIcon onClick={onClickDelete} className={styles.deleteIcon} fontSize="small" />
                 </ListItemIcon>
             )}
         </ListItemButton>

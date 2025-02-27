@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./sideBar.module.scss";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -10,24 +10,38 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Session from "../session/session";
-import { createCategoryRequest } from "../../services/category";
+import { createCategoryRequest, deleteCategoryRequest } from "../../services/category";
 import { categoryType } from "../../types";
 
 export default function SideBar() {
+    const [userId, setUserId] = useState<string>("");
     const [open, setOpen] = useState<boolean>(true);
     const [categories, setCategories] = useState<categoryType[]>(null);
-    const [showMorePanel, setShowMorePanel] = useState<boolean>(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
+    useEffect(() => {
+        const storageUserId = localStorage.getItem("userId");
+        if (storageUserId) {
+            setUserId(storageUserId);
+        }
+    }, []);
+
     const handleCreateSection = async () => {
-        const newCategory = await createCategoryRequest("default category");
+        const newCategory = await createCategoryRequest("default category", userId);
         if (newCategory) {
             setCategories((prevCategories) => (prevCategories ? [...prevCategories, newCategory] : [newCategory]));
         }
         console.log(categories);
+    };
+
+    const handleSessionDelete = async (id: string) => {
+        const success = await deleteCategoryRequest(id);
+        if (success) {
+            setCategories((prevCategories) => prevCategories.filter((category) => category._id !== id));
+        }
     };
 
     return (
@@ -42,7 +56,14 @@ export default function SideBar() {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        {categories && categories.map((category, index) => <Session label={category.name} key={index} />)}
+                        {categories &&
+                            categories.map((category, index) => (
+                                <Session
+                                    label={category.name}
+                                    key={index}
+                                    onClickDelete={() => handleSessionDelete(category._id)}
+                                />
+                            ))}
                         <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
                             <ListItemIcon>
                                 <AddCircleOutlineIcon fontSize="small" />

@@ -1,0 +1,19 @@
+.iconContainer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    .editIcon,
+    .deleteIcon {
+        height: 20px;
+        width: 20px;
+    }
+    .editIcon {
+        height: 17px;
+        width: 17px;
+        color: rgb(187, 186, 185);
+    }
+    .deleteIcon {
+        color: rgb(122, 5, 5);
+    }
+}

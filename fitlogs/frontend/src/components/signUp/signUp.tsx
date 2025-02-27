@@ -4,8 +4,10 @@ import { Box, Button, FormControl, FormLabel, Link, TextField } from "@mui/mater
 import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { signupRequest } from "../../services/user";
+import { useRouter } from "next/router";
 
 export default function SignUp() {
+    const router = useRouter();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -70,8 +72,7 @@ export default function SignUp() {
         if (newUser) {
             localStorage.setItem("userId", newUser.userId);
             localStorage.setItem("token", newUser.token);
-
-            console.log("new User : ", newUser);
+            router.push("/dashboard");
         } else {
             console.log("error while creating user");
         }

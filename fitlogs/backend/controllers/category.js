@@ -4,7 +4,7 @@ const Category = require("../models/category");
 exports.createCategory = (req, res, next) => {
     delete req.body._id;
     console.log("Received body:", req.body);
-    const newCategory = new Category({ name: req.body.name });
+    const newCategory = new Category({ ...req.body });
     console.log("new Cat : ", newCategory);
     newCategory
         .save()
