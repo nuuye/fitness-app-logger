@@ -53,7 +53,7 @@ exports.editCategory = (req, res, next) => {
 
 //retrieve all categories from a user by using its Id
 exports.getAllCategories = (req, res, next) => {
-    Category.find({ userId: req.params.id })
+    Category.find({ userId: req.params.userId })
         .then((categoryList) => {
             // Check if at least one category does not match the authenticated user
             if (categoryList.some((category) => category.userId !== req.auth.userId)) {

@@ -10,7 +10,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Session from "../session/session";
-import { createCategoryRequest, deleteCategoryRequest } from "../../services/category";
+import { createCategoryRequest, deleteCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 import { categoryType } from "../../types";
 
 export default function SideBar() {
@@ -26,8 +26,20 @@ export default function SideBar() {
         const storageUserId = localStorage.getItem("userId");
         if (storageUserId) {
             setUserId(storageUserId);
+            retrieveCategories(storageUserId);
         }
     }, []);
+
+    useEffect(() => {
+        console.log(categories);
+    }, [categories]);
+
+    const retrieveCategories = async (userId: string) => {
+        const categoriesData = await retrieveCategoriesRequest(userId);
+        if (categoriesData) {
+            setCategories(categoriesData);
+        }
+    };
 
     const handleCreateSection = async () => {
         const newCategory = await createCategoryRequest("default category", userId);
@@ -66,7 +78,7 @@ export default function SideBar() {
                             ))}
                         <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
                             <ListItemIcon>
-                                <AddCircleOutlineIcon fontSize="small" />
+                                <AddCircleOutlineIcon className={styles.addIconButton} fontSize="small" />
                             </ListItemIcon>
                             <ListItemText primary="Add new category" />
                         </ListItemButton>

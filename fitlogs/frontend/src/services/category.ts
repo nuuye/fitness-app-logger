@@ -1,6 +1,7 @@
 import { categoryType } from "../types";
 const API_CATEGORY_URL: string = "http://localhost:8000/api/category";
 
+//API request to create a category
 export const createCategoryRequest = async (label: string, userId: string): Promise<categoryType> => {
     try {
         const response = await fetch(`${API_CATEGORY_URL}/create`, {
@@ -18,7 +19,7 @@ export const createCategoryRequest = async (label: string, userId: string): Prom
     }
 };
 
-//API request to delete a specific task
+//API request to delete a specific category
 export const deleteCategoryRequest = async (id: string): Promise<boolean> => {
     try {
         const token = localStorage.getItem("token");
@@ -40,5 +41,26 @@ export const deleteCategoryRequest = async (id: string): Promise<boolean> => {
     } catch (error) {
         console.log(error);
         return false;
+    }
+};
+
+export const retrieveCategoriesRequest = async (userId: string): Promise<categoryType[]> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+        const response = await fetch(`${API_CATEGORY_URL}/getAll/${userId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        });
+        if (!response) {
+            return null;
+        }
+        return response.json();
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 };
