@@ -59,13 +59,13 @@ exports.login = (req, res, next) => {
 exports.getUser = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
-            if (user) {
-                res.status(200).json({ user });
+            if (user && user._id == req.auth.userId) {
+                res.status(200).json({ userId: user._id, name: user.name, email: user.email });
             } else {
-                res.status(400).json({ message: "user not found" });
+                res.status(401).json({ message: "Not authorized" });
             }
         })
-        .catch(() => res.status(400).json({ message: "user not found" }));
+        .catch(() => res.status(400).json({ message: "error finding user" }));
 };
 
 exports.deleteUser = (req, res, next) => {

@@ -18,6 +18,7 @@ export default function Session({ label, onClickDelete, id }: sessionProps) {
     const [categoryLabel, setCategoryLabel] = useState<string>(label);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
+    //async handler to show/unshow input. When unshowing updates the database with new value
     const handleShowInput = async () => {
         if (isInputVisible && label !== categoryLabel) {
             try {
@@ -39,7 +40,12 @@ export default function Session({ label, onClickDelete, id }: sessionProps) {
                 <AdjustIcon fontSize="small" />
             </ListItemIcon>
             {isInputVisible ? (
-                <Input onChange={(e) => setCategoryLabel(e.target.value)} value={categoryLabel} autoFocus />
+                <Input
+                    className={styles.inputContainer}
+                    onChange={(e) => setCategoryLabel(e.target.value)}
+                    value={categoryLabel}
+                    autoFocus
+                />
             ) : (
                 <ListItemText primary={categoryLabel} />
             )}
