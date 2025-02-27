@@ -12,8 +12,14 @@
         height: 17px;
         width: 17px;
         color: rgb(187, 186, 185);
+        &:hover {
+            color: rgb(255, 255, 255);
+        }
     }
     .deleteIcon {
         color: rgb(122, 5, 5);
+        &:hover {
+            color: rgb(189, 7, 7);
+        }
     }
 }

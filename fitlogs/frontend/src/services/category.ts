@@ -64,3 +64,25 @@ export const retrieveCategoriesRequest = async (userId: string): Promise<categor
         return null;
     }
 };
+
+export const editCategoryRequest = async (id: string, label: string): Promise<boolean> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+        const response = await fetch(`${API_CATEGORY_URL}/edit/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ name: label }),
+        });
+        if (!response) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};

@@ -22,6 +22,7 @@ export default function SideBar() {
         setOpen(!open);
     };
 
+    //retrieving userId and user categories on page loading
     useEffect(() => {
         const storageUserId = localStorage.getItem("userId");
         if (storageUserId) {
@@ -34,6 +35,8 @@ export default function SideBar() {
         console.log(categories);
     }, [categories]);
 
+
+    //async function to retrieve categories related to the current user
     const retrieveCategories = async (userId: string) => {
         const categoriesData = await retrieveCategoriesRequest(userId);
         if (categoriesData) {
@@ -41,6 +44,7 @@ export default function SideBar() {
         }
     };
 
+    //async function to create a category, adding it then to the list of categories
     const handleCreateSection = async () => {
         const newCategory = await createCategoryRequest("default category", userId);
         if (newCategory) {
@@ -49,6 +53,7 @@ export default function SideBar() {
         console.log(categories);
     };
 
+    //async function to delete a category based on its id
     const handleSessionDelete = async (id: string) => {
         const success = await deleteCategoryRequest(id);
         if (success) {
@@ -61,7 +66,7 @@ export default function SideBar() {
             <List component="nav" aria-labelledby="nested-list-subheader" className={styles.sessionContainer}>
                 <ListItemButton onClick={handleClick}>
                     <ListItemIcon>
-                        <ArticleIcon />
+                        <ArticleIcon className={styles.categoriesIcon} />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />
                     {open ? <ExpandLess /> : <ExpandMore />}
@@ -71,6 +76,7 @@ export default function SideBar() {
                         {categories &&
                             categories.map((category, index) => (
                                 <Session
+                                    id={category._id}
                                     label={category.name}
                                     key={index}
                                     onClickDelete={() => handleSessionDelete(category._id)}
