@@ -2,11 +2,17 @@ const Category = require("../models/category");
 
 //creates a category
 exports.createCategory = (req, res, next) => {
-    const newCategory = new Category({ ...req.body });
+    delete req.body._id;
+    console.log("Received body:", req.body);
+    const newCategory = new Category({ name: req.body.name });
+    console.log("new Cat : ", newCategory);
     newCategory
         .save()
-        .then(() => res.status(200).json(newCategory))
-        .catch((error) => res.status(400).json({ error }));
+        .then(() => res.status(201).json(newCategory))
+        .catch((error) => {
+            console.error("Error saving category:", error);
+            res.status(400).json({ error });
+        });
 };
 
 //deletes a category based on its Id

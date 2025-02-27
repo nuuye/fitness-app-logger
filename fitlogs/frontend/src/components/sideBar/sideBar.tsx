@@ -8,19 +8,27 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ArticleIcon from "@mui/icons-material/Article";
-import AdjustIcon from "@mui/icons-material/Adjust";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Session from "../session/session";
+import { createCategoryRequest } from "../../services/category";
+import { categoryType } from "../../types";
 
 export default function SideBar() {
     const [open, setOpen] = useState<boolean>(true);
+    const [categories, setCategories] = useState<categoryType[]>(null);
     const [showMorePanel, setShowMorePanel] = useState<boolean>(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
-    const handleCreateSection = () => {};
+    const handleCreateSection = async () => {
+        const newCategory = await createCategoryRequest("default category");
+        if (newCategory) {
+            setCategories((prevCategories) => (prevCategories ? [...prevCategories, newCategory] : [newCategory]));
+        }
+        console.log(categories);
+    };
 
     return (
         <div className={styles.root}>
@@ -34,7 +42,7 @@ export default function SideBar() {
                 </ListItemButton>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        
+                        {categories && categories.map((category, index) => <Session label={category.name} key={index} />)}
                         <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
                             <ListItemIcon>
                                 <AddCircleOutlineIcon fontSize="small" />

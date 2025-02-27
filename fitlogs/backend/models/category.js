@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
 const categorySchema = mongoose.Schema({
-    name: { type: String, required: true, unique: true },
-    userId: { type: String, required: true },
+    name: { type: String, required: true, unique: false},
+    userId: { type: String, required: false },
 
 });
 
