@@ -43,6 +43,7 @@ export default function SignIn() {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (emailError || passwordError) {
             event.preventDefault();
             return;
