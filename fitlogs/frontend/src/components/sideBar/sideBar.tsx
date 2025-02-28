@@ -16,6 +16,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { getUserRequest } from "../../services/user";
+import HomeIcon from "@mui/icons-material/Home";
 
 interface User {
     userId: string;
@@ -50,7 +51,8 @@ export default function SideBar() {
 
     useEffect(() => {
         console.log(categories);
-    }, [categories]);
+        console.log(user);
+    }, [categories, user]);
 
     //async function to retrieve the logged user
     const retrieveCurrentUser = async (userId: string): Promise<User> => {
@@ -83,14 +85,34 @@ export default function SideBar() {
         }
     };
 
+    //function retrieving initals of a provided name (full name or only firstName)
+    const getUserNameInitials = (name: string): string => {
+        let splittedName: string[] = name.split(" ");
+        return splittedName.length > 1
+            ? splittedName[0].charAt(0) + splittedName[1].charAt(0)
+            : splittedName[0].charAt(0);
+    };
+
     return (
         <div className={styles.root}>
             <header>
-                <Avatar>H</Avatar>
+                <Avatar sx={{ width: 38, height: 38 }}>{user ? getUserNameInitials(user.name) : "..."}</Avatar>
+                <div className={styles.userContactContainer}>
+                    <span>{user ? user.name : ""}</span>
+                </div>
             </header>
 
             <div className={styles.body}>
-                <List component="nav" aria-labelledby="nested-list-subheader" className={styles.sessionContainer}>
+                <List className={styles.homeContainer}>
+                    <ListItemButton>
+                        <ListItemIcon>
+                            <HomeIcon className={styles.homeIcon} />
+                        </ListItemIcon>
+                        <ListItemText primary="Home page" />
+                    </ListItemButton>
+                </List>
+
+                <List component="nav" className={styles.sessionContainer}>
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
                             <ArticleIcon className={styles.categoriesIcon} />

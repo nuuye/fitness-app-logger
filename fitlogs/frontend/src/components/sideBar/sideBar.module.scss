@@ -9,9 +9,26 @@
     background-color: rgb(29 69 70);
     background-color: rgb(51 54 54);
     //background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
-    .header {
+    header {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .userContactContainer {
+            display: flex;
+            flex-direction: column;
+            span {
+                color: rgb(187, 186, 185);
+            }
+        }
     }
     .body {
+        .homeContainer {
+            color: rgb(182, 181, 181);
+            .homeIcon {
+                color: rgb(187, 186, 185);
+            }
+        }
         .sessionContainer {
             width: 100%;
             background-color: #1d4546;

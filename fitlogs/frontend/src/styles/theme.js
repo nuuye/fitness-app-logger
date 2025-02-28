@@ -9,8 +9,15 @@ const theme = createTheme({
     components: {
         MuiListItemText: {
             styleOverrides: {
+                root: {
+                    width: "0",
+                    flexGrow: "1",
+                },
                 primary: {
                     fontSize: "14px",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
                 },
             },
         },
