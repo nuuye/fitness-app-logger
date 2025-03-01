@@ -17,6 +17,10 @@ import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { getUserRequest } from "../../services/user";
 import HomeIcon from "@mui/icons-material/Home";
+import ViewSidebarOutlinedIcon from "@mui/icons-material/ViewSidebarOutlined";
+import PlaylistRemoveOutlinedIcon from "@mui/icons-material/PlaylistRemoveOutlined";
+import { useRouter } from "next/router";
+import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 
 interface User {
     userId: string;
@@ -25,13 +29,11 @@ interface User {
 }
 
 export default function SideBar() {
+    const router = useRouter();
     const [user, setUser] = useState<User>(null);
-    const [open, setOpen] = useState<boolean>(true);
+    const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
     const [categories, setCategories] = useState<categoryType[]>(null);
-
-    const handleClick = () => {
-        setOpen(!open);
-    };
 
     //retrieving the user and its categories on page loading
     useEffect(() => {
@@ -42,12 +44,14 @@ export default function SideBar() {
                 if (user) {
                     setUser(user);
                     retrieveCategories(user.userId);
+                } else {
+                    router.push("/signin");
                 }
             }
         };
 
         fetchUserAndCategories();
-    }, []);
+    }, [router]);
 
     useEffect(() => {
         console.log(categories);
@@ -94,16 +98,28 @@ export default function SideBar() {
     };
 
     return (
-        <div className={styles.root}>
-            <header>
+        <div
+            className={styles.root}
+            style={{ width: sideBarOpen ? "240px" : "60px", transition: "width 0.3s ease-in-out" }}
+        >
+            <header
+                style={{
+                    flexDirection: sideBarOpen ? "unset" : "column",
+                    paddingRight: sideBarOpen ? "0px" : "10px",
+                    gap: sideBarOpen ? "1Opx" : "20px",
+                }}
+            >
                 <Avatar sx={{ width: 38, height: 38 }}>{user ? getUserNameInitials(user.name) : "..."}</Avatar>
-                <div className={styles.userContactContainer}>
-                    <span>{user ? user.name : ""}</span>
-                </div>
+                {sideBarOpen && <span>{user ? user.name : ""}</span>}
+                {sideBarOpen ? (
+                    <GoSidebarExpand className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
+                ) : (
+                    <GoSidebarCollapse className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
+                )}
             </header>
 
             <div className={styles.body}>
-                <List className={styles.homeContainer}>
+                <List sx={{ display: sideBarOpen ? "block" : "none" }} className={styles.homeContainer}>
                     <ListItemButton>
                         <ListItemIcon>
                             <HomeIcon className={styles.homeIcon} />
@@ -112,15 +128,19 @@ export default function SideBar() {
                     </ListItemButton>
                 </List>
 
-                <List component="nav" className={styles.sessionContainer}>
-                    <ListItemButton onClick={handleClick}>
+                <List
+                    sx={{ display: sideBarOpen ? "block" : "none" }}
+                    component="nav"
+                    className={styles.sessionContainer}
+                >
+                    <ListItemButton onClick={() => setCategoryListOpen(!categoryListOpen)}>
                         <ListItemIcon>
                             <ArticleIcon className={styles.categoriesIcon} />
                         </ListItemIcon>
                         <ListItemText primary="Categories" />
-                        {open ? <ExpandLess /> : <ExpandMore />}
+                        {categoryListOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItemButton>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
+                    <Collapse in={categoryListOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {categories &&
                                 categories.map((category, index) => (
@@ -142,8 +162,12 @@ export default function SideBar() {
                 </List>
             </div>
             <footer>
-                <Button className={styles.settingsButton} variant="outlined" startIcon={<SettingsOutlinedIcon />}>
-                    Settings
+                <Button
+                    className={sideBarOpen ? styles.settingsButton : styles.wrappedSettingsButton}
+                    variant="outlined"
+                    startIcon={<SettingsOutlinedIcon />}
+                >
+                    {sideBarOpen ? "Settings" : ""}
                 </Button>
             </footer>
         </div>

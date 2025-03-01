@@ -12,15 +12,21 @@
     background-color: rgb(51 54 54);
     //background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
     header {
-        padding: 10px;
+        padding: 10px 0px 10px 10px;
         display: flex;
         align-items: center;
-        gap: 10px;
-        .userContactContainer {
-            display: flex;
-            flex-direction: column;
-            span {
-                color: rgb(187, 186, 185);
+        justify-content: space-around;
+        span {
+            white-space: nowrap;
+            color: rgb(187, 186, 185);
+        }
+        .wrapIcon {
+            cursor: pointer;
+            height: 24px;
+            width: 24px;
+            color: rgb(187, 186, 185);
+            &:hover {
+                color: rgb(255, 255, 255);
             }
         }
     }
@@ -57,6 +63,18 @@
             border-color: rgb(187, 186, 185);
             &:hover {
                 background-color: rgba(108, 108, 108, 0.29);
+            }
+        }
+        .wrappedSettingsButton {
+            color: rgb(187, 186, 185);
+            border-color: rgb(187, 186, 185);
+            border: unset;
+            height: 50px;
+            &:hover {
+                background-color: rgba(108, 108, 108, 0.29);
+            }
+            span {
+                margin: unset;
             }
         }
     }
