@@ -1,3 +1,5 @@
+@import "./colors";
+
 html,
 body {
     height: 100%;
@@ -14,6 +16,6 @@ body {
 }
 
 *::selection {
-    background: #39897d94;
+    background: $primaryMediumBlue;
     color: #ffffff;
 }

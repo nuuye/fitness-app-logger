@@ -1,7 +1,8 @@
+@import "../../styles/colors";
+
 .mainContainer {
     position: absolute;
     height: 54px;
-    background-color: #0d6547db;
     left: 24px;
     right: 24px;
     top: 24px;
@@ -10,6 +11,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px 0 20px;
+    background-color: rgba(5, 7, 10, 0.4);
+    box-shadow: hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px;
     .leftNavContainer {
         display: flex;
         align-items: center;
@@ -23,8 +26,8 @@
                 color: white;
                 font-family: "Roboto", sans-serif;
                 &:hover {
-                    background-color: rgb(3, 93, 66);
-                    border-radius: 13px;
+                    background-color: $primaryDarkBlue;
+                    border-radius: 8px;
                 }
             }
         }
@@ -38,15 +41,16 @@
         }
         .signInContainer {
             &:hover {
-                background-color: rgb(3, 93, 66);
-                border-radius: 13px;
+                background-color: $primaryDarkBlue;
+                border-radius: 8px;
             }
         }
         .signUpContainer {
+            border-radius: 8px;
             background-color: white;
             color: black;
             &:hover {
-                background-color: rgb(11, 114, 84);
+                background-color: $primaryMediumBlue;
                 color: white;
             }
         }

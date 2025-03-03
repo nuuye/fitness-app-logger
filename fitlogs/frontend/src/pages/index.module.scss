@@ -1,6 +1,8 @@
+@import "../styles/colors";
+
 .root {
-    background: rgb(6, 157, 142);
-    background: linear-gradient(180deg, #058a7c 0%, #065f8d 65%, #035363 90%);
+    background-image: radial-gradient(ellipse 80% 50% at 50% -2%, hsl(207, 100%, 19%), transparent);
+    background-color: hsl(220, 35%, 3%);
     width: 100vw;
     height: 100vh;
     position: relative;
@@ -15,13 +17,13 @@
             align-items: center;
             .title {
                 font-size: xxx-large;
-                color: #a7ecee;
+                color: white;
                 font-weight: bold;
                 margin-bottom: unset;
                 text-align: center;
             }
             .subTitle {
-                color: #76aaa4;
+                color: hsl(220, 20%, 65%);
                 font-weight: bold;
                 text-align: center;
             }
@@ -31,16 +33,22 @@
                 gap: 15px;
                 .inputContainer {
                     min-width: 260px;
-                    border: 2px solid rgb(11, 114, 84);
-                    border-radius: 5px;
-                    background-color: rgb(127 127 127 / 34%);
+                    border: 1px solid hsla(220, 20%, 25%, 0.6);
+                    border-radius: 8px;
+                    background-color: hsl(220, 35%, 3%);
                     padding-left: 10px;
+                    height: 2.25rem;
+                    transition: border 120ms ease-in;
                     &::before,
                     &::after {
                         border-bottom: unset;
                     }
+                    &:focus-within {
+                        outline: 3px solid hsla(210, 98%, 42%, 0.5);
+                        border-color: hsla(210, 98%, 42%, 0.7);
+                    }
                     input {
-                        color: #abbebc;
+                        color: white;
                     }
                     input::placeholder {
                         color: rgba(255, 255, 255, 0.6);
@@ -49,12 +57,13 @@
                 .startButtonContainer {
                     display: flex;
                     align-items: center;
-                    border-radius: 13px;
+                    border-radius: 8px;
                     padding-right: 5px;
-                    background-color: rgb(11, 114, 84);
-                    color: white;
+                    background-color: white;
+                    color: black;
+                    height: 37px;
                     &:hover {
-                        background-color: rgb(14, 124, 93);
+                        background-color: hsla(210, 98%, 42%, 0.5);
                     }
                     .arrowIcon {
                         margin-left: 2px;

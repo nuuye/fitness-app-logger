@@ -33,8 +33,8 @@ const Landing = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.textContainer}>
                     <p className={styles.title}>
-                        Fitlogs, your <span style={{ color: "#072c24" }}>personal</span> training
-                        <span style={{ color: "#072c24" }}> companion</span>
+                        Fitlogs, your <span style={{ color: "hsl(210, 100%, 65%)" }}>personal</span> training
+                        <span style={{ color: "hsl(210, 100%, 65%)" }}> companion</span>
                     </p>
                     <p className={styles.subTitle}>
                         Tracking your workouts has never been easier. Log your sets, track your progress, and stay

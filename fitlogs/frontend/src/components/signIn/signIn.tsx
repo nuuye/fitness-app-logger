@@ -181,7 +181,7 @@ export default function SignIn() {
                 <div className={styles.footer}>
                     <span className={styles.footerText}>
                         Don't have an account?{" "}
-                        <Link className={styles.signUpLink} variant="body2" href="/material-ui/">
+                        <Link href="/signup" className={styles.signUpLink} variant="body2">
                             Sign up
                         </Link>
                     </span>
