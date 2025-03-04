@@ -129,7 +129,7 @@ export default function SideBar() {
                 </List>
 
                 <List
-                    sx={{ display: sideBarOpen ? "block" : "none" }}
+                    sx={{ display: sideBarOpen ? "block" : "none"}}
                     component="nav"
                     className={styles.sessionContainer}
                 >

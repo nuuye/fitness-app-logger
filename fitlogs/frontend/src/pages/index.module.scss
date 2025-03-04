@@ -47,6 +47,9 @@
                         outline: 3px solid hsla(210, 98%, 42%, 0.5);
                         border-color: hsla(210, 98%, 42%, 0.7);
                     }
+                    &:hover {
+                        border-color: hsla(210, 99%, 29%, 0.7);
+                    }
                     input {
                         color: white;
                     }
@@ -64,6 +67,7 @@
                     height: 37px;
                     &:hover {
                         background-color: hsla(210, 98%, 42%, 0.5);
+                        color: white;
                     }
                     .arrowIcon {
                         margin-left: 2px;

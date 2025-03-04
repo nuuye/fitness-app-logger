@@ -8,9 +8,7 @@
     width: 240px;
     //background-color: #0d6547db;
     border-right: 2px solid rgb(38 48 45);
-    background-color: rgb(29 69 70);
-    background-color: rgb(51 54 54);
-    background-color: rgba(5, 7, 10, 0.4);
+    background-color: rgb(51 51 52 / 42%);
 
     header {
         padding: 10px 0px 10px 10px;
@@ -42,8 +40,6 @@
         }
         .sessionContainer {
             width: 100%;
-            background-color: #1d4546;
-            background-color: rgb(51 54 54);
             padding: unset;
             color: rgb(182, 181, 181);
             .categoriesIcon {

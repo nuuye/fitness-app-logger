@@ -21,6 +21,9 @@
             display: flex;
         }
         .sectionContainer {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             * {
                 border-radius: 11px;
                 color: white;

@@ -44,7 +44,7 @@ const Landing = () => {
                         <Input
                             value={emailValue}
                             onChange={(e) => setEmailValue(e.target.value)}
-                            placeholder="your email address"
+                            placeholder="Your email address"
                             className={styles.inputContainer}
                         ></Input>
                         <Button

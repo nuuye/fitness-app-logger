@@ -37,7 +37,7 @@ export default function Session({ label, onClickDelete, id }: sessionProps) {
             onMouseLeave={() => setShowMore(false)}
         >
             <ListItemIcon>
-                <AdjustIcon fontSize="small" />
+                <AdjustIcon fontSize="small" className={styles.adjustIcon} />
             </ListItemIcon>
             {isInputVisible ? (
                 <Input
