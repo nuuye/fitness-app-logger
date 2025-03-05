@@ -1,4 +1,4 @@
-.root {
+.rootSideBarOpen {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -8,14 +8,17 @@
     width: 240px;
     border-right: 2px solid rgb(38 48 45);
     background-color: rgb(51 51 52 / 42%);
-    &.rootSideBarOpen {
-        
+    transition: width 0.3s ease-in-out;
+    &.rootSideBarClosed {
+        width: 60px;
     }
-    header {
+
+    .header {
         padding: 10px 0px 10px 10px;
         display: flex;
         align-items: center;
         justify-content: space-around;
+        gap: 10px;
         span {
             white-space: nowrap;
             color: rgb(187, 186, 185);
@@ -25,9 +28,18 @@
             height: 24px;
             width: 24px;
             color: rgb(187, 186, 185);
+            margin-right: 10px;
             &:hover {
                 color: rgb(255, 255, 255);
             }
+            &.wrapIconClosed {
+                margin-right: unset;
+            }
+        }
+        &.headerClosed {
+            flex-direction: column;
+            padding-right: 10px;
+            gap: 20px;
         }
     }
     .body {
@@ -51,7 +63,7 @@
             }
         }
     }
-    footer {
+    .footer {
         display: flex;
         justify-content: center;
         padding: 20px;
@@ -64,13 +76,8 @@
             }
         }
         .wrappedSettingsButton {
-            color: rgb(187, 186, 185);
-            border-color: rgb(187, 186, 185);
             border: unset;
             height: 50px;
-            &:hover {
-                background-color: rgba(108, 108, 108, 0.29);
-            }
             span {
                 margin: unset;
             }

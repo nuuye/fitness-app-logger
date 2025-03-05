@@ -50,11 +50,6 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
         fetchUserAndCategories();
     }, [router]);
 
-    useEffect(() => {
-        console.log(categories);
-        console.log(user);
-    }, [categories, user]);
-
     //async function to retrieve the logged user
     const retrieveCurrentUser = async (userId: string): Promise<User> => {
         const user = await getUserRequest(userId);
@@ -95,25 +90,19 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
     };
 
     return (
-        <div
-            className={`${styles.root} ${sideBarOpen ? styles.rootSideBarOpen : styles.rootSideBarClosed}`}
-            style={{ width: sideBarOpen ? "240px" : "60px", transition: "width 0.3s ease-in-out" }}
-        >
-            <header
-                style={{
-                    flexDirection: sideBarOpen ? "unset" : "column",
-                    paddingRight: sideBarOpen ? "0px" : "10px",
-                    gap: sideBarOpen ? "1Opx" : "20px",
-                }}
-            >
+        <div className={`${styles.rootSideBarOpen} ${!sideBarOpen && styles.rootSideBarClosed}`}>
+            <div className={`${styles.header} ${!sideBarOpen && styles.headerClosed}`}>
                 <Avatar sx={{ width: 38, height: 38 }}>{user ? getUserNameInitials(user.name) : "..."}</Avatar>
                 {sideBarOpen && <span>{user ? user.name : ""}</span>}
                 {sideBarOpen ? (
                     <GoSidebarExpand className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
                 ) : (
-                    <GoSidebarCollapse className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
+                    <GoSidebarCollapse
+                        className={`${styles.wrapIcon} ${!sideBarOpen && styles.wrapIconClosed}`}
+                        onClick={() => setSideBarOpen(!sideBarOpen)}
+                    />
                 )}
-            </header>
+            </div>
 
             <div className={styles.body}>
                 <List sx={{ display: sideBarOpen ? "block" : "none" }} className={styles.homeContainer}>
@@ -160,15 +149,15 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     </Collapse>
                 </List>
             </div>
-            <footer>
+            <div className={styles.footer}>
                 <Button
-                    className={sideBarOpen ? styles.settingsButton : styles.wrappedSettingsButton}
+                    className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
                     variant="outlined"
                     startIcon={<SettingsOutlinedIcon />}
                 >
                     {sideBarOpen ? "Settings" : ""}
                 </Button>
-            </footer>
+            </div>
         </div>
     );
 }
