@@ -1,0 +1,12 @@
+services:
+    fitlogs-frontend:
+        build:
+            context: .
+            dockerfile: ./frontend/Dockerfile
+        environment:
+            NODE_ENV: "DEV"
+        ports:
+            - "3000:3000"
+        command: npm run dev
+        volumes:
+            - ./frontend/src:/frontend/src

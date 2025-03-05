@@ -17,18 +17,15 @@ import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import { getUserRequest } from "../../services/user";
 import HomeIcon from "@mui/icons-material/Home";
-import ViewSidebarOutlinedIcon from "@mui/icons-material/ViewSidebarOutlined";
-import PlaylistRemoveOutlinedIcon from "@mui/icons-material/PlaylistRemoveOutlined";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
+import { User } from "../../types/user";
 
-interface User {
-    userId: string;
-    name: string;
-    email: string;
+interface sideBarProps {
+    retrieveCategory: (category: string) => void;
 }
 
-export default function SideBar() {
+export default function SideBar({ retrieveCategory }: sideBarProps) {
     const router = useRouter();
     const [user, setUser] = useState<User>(null);
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
@@ -99,7 +96,7 @@ export default function SideBar() {
 
     return (
         <div
-            className={styles.root}
+            className={`${styles.root} ${sideBarOpen ? styles.rootSideBarOpen : styles.rootSideBarClosed}`}
             style={{ width: sideBarOpen ? "240px" : "60px", transition: "width 0.3s ease-in-out" }}
         >
             <header
@@ -129,7 +126,7 @@ export default function SideBar() {
                 </List>
 
                 <List
-                    sx={{ display: sideBarOpen ? "block" : "none"}}
+                    sx={{ display: sideBarOpen ? "block" : "none" }}
                     component="nav"
                     className={styles.sessionContainer}
                 >
@@ -144,12 +141,14 @@ export default function SideBar() {
                         <List component="div" disablePadding>
                             {categories &&
                                 categories.map((category, index) => (
-                                    <Session
-                                        id={category._id}
-                                        label={category.name}
-                                        key={index}
-                                        onClickDelete={() => handleSessionDelete(category._id)}
-                                    />
+                                    <div onClick={() => retrieveCategory(category.name)} key={index}>
+                                        <Session
+                                            id={category._id}
+                                            label={category.name}
+                                            key={index}
+                                            onClickDelete={() => handleSessionDelete(category._id)}
+                                        />
+                                    </div>
                                 ))}
                             <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
                                 <ListItemIcon>
