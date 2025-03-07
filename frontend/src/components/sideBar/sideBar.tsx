@@ -20,6 +20,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { User } from "../../types/user";
+import { BiLogOut } from "react-icons/bi";
 
 interface sideBarProps {
     retrieveCategory: (category: string) => void;
@@ -67,7 +68,7 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
     };
 
     //async function to create a category, adding it then to the list of categories
-    const handleCreateSection = async () => {
+    const handleCreateSession = async () => {
         const newCategory = await createCategoryRequest("default category", user.userId);
         if (newCategory) {
             setCategories((prevCategories) => (prevCategories ? [...prevCategories, newCategory] : [newCategory]));
@@ -80,6 +81,12 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
         if (success) {
             setCategories((prevCategories) => prevCategories.filter((category) => category._id !== id));
         }
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        router.push("/");
     };
 
     //function retrieving initals of a provided name (full name or only firstName)
@@ -145,7 +152,7 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                                         />
                                     </div>
                                 ))}
-                            <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSection()}>
+                            <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSession()}>
                                 <ListItemIcon>
                                     <AddCircleOutlineIcon className={styles.addIconButton} fontSize="small" />
                                 </ListItemIcon>
@@ -156,13 +163,21 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                 </List>
             </div>
 
-            <div className={styles.footer}>
+            <div className={`${styles.footer} ${!sideBarOpen && styles.wrappedFooter}`}>
                 <Button
                     className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
                     variant="outlined"
                     startIcon={<SettingsOutlinedIcon />}
                 >
                     {sideBarOpen ? "Settings" : ""}
+                </Button>
+                <Button
+                    className={`${styles.logoutButton} ${!sideBarOpen && styles.wrappedLogoutButton}`}
+                    variant="outlined"
+                    startIcon={<BiLogOut />}
+                    onClick={() => handleLogout()}
+                >
+                    {sideBarOpen ? "Logout" : ""}
                 </Button>
             </div>
         </div>

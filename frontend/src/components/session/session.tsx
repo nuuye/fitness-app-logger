@@ -1,4 +1,4 @@
-import { ListItemButton, ListItemIcon, ListItemText, NativeSelect, styled } from "@mui/material";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import styles from "./session.module.scss";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import { useState } from "react";
