@@ -12,10 +12,7 @@ const Landing = () => {
     const [emailValue, setEmailValue] = useState<string>("");
 
     useEffect(() => {
-        const userEmail = localStorage.getItem("userEmail");
-        if (userEmail) {
-            localStorage.removeItem("userEmail");
-        }
+        localStorage.removeItem("userEmail");
     }, []);
 
     const handleStartButton = async () => {

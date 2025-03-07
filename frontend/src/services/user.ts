@@ -1,26 +1,5 @@
+import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
 const API_USER_URL: string = "http://localhost:8000/api/auth";
-
-interface UserCredentials {
-    email: string;
-    password: string;
-}
-
-interface User {
-    userId: string;
-    name: string;
-    email: string;
-}
-
-interface AuthResponse {
-    userId: string;
-    token: string;
-}
-
-interface SignupFormValues {
-    name: string;
-    email: string;
-    password: string;
-}
 
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {

@@ -11,7 +11,6 @@ interface sessionProps {
     id: string;
     label: string;
     onClickDelete: () => void;
-    //onUpdate: (newLabel: string) => void;
 }
 
 export default function Session({ label, onClickDelete, id }: sessionProps) {

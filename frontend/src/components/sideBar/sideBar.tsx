@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./sideBar.module.scss";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -42,6 +42,8 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     setUser(user);
                     retrieveCategories(user.userId);
                 } else {
+                    localStorage.removeItem("userId");
+                    localStorage.removeItem("token");
                     router.push("/signin");
                 }
             }
@@ -70,7 +72,6 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
         if (newCategory) {
             setCategories((prevCategories) => (prevCategories ? [...prevCategories, newCategory] : [newCategory]));
         }
-        console.log(categories);
     };
 
     //async function to delete a category based on its id
@@ -83,16 +84,21 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
 
     //function retrieving initals of a provided name (full name or only firstName)
     const getUserNameInitials = (name: string): string => {
-        let splittedName: string[] = name.split(" ");
+        let splittedName: string[] = name.trim().split(" ");
         return splittedName.length > 1
             ? splittedName[0].charAt(0) + splittedName[1].charAt(0)
             : splittedName[0].charAt(0);
     };
 
+    //memoizing user initials to avoid re calculation at every render
+    const userInitials = useMemo(() => {
+        return user && user.name ? getUserNameInitials(user.name).toUpperCase() : "...";
+    }, [user]);
+
     return (
         <div className={`${styles.rootSideBarOpen} ${!sideBarOpen && styles.rootSideBarClosed}`}>
             <div className={`${styles.header} ${!sideBarOpen && styles.headerClosed}`}>
-                <Avatar sx={{ width: 38, height: 38 }}>{user ? getUserNameInitials(user.name) : "..."}</Avatar>
+                <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
                 {sideBarOpen && <span>{user ? user.name : ""}</span>}
                 {sideBarOpen ? (
                     <GoSidebarExpand className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
@@ -129,12 +135,12 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     <Collapse in={categoryListOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {categories &&
-                                categories.map((category, index) => (
-                                    <div onClick={() => retrieveCategory(category.name)} key={index}>
+                                categories.map((category) => (
+                                    <div onClick={() => retrieveCategory(category.name)} key={category._id}>
                                         <Session
                                             id={category._id}
                                             label={category.name}
-                                            key={index}
+                                            key={category._id}
                                             onClickDelete={() => handleSessionDelete(category._id)}
                                         />
                                     </div>
@@ -149,6 +155,7 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     </Collapse>
                 </List>
             </div>
+
             <div className={styles.footer}>
                 <Button
                     className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
