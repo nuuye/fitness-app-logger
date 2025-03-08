@@ -24,6 +24,7 @@ export const loginRequest = async (credentials: UserCredentials): Promise<AuthRe
         const response = await fetch(`${API_USER_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(credentials),
         });
 
@@ -32,6 +33,7 @@ export const loginRequest = async (credentials: UserCredentials): Promise<AuthRe
         }
         return response.json();
     } catch (error) {
+        console.log("here");
         console.log("incorrect credentials", error);
         return null;
     }
@@ -74,5 +76,40 @@ export const getUserRequest = async (userId: string): Promise<User> => {
     } catch (error) {
         console.log(error);
         return null;
+    }
+};
+
+export const verifyTokenRequest = async (token: string): Promise<boolean> => {
+    try {
+        const response = await fetch(`${API_USER_URL}/verifyToken`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ token }),
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data.login;
+        } else {
+            console.error("Failed to verify token");
+            return false;
+        }
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
+
+export const logoutRequest = async (): Promise<boolean> => {
+    try {
+        const response = await fetch(`${API_USER_URL}/logout`, {
+            method: "POST",
+            credentials: "include",
+        });
+        if (!response) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log("Logout error:", error);
     }
 };

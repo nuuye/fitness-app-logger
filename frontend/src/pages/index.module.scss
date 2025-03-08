@@ -1,4 +1,4 @@
-@import "../styles/colors";
+@use "../styles/colors" as colors;
 
 .root {
     background-image: radial-gradient(ellipse 80% 50% at 50% -2%, hsl(207, 100%, 19%), transparent);

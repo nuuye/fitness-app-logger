@@ -1,4 +1,4 @@
-@import "./colors";
+@use "./colors" as colors;
 
 html,
 body {
@@ -16,6 +16,6 @@ body {
 }
 
 *::selection {
-    background: $primaryMediumBlue;
+    background: colors.$primaryMediumBlue;
     color: #ffffff;
 }

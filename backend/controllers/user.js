@@ -38,9 +38,21 @@ exports.login = (req, res, next) => {
             if (user) {
                 bcrypt.compare(req.body.password, user.password).then((result) => {
                     if (result) {
+                        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, {
+                            expiresIn: "24h",
+                        });
+
+                        res.cookie("jwtToken", token, {
+                            httpOnly: true, //prevent cookie from being accessible via js
+                            secure: true, // sending cookie only over https connections
+                            sameSite: "Strict", //The cookie is only sent for same-site requests
+                            maxAge: 24 * 60 * 60 * 1000, // 24 hours (in ms) ttl
+                        });
+
+                        // Return a success message
                         res.status(200).json({
                             userId: user._id,
-                            token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" }),
+                            token: token,
                         });
                     } else {
                         res.status(403).json({ message: "Incorrect credentials" });
@@ -54,6 +66,12 @@ exports.login = (req, res, next) => {
         .catch((err) => {
             res.status(400).json({ err });
         });
+};
+
+exports.logout = (req, res, next) => {
+    console.log("IN LOGOUT API");
+    res.clearCookie("jwtToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.status(200).json({ message: "Logged out successfully" });
 };
 
 exports.getUser = (req, res, next) => {
@@ -106,4 +124,19 @@ exports.emailCheck = (req, res, next) => {
             }
         })
         .catch((error) => res.status(500).json({ error }));
+};
+
+exports.verifyToken = (req, res, next) => {
+    const token = req.body.token;
+
+    if (token) {
+        try {
+            const decode = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+            res.status(200).json({ login: true, data: decode });
+        } catch (error) {
+            res.status(401).json({ login: false, data: "Invalid token" });
+        }
+    } else {
+        res.status(401).json({ login: false, data: "No token provided" });
+    }
 };

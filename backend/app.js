@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 const categoryRoutes = require("./routes/category");
 const exerciceRoutes = require("./routes/exercice");
 const userRoutes = require("./routes/user");
-
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 //link mongo to our app
 mongoose
@@ -17,24 +18,23 @@ mongoose
 
 app.use(express.json()); //retrieve requests bodies
 
+app.use(cookieParser());
+
+
+
 //Allow requests between different server, disabling CORS
-app.use((req, res, next) => {
-    //allow access to our API from anywhere
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    //add specified headers to each request sent to our API
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-    );
-    //allow requests with specified methods
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
-    next();
-});
+app.use(
+    cors({
+        origin: "http://localhost:3000", // frontend link
+        credentials: true, // Allow cookies and authorization headers
+        methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        allowedHeaders: "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
+    })
+);
 
 //we give the initial routes to route files
 app.use("/api/auth", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/exercice", exerciceRoutes);
-
 
 module.exports = app;

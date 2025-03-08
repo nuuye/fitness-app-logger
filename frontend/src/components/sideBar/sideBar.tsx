@@ -15,7 +15,7 @@ import { categoryType } from "../../types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import { getUserRequest } from "../../services/user";
+import { getUserRequest, logoutRequest } from "../../services/user";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
@@ -35,6 +35,12 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
 
     //retrieving the user and its categories on page loading
     useEffect(() => {
+        const redirectLogin = () => {
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
+            router.push("/signin");
+        };
+
         const fetchUserAndCategories = async () => {
             const storageUserId = localStorage.getItem("userId");
             if (storageUserId) {
@@ -43,10 +49,10 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     setUser(user);
                     retrieveCategories(user.userId);
                 } else {
-                    localStorage.removeItem("userId");
-                    localStorage.removeItem("token");
-                    router.push("/signin");
+                    //redirectLogin();
                 }
+            } else {
+                //redirectLogin();
             }
         };
 
@@ -83,10 +89,14 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("userId");
-        localStorage.removeItem("token");
-        router.push("/");
+    const handleLogout = async (): Promise<void> => {
+        const success = await logoutRequest();
+        if (success) {
+            console.log("success logout");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
+            router.push("/");
+        }
     };
 
     //function retrieving initals of a provided name (full name or only firstName)

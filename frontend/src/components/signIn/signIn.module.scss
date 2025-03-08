@@ -1,4 +1,4 @@
-@import "../../styles/colors";
+@use "../../styles/colors" as colors;
 
 .root {
     .cardContainer {
@@ -8,7 +8,7 @@
         background: #061d20;
         width: 400px;
         padding: 20px;
-        border: solid 2px $mediumGreen;
+        border: solid 2px colors.$mediumGreen;
         border-radius: 10px;
 
         background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
@@ -54,8 +54,8 @@
                 align-items: center;
                 justify-content: space-between;
                 .forgotPasswordText {
-                    color: $lightGreen;
-                    text-decoration-color: $lightGreen;
+                    color: colors.$lightGreen;
+                    text-decoration-color: colors.$lightGreen;
                     font-size: 0.875rem;
                     cursor: pointer;
                 }
@@ -80,8 +80,8 @@
                 font-size: 0.875rem;
                 color: white;
                 .signUpLink {
-                    color: $lightGreen;
-                    text-decoration-color: $lightGreen;
+                    color: colors.$lightGreen;
+                    text-decoration-color: colors.$lightGreen;
                 }
             }
         }
