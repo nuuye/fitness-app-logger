@@ -5,9 +5,17 @@
     height: 100%;
     width: 100%;
     background-image: radial-gradient(at 50% 50%, rgba(0, 41, 82, 0.5), rgb(9, 11, 17));
+    display: flex;
+    flex-direction: row-reverse;
 
     .mainContainer {
-        width: 100%;
+        width: calc(100% - 260px);
         height: 100%;
+        background-color: rgb(51 51 52 / 42%);
+        transition: width 0.3 ease-in-out;
+        &.extendedMainContainer {
+            width: calc(100% - 80px);
+            transition: width 0.3 ease-in-out;
+        }
     }
 }

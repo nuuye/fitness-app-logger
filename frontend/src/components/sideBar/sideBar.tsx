@@ -24,9 +24,10 @@ import { BiLogOut } from "react-icons/bi";
 
 interface sideBarProps {
     retrieveCategory: (category: string) => void;
+    retrieveSideBarStatus: (open: boolean) => void;
 }
 
-export default function SideBar({ retrieveCategory }: sideBarProps) {
+export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sideBarProps) {
     const router = useRouter();
     const [user, setUser] = useState<User>(null);
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
@@ -49,10 +50,10 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                     setUser(user);
                     retrieveCategories(user.userId);
                 } else {
-                    //redirectLogin();
+                    redirectLogin();
                 }
             } else {
-                //redirectLogin();
+                redirectLogin();
             }
         };
 
@@ -118,11 +119,20 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                 <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
                 {sideBarOpen && <span>{user ? user.name : ""}</span>}
                 {sideBarOpen ? (
-                    <GoSidebarExpand className={styles.wrapIcon} onClick={() => setSideBarOpen(!sideBarOpen)} />
+                    <GoSidebarExpand
+                        className={styles.wrapIcon}
+                        onClick={() => {
+                            setSideBarOpen(!sideBarOpen);
+                            retrieveSideBarStatus(false);
+                        }}
+                    />
                 ) : (
                     <GoSidebarCollapse
                         className={`${styles.wrapIcon} ${!sideBarOpen && styles.wrapIconClosed}`}
-                        onClick={() => setSideBarOpen(!sideBarOpen)}
+                        onClick={() => {
+                            setSideBarOpen(!sideBarOpen);
+                            retrieveSideBarStatus(true);
+                        }}
                     />
                 )}
             </div>
@@ -153,7 +163,7 @@ export default function SideBar({ retrieveCategory }: sideBarProps) {
                         <List component="div" disablePadding>
                             {categories &&
                                 categories.map((category) => (
-                                    <div onClick={() => retrieveCategory(category.name)} key={category._id}>
+                                    <div onClick={() => retrieveCategory(category._id)} key={category._id}>
                                         <Session
                                             id={category._id}
                                             label={category.name}
