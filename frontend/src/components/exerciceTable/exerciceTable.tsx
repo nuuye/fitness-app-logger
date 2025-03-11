@@ -4,7 +4,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { createExerciceRequest } from "../../services/exercice";
+import { createExerciceRequest, getAllExerciceRequest } from "../../services/exercice";
 
 interface SetType {
     reps: number;
@@ -26,8 +26,19 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
     const [rows, setRows] = useState<ExerciceType[]>([]);
 
     useEffect(() => {
-        
-    }, []);
+        const storageUserId = localStorage.getItem("userId");
+        if (storageUserId && categoryId) {
+            retrieveExercices(storageUserId, categoryId);
+        }
+    }, [categoryId]);
+
+    const retrieveExercices = async (userId: string, subCategoryId: string) => {
+        const data = await getAllExerciceRequest(userId, subCategoryId);
+        if (data) {
+            console.log("data: ", data);
+            setRows(data);
+        }
+    };
 
     const handleCreateExercice = async () => {
         const newExercice = await createExerciceRequest(
@@ -62,7 +73,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                 <tbody>
                     {rows &&
                         rows.map((row, rowIndex) => (
-                            <tr key={rowIndex} className={rowIndex % 2 === 0 && styles.zebraRow}>
+                            <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.zebraRow : undefined}>
                                 <th scope="row">
                                     <FormControlLabel
                                         control={<Checkbox className={styles.checkBox} />}

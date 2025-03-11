@@ -49,12 +49,15 @@ exports.editExercice = (req, res, next) => {
 
 //retrieve all sub category exercices from a user by using its Id
 exports.getAllExercice = (req, res, next) => {
-    Exercice.find({ userId: req.params.id, category: req.params.subCategoryId })
+    console.log("inside get all");
+    console.log(req.params);
+    Exercice.find({ userId: req.params.userId, category: req.params.subCategoryId })
         .then((exerciceList) => {
             // Check if at least one category does not match the authenticated user
             if (exerciceList.some((exercice) => exercice.userId !== req.auth.userId)) {
                 return res.status(403).json({ message: "Not authorized" });
             }
+            console.log("exerciceList: ", exerciceList);
 
             res.status(200).json(exerciceList);
         })

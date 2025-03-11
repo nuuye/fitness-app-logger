@@ -34,3 +34,28 @@ export const createExerciceRequest = async (
         return null;
     }
 };
+
+export const getAllExerciceRequest = async (userId: string, subCategoryId: string): Promise<ExerciceType[] | null> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+
+        const response = await fetch(`${API_EXERCICE_URL}/getAll/${userId}/${subCategoryId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            return null;
+        }
+        return response.json();
+    } catch (error) {
+        console.log("error retrieving exercices", error);
+        return null;
+    }
+};
