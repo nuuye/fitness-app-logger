@@ -9,6 +9,7 @@
     border-right: 2px solid rgb(38 48 45);
     background-color: rgb(51 51 52 / 42%);
     transition: width 0.3s ease-in-out;
+    z-index: 2;
     &.rootSideBarClosed {
         width: 60px;
     }
