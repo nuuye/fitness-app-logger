@@ -9,13 +9,21 @@
     flex-direction: row-reverse;
 
     .mainContainer {
+        display: flex;
+        flex-direction: column;
         width: calc(100% - 260px);
         height: 100%;
         background-color: rgb(51 51 52 / 42%);
-        transition: width 0.3 ease-in-out;
+        transition: width 0.3s ease-in-out;
         &.extendedMainContainer {
             width: calc(100% - 80px);
-            transition: width 0.3 ease-in-out;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .title {
+            padding: 16px;
+            font-size: 1.475rem;
+            color: rgb(187, 186, 185);
         }
     }
 }

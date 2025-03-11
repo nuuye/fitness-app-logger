@@ -1,7 +1,9 @@
+const category = require("../models/category");
 const Exercice = require("../models/exercice");
 
 //creates an exercice
 exports.createExercice = (req, res, next) => {
+    console.log(req.body);
     const newExercice = new Exercice({ ...req.body });
     newExercice
         .save()
@@ -45,9 +47,9 @@ exports.editExercice = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-//retrieve all exercices from a user by using its Id
+//retrieve all sub category exercices from a user by using its Id
 exports.getAllExercice = (req, res, next) => {
-    Exercice.find({ userId: req.params.id })
+    Exercice.find({ userId: req.params.id, category: req.params.subCategoryId })
         .then((exerciceList) => {
             // Check if at least one category does not match the authenticated user
             if (exerciceList.some((exercice) => exercice.userId !== req.auth.userId)) {

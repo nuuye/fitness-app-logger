@@ -19,6 +19,31 @@ export const createCategoryRequest = async (label: string, userId: string): Prom
     }
 };
 
+export const getCategoryRequest = async (categoryId: string): Promise<categoryType> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+        const response = await fetch(`${API_CATEGORY_URL}/get/${categoryId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            return null;
+        }
+        const category = await response.json();
+        return category;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
 //API request to delete a specific category
 export const deleteCategoryRequest = async (id: string): Promise<boolean> => {
     try {

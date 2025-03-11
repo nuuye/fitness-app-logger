@@ -69,7 +69,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-    console.log("IN LOGOUT API");
     res.clearCookie("jwtToken", { httpOnly: true, secure: true, sameSite: "Strict" });
     res.status(200).json({ message: "Logged out successfully" });
 };

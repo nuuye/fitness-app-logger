@@ -1,13 +1,27 @@
 import styles from "./dashboard.module.scss";
 import SideBar from "../components/sideBar/sideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ExerciceTable from "../components/exerciceTable/exerciceTable";
+import { getCategoryRequest } from "../services/category";
+import { categoryType } from "../types";
 
 export default function Dashboard() {
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+    const [selectedSubCategory, setSelectedSubCategory] = useState<string>();
+    const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
 
-    const handleCategory = (category: string) => {
-        console.log(category);
+    useEffect(() => {
+        setSelectedSubCategory(localStorage.getItem("subCategory"));
+        setSelectedSubCategoryId(localStorage.getItem("subCategoryId"));
+    }, []);
+
+    const handleCategory = async (categoryId: string) => {
+        localStorage.setItem("subCategoryId", categoryId);
+        const retrieveCategory = await getCategoryRequest(categoryId);
+        if (retrieveCategory) {
+            setSelectedSubCategory(retrieveCategory.name);
+            localStorage.setItem("subCategory", retrieveCategory.name);
+        }
     };
 
     const handleSideBarStatus = (open: boolean) => {
@@ -18,7 +32,8 @@ export default function Dashboard() {
         <div className={styles.root}>
             <SideBar retrieveCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
             <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
-                <ExerciceTable />
+                <span className={styles.title}>{selectedSubCategory ? selectedSubCategory + " section" : "..."}</span>
+                <ExerciceTable categoryId={selectedSubCategoryId} />
             </div>
         </div>
     );

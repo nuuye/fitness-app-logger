@@ -1,9 +1,12 @@
 .root {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     table {
         color: rgb(187, 186, 185);
         width: 100%;
         border-collapse: collapse;
-        table-layout: fixed; // optional: keeps equal column width
+        table-layout: fixed; //keeps equal column width
 
         thead {
             tr {
@@ -15,15 +18,24 @@
         }
 
         tbody {
-            tr {
-                th {
-                    .checkBox {
-                        color: rgb(187, 186, 185);
-                    }
-                }
+            th .checkBox {
+                color: rgb(187, 186, 185);
             }
             .zebraRow {
                 background-color: rgba(51, 51, 52, 0.3);
+            }
+            .deleteIcon {
+                width: 20px;
+                height: 20px;
+                color: rgb(165, 27, 27);
+                &:hover {
+                    color: rgb(230, 7, 7);
+                }
+            }
+            .iconColumn {
+                width: 50px;
+                text-align: center;
+                padding: 0;
             }
         }
 
@@ -38,5 +50,12 @@
             text-align: left;
             padding: 5px 16px;
         }
+    }
+
+    .addButton {
+        margin-left: 10px;
+        width: 150px;
+        border-radius: 25px;
+        background-color: hsl(210, 58%, 32%);
     }
 }

@@ -13,6 +13,21 @@ exports.createCategory = (req, res, next) => {
         });
 };
 
+exports.getCategory = (req, res, next) => {
+    Category.findOne({ _id: req.params.categoryId })
+        .then((category) => {
+            if (!category || category.userId !== req.auth.userId) {
+                return res.status(403).json({ message: "Category not found" });
+            }
+
+            return res.status(200).json(category);
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({ message: "Server error" });
+        });
+};
+
 //deletes a category based on its Id
 exports.deleteCategory = (req, res, next) => {
     Category.findOne({ _id: req.params.id })
