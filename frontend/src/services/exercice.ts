@@ -5,6 +5,7 @@ interface SetType {
     kg: number;
 }
 interface ExerciceType {
+    _id: string;
     name: string;
     sets: SetType[];
     categoryId: string;
@@ -57,5 +58,29 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
     } catch (error) {
         console.log("error retrieving exercices", error);
         return null;
+    }
+};
+
+export const deleteExerciceRequest = async (exerciceId: string) => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+        const response = await fetch(`${API_EXERCICE_URL}/delete/${exerciceId}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
     }
 };

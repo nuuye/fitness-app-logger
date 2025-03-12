@@ -4,7 +4,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { createExerciceRequest, getAllExerciceRequest } from "../../services/exercice";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import { createExerciceRequest, getAllExerciceRequest, deleteExerciceRequest } from "../../services/exercice";
 
 interface SetType {
     reps: number;
@@ -12,6 +13,7 @@ interface SetType {
 }
 
 interface ExerciceType {
+    _id: string;
     name: string;
     sets: SetType[];
     categoryId: string;
@@ -32,7 +34,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         }
     }, [categoryId]);
 
-    const retrieveExercices = async (userId: string, subCategoryId: string) => {
+    const retrieveExercices = async (userId: string, subCategoryId: string): Promise<void> => {
         const data = await getAllExerciceRequest(userId, subCategoryId);
         if (data) {
             console.log("data: ", data);
@@ -40,7 +42,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         }
     };
 
-    const handleCreateExercice = async () => {
+    const handleCreateExercice = async (): Promise<void> => {
         const newExercice = await createExerciceRequest(
             "new exercice",
             [
@@ -56,7 +58,12 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         }
     };
 
-    const handleDeleteExercice = (rowIndex: number) => {};
+    const handleDeleteExercice = async (exerciceId: string): Promise<void> => {
+        const success = await deleteExerciceRequest(exerciceId);
+        if (success) {
+            setRows((prevRows) => prevRows.filter((row) => row._id !== exerciceId));
+        }
+    };
 
     return (
         <div className={styles.root}>
@@ -87,7 +94,10 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                                         </td>
                                     ))}
                                 <td className={styles.iconColumn}>
-                                    <IconButton onClick={() => handleDeleteExercice(rowIndex)} color="error">
+                                    <IconButton color="info">
+                                        <BorderColorIcon className={styles.editIcon} />
+                                    </IconButton>
+                                    <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">
                                         <DeleteIcon className={styles.deleteIcon} />
                                     </IconButton>
                                 </td>
