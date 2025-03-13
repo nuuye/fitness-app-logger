@@ -6,6 +6,7 @@ import { Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { createExerciceRequest, getAllExerciceRequest, deleteExerciceRequest } from "../../services/exercice";
+import Input from "@mui/material/Input";
 
 interface SetType {
     reps: number;
@@ -18,6 +19,7 @@ interface ExerciceType {
     sets: SetType[];
     categoryId: string;
     userId: string;
+    isEditing?: boolean;
 }
 
 interface ExerciceTableProps {
@@ -25,7 +27,7 @@ interface ExerciceTableProps {
 }
 
 export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
-    const [rows, setRows] = useState<ExerciceType[]>([]);
+    const [exercices, setExercices] = useState<ExerciceType[]>([]);
 
     useEffect(() => {
         const storageUserId = localStorage.getItem("userId");
@@ -38,7 +40,8 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         const data = await getAllExerciceRequest(userId, subCategoryId);
         if (data) {
             console.log("data: ", data);
-            setRows(data);
+            const updated = data.map((ex) => ({ ...ex, isEditing: false }));
+            setExercices(updated);
         }
     };
 
@@ -54,15 +57,53 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
             categoryId
         );
         if (newExercice) {
-            setRows((prev) => [...prev, newExercice]);
+            const updatedExercice = { ...newExercice, isEditing: false };
+            setExercices((prev) => [...prev, updatedExercice]);
         }
     };
 
     const handleDeleteExercice = async (exerciceId: string): Promise<void> => {
         const success = await deleteExerciceRequest(exerciceId);
         if (success) {
-            setRows((prevRows) => prevRows.filter((row) => row._id !== exerciceId));
+            setExercices((prevRows) => prevRows.filter((row) => row._id !== exerciceId));
         }
+    };
+
+    const handleEditExercice = (exercice: ExerciceType): void => {
+        setExercices((prevExercices) =>
+            prevExercices.map((ex) => (ex._id === exercice._id ? { ...ex, isEditing: !ex.isEditing } : ex))
+        );
+        console.log("edit exercice: ", exercice);
+    };
+
+    const handleChangeSetKg = (exerciceId: string, setIndex: number, value: number) => {
+        setExercices((prev) =>
+            prev.map((row) => {
+                if (row._id === exerciceId) {
+                    const updatedSets = [...row.sets];
+                    updatedSets[setIndex] = { ...updatedSets[setIndex], kg: value };
+                    return { ...row, sets: updatedSets };
+                }
+                return row;
+            })
+        );
+    };
+
+    const handleChangeSetReps = (exerciceId: string, setIndex: number, value: number) => {
+        setExercices((prev) =>
+            prev.map((row) => {
+                if (row._id === exerciceId) {
+                    const updatedSets = [...row.sets];
+                    updatedSets[setIndex] = { ...updatedSets[setIndex], reps: value };
+                    return { ...row, sets: updatedSets };
+                }
+                return row;
+            })
+        );
+    };
+
+    const handleChangeExerciceName = (exerciceId: string, newName: string) => {
+        setExercices((prev) => prev.map((row) => (row._id === exerciceId ? { ...row, name: newName } : row)));
     };
 
     return (
@@ -78,23 +119,67 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {rows &&
-                        rows.map((row, rowIndex) => (
+                    {exercices &&
+                        exercices.map((row, rowIndex) => (
                             <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.zebraRow : undefined}>
-                                <th scope="row">
-                                    <FormControlLabel
-                                        control={<Checkbox className={styles.checkBox} />}
-                                        label={row.name}
-                                    />
-                                </th>
+                                {row.isEditing ? (
+                                    <th scope="row" style={{ paddingLeft: "5px" }}>
+                                        <label className={styles.exerciceNameContainer}>
+                                            <Checkbox className={styles.editCheckBox} />
+                                            <Input
+                                                className={styles.editInput}
+                                                autoFocus
+                                                value={row.name}
+                                                onChange={(e) => handleChangeExerciceName(row._id, e.target.value)}
+                                            />
+                                        </label>
+                                    </th>
+                                ) : (
+                                    <th scope="row">
+                                        <FormControlLabel
+                                            control={<Checkbox className={styles.checkBox} />}
+                                            label={row.name}
+                                        />
+                                    </th>
+                                )}
                                 {row &&
                                     row.sets?.map((set, index) => (
                                         <td key={index}>
-                                            {set.kg} / {set.reps}
+                                            {row.isEditing ? (
+                                                <label className={styles.exerciceWeightContainer}>
+                                                    <Input
+                                                        className={styles.editWeightInput}
+                                                        value={set.kg}
+                                                        type="number"
+                                                        inputProps={{
+                                                            min: 0,
+                                                            style: { width: `${String(set.kg).length + 2}ch` },
+                                                        }}
+                                                        onChange={(e) =>
+                                                            handleChangeSetKg(row._id, index, Number(e.target.value))
+                                                        }
+                                                    />
+                                                    /
+                                                    <Input
+                                                        className={styles.editWeightInput}
+                                                        value={set.reps}
+                                                        type="number"
+                                                        inputProps={{
+                                                            min: 0,
+                                                            style: { width: `${String(set.reps).length + 2}ch` },
+                                                        }}
+                                                        onChange={(e) =>
+                                                            handleChangeSetReps(row._id, index, Number(e.target.value))
+                                                        }
+                                                    />
+                                                </label>
+                                            ) : (
+                                                `${set.kg} / ${set.reps}`
+                                            )}
                                         </td>
                                     ))}
                                 <td className={styles.iconColumn}>
-                                    <IconButton color="info">
+                                    <IconButton color="info" onClick={() => handleEditExercice(row)}>
                                         <BorderColorIcon className={styles.editIcon} />
                                     </IconButton>
                                     <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">

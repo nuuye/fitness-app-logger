@@ -24,6 +24,32 @@
             .zebraRow {
                 background-color: rgba(51, 51, 52, 0.3);
             }
+            th {
+                .exerciceNameContainer {
+                    display: flex;
+                    align-items: center;
+
+                    .editCheckBox {
+                        color: rgb(187, 186, 185);
+                    }
+                    .editInput {
+                        background-color: rgb(110 110 110);
+                        border-radius: 3px;
+                        padding-left: 3px;
+                        font-size: 15px;
+                        color: rgb(187, 186, 185);
+                    }
+                }
+            }
+            .exerciceWeightContainer {
+                .editWeightInput {
+                    background-color: rgb(110 110 110);
+                    border-radius: 3px;
+                    padding-left: 3px;
+                    font-size: 15px;
+                    color: rgb(187, 186, 185);
+                }
+            }
             .deleteIcon {
                 width: 20px;
                 height: 20px;
