@@ -5,7 +5,12 @@ import Checkbox from "@mui/material/Checkbox";
 import { Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import { createExerciceRequest, getAllExerciceRequest, deleteExerciceRequest } from "../../services/exercice";
+import {
+    createExerciceRequest,
+    getAllExerciceRequest,
+    deleteExerciceRequest,
+    editExerciceRequest,
+} from "../../services/exercice";
 import Input from "@mui/material/Input";
 
 interface SetType {
@@ -73,7 +78,6 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         setExercices((prevExercices) =>
             prevExercices.map((ex) => (ex._id === exercice._id ? { ...ex, isEditing: !ex.isEditing } : ex))
         );
-        console.log("edit exercice: ", exercice);
     };
 
     const handleChangeSetKg = (exerciceId: string, setIndex: number, value: number) => {
@@ -82,6 +86,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                 if (row._id === exerciceId) {
                     const updatedSets = [...row.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], kg: value };
+                    editExerciceRequest(exerciceId, undefined, updatedSets);
                     return { ...row, sets: updatedSets };
                 }
                 return row;
@@ -95,6 +100,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                 if (row._id === exerciceId) {
                     const updatedSets = [...row.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], reps: value };
+                    editExerciceRequest(exerciceId, undefined, updatedSets);
                     return { ...row, sets: updatedSets };
                 }
                 return row;
@@ -102,8 +108,11 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
         );
     };
 
-    const handleChangeExerciceName = (exerciceId: string, newName: string) => {
-        setExercices((prev) => prev.map((row) => (row._id === exerciceId ? { ...row, name: newName } : row)));
+    const handleChangeExerciceName = async (exerciceId: string, newName: string) => {
+        const success = await editExerciceRequest(exerciceId, newName);
+        if (success) {
+            setExercices((prev) => prev.map((row) => (row._id === exerciceId ? { ...row, name: newName } : row)));
+        }
     };
 
     return (

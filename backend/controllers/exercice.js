@@ -31,6 +31,9 @@ exports.deleteExercice = (req, res, next) => {
 
 //edits an exercice based on its Id
 exports.editExercice = (req, res, next) => {
+    console.log("in edit");
+    console.log(req.body);
+
     Exercice.findOne({ _id: req.params.id })
         .then((exercice) => {
             if (!exercice) {

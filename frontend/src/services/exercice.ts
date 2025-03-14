@@ -84,3 +84,36 @@ export const deleteExerciceRequest = async (exerciceId: string) => {
         return false;
     }
 };
+
+export const editExerciceRequest = async (exerciceId: string, label?: string, sets?: SetType[]): Promise<boolean> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return false;
+        }
+
+        const body: Record<string, any> = {};
+        if (label !== undefined) body.name = label;
+        if (sets !== undefined) body.sets = sets;
+
+        const response = await fetch(`${API_EXERCICE_URL}/edit/${exerciceId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(body),
+        });
+
+        if (!response.ok) {
+            console.error("Edit exercice failed:", await response.json());
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Error editing exercice:", error);
+        return false;
+    }
+};
