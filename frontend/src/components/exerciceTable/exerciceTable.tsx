@@ -35,6 +35,7 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
     const [exercices, setExercices] = useState<ExerciceType[]>([]);
 
     useEffect(() => {
+        console.log(categoryId);
         const storageUserId = localStorage.getItem("userId");
         if (storageUserId && categoryId) {
             retrieveExercices(storageUserId, categoryId);

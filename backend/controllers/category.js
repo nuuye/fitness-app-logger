@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+const Exercice = require("../models/exercice");
 
 //creates a category
 exports.createCategory = (req, res, next) => {
@@ -39,8 +40,21 @@ exports.deleteCategory = (req, res, next) => {
                 return res.status(403).json({ message: "Not authorized" });
             }
 
+            // delete category
             Category.deleteOne({ _id: req.params.id })
-                .then(() => res.status(200).json({ message: "Category deleted!" }))
+                .then(() => {
+                    // delete exercices related to the category
+                    Exercice.deleteMany({ category: req.params.id })
+                        .then(() => {
+                            res.status(200).json({ message: "Category and related exercises deleted!" });
+                        })
+                        .catch((error) => {
+                            res.status(500).json({
+                                message: "Category deleted, but failed to delete exercises",
+                                error,
+                            });
+                        });
+                })
                 .catch((error) => res.status(400).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));

@@ -19,6 +19,7 @@ export default function Dashboard() {
         localStorage.setItem("subCategoryId", categoryId);
         const retrieveCategory = await getCategoryRequest(categoryId);
         if (retrieveCategory) {
+            setSelectedSubCategoryId(categoryId);
             setSelectedSubCategory(retrieveCategory.name);
             localStorage.setItem("subCategory", retrieveCategory.name);
         }

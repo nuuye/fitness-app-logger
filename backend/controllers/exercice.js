@@ -1,9 +1,7 @@
-const category = require("../models/category");
 const Exercice = require("../models/exercice");
 
 //creates an exercice
 exports.createExercice = (req, res, next) => {
-    console.log(req.body);
     const newExercice = new Exercice({ ...req.body });
     newExercice
         .save()
@@ -31,9 +29,6 @@ exports.deleteExercice = (req, res, next) => {
 
 //edits an exercice based on its Id
 exports.editExercice = (req, res, next) => {
-    console.log("in edit");
-    console.log(req.body);
-
     Exercice.findOne({ _id: req.params.id })
         .then((exercice) => {
             if (!exercice) {
