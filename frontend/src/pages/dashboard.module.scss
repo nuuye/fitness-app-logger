@@ -13,6 +13,7 @@
         flex-direction: column;
         width: calc(100% - 260px);
         height: 100%;
+        overflow-y: auto;
         background-color: rgb(51 51 52 / 42%);
         transition: width 0.3s ease-in-out;
         &.extendedMainContainer {
