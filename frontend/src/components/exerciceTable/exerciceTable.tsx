@@ -213,7 +213,6 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                 </table>
             </div>
 
-            {/* Mobile view (inverted table - card style) */}
             <div className={styles.mobileView}>
                 {exercices &&
                     exercices.map((row, rowIndex) => (

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const rateLimit = require("express-rate-limit");
 //import mongoDB
 const mongoose = require("mongoose");
 
@@ -20,8 +21,6 @@ app.use(express.json()); //retrieve requests bodies
 
 app.use(cookieParser());
 
-
-
 //Allow requests between different server, disabling CORS
 app.use(
     cors({
@@ -31,6 +30,16 @@ app.use(
         allowedHeaders: "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
     })
 );
+
+// Set up rate limiter: maximum of 100 requests per 15 minutes per IP
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window`
+    message: "Too many requests from this IP, please try again later",
+});
+
+// Apply the rate limiter to all requests
+app.use(limiter);
 
 //we give the initial routes to route files
 app.use("/api/auth", userRoutes);
