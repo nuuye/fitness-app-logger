@@ -82,7 +82,9 @@ export const verifyTokenRequest = async (token: string): Promise<boolean> => {
     try {
         const response = await fetch(`${API_USER_URL}/verifyToken`, {
             method: "POST",
-            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            headers: {
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify({ token }),
         });
         if (response.ok) {

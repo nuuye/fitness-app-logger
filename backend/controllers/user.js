@@ -125,17 +125,19 @@ exports.emailCheck = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
+// Server-side token verification endpoint
 exports.verifyToken = (req, res, next) => {
     const token = req.body.token;
 
-    if (token) {
-        try {
-            const decode = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
-            res.status(200).json({ login: true, data: decode });
-        } catch (error) {
-            res.status(401).json({ login: false, data: "Invalid token" });
-        }
-    } else {
-        res.status(401).json({ login: false, data: "No token provided" });
+    if (!token) {
+        return res.status(401).json({ login: false, data: "No token provided" });
+    }
+
+    try {
+        const decode = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+        return res.status(200).json({ login: true, data: decode });
+    } catch (error) {
+        console.error("Token verification error:", error);
+        return res.status(401).json({ login: false, data: "Invalid token" });
     }
 };
