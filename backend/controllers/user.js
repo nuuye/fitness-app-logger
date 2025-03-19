@@ -45,7 +45,7 @@ exports.login = (req, res, next) => {
                         res.cookie("jwtToken", token, {
                             httpOnly: true, //prevent cookie from being accessible via js
                             secure: true, // sending cookie only over https connections
-                            sameSite: "Strict", //The cookie is only sent for same-site requests
+                            sameSite: "None", //The cookie is only sent for same-site requests
                             maxAge: 24 * 60 * 60 * 1000, // 24 hours (in ms) ttl
                         });
 
@@ -69,7 +69,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-    res.clearCookie("jwtToken", { httpOnly: true, secure: true, sameSite: "Strict" });
+    res.clearCookie("jwtToken", { httpOnly: true, secure: true, sameSite: "None" });
     res.status(200).json({ message: "Logged out successfully" });
 };
 

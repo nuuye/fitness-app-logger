@@ -33,7 +33,6 @@ export const loginRequest = async (credentials: UserCredentials): Promise<AuthRe
         }
         return response.json();
     } catch (error) {
-        console.log("here");
         console.log("incorrect credentials", error);
         return null;
     }
