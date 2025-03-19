@@ -31,6 +31,8 @@ app.use(
     })
 );
 
+app.set('trust proxy', 1);
+
 // Set up rate limiter: maximum of 100 requests per 15 minutes per IP
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
