@@ -31,7 +31,7 @@ app.use(
     })
 );
 
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // Set up rate limiter: maximum of 100 requests per 15 minutes per IP
 const limiter = rateLimit({
@@ -42,6 +42,13 @@ const limiter = rateLimit({
 
 // Apply the rate limiter to all requests
 app.use(limiter);
+
+//initial route to prevent vercel showing 404
+app.get("/", (req, res) => {
+    res.send("FitLogs API is running!");
+});
+
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 //we give the initial routes to route files
 app.use("/api/auth", userRoutes);
