@@ -118,7 +118,6 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
 
     return (
         <div className={styles.root}>
-            {/* Desktop view (traditional table) - hidden on mobile */}
             <div className={styles.desktopView}>
                 <table>
                     <thead>

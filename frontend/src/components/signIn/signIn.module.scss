@@ -12,7 +12,12 @@
         border-radius: 10px;
 
         background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
-
+        @media (max-width: 600px) {
+            width: 350px;
+        }
+        @media (max-width: 480px) {
+            width: 310px;
+        }
         .header {
             h1 {
                 color: white;
