@@ -21,6 +21,8 @@ app.use(
     })
 );
 
+app.options("*", cors());
+
 //link mongo to our app
 mongoose
     .connect(process.env.MONGODB_URI)

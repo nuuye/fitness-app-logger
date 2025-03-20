@@ -42,10 +42,10 @@ exports.login = (req, res, next) => {
                             expiresIn: "24h",
                         });
 
-                        const isProduction = process.env.NODE_ENV === "production";
                         res.cookie("jwtToken", token, {
-                            secure: isProduction, // true in production (HTTPS), false locally (HTTP)
-                            sameSite: isProduction ? "None" : "Lax", // None for cross-origin in prod, Lax for local
+                            httpOnly: true,
+                            secure: true,
+                            sameSite: "None",
                             path: "/",
                             maxAge: 24 * 60 * 60 * 1000,
                         });
