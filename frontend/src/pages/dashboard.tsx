@@ -3,7 +3,6 @@ import SideBar from "../components/sideBar/sideBar";
 import { useEffect, useState } from "react";
 import ExerciceTable from "../components/exerciceTable/exerciceTable";
 import { getCategoryRequest } from "../services/category";
-import { categoryType } from "../types";
 
 export default function Dashboard() {
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);

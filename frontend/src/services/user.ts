@@ -2,12 +2,12 @@ import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types"
 const API_USER_URL: string = "https://fitlogs.onrender.com/api/auth";
 //const API_USER_URL: string = "http://localhost:8000/api/auth";
 
-
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
         const response = await fetch(`${API_USER_URL}/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(data),
         });
 
@@ -82,7 +82,10 @@ export const getUserRequest = async (userId: string): Promise<User> => {
 
 // services/user.ts
 export const verifyTokenRequest = async (token: string): Promise<boolean> => {
-    if (!token) return false;
+    if (!token) {
+        console.log("No token provided to verifyTokenRequest");
+        return false;
+    }
 
     try {
         const response = await fetch(`${API_USER_URL}/verifyToken`, {
@@ -91,11 +94,14 @@ export const verifyTokenRequest = async (token: string): Promise<boolean> => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
+            credentials: "include", // Send cookies to backend
         });
 
+        console.log("Verify token response status:", response.status);
         if (!response.ok) return false;
 
         const data = await response.json();
+        console.log("Verify token response data:", data);
         return data.login;
     } catch (error) {
         console.error("Error verifying token:", error);

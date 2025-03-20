@@ -55,6 +55,7 @@ export default function SignIn() {
         };
         const userData = await loginRequest(formData);
         if (userData) {
+            document.cookie = `jwtToken=${userData.token}; path=/; max-age=${24 * 60 * 60}; secure=true; samesite=lax`;
             localStorage.setItem("userId", userData.userId);
             localStorage.setItem("token", userData.token);
             router.push("/dashboard");
