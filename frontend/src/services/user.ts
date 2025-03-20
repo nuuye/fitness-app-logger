@@ -1,5 +1,7 @@
 import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
-const API_USER_URL: string = "https://fitlogs-backend.vercel.app/api/auth";
+const API_USER_URL: string = "https://fitlogs.onrender.com/api/auth";
+//const API_USER_URL: string = "http://localhost:8000/api/auth";
+
 
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
@@ -78,24 +80,25 @@ export const getUserRequest = async (userId: string): Promise<User> => {
     }
 };
 
+// services/user.ts
 export const verifyTokenRequest = async (token: string): Promise<boolean> => {
+    if (!token) return false;
+
     try {
         const response = await fetch(`${API_USER_URL}/verifyToken`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ token }),
         });
-        if (response.ok) {
-            const data = await response.json();
-            return data.login;
-        } else {
-            console.error("Failed to verify token");
-            return false;
-        }
+
+        if (!response.ok) return false;
+
+        const data = await response.json();
+        return data.login;
     } catch (error) {
-        console.log(error);
+        console.error("Error verifying token:", error);
         return false;
     }
 };

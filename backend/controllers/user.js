@@ -42,11 +42,12 @@ exports.login = (req, res, next) => {
                             expiresIn: "24h",
                         });
 
+                        const isProduction = process.env.NODE_ENV === "production";
                         res.cookie("jwtToken", token, {
-                            httpOnly: true, //prevent cookie from being accessible via js
-                            secure: true, // sending cookie only over https connections
-                            sameSite: "None", //The cookie is only sent for same-site requests
-                            maxAge: 24 * 60 * 60 * 1000, // 24 hours (in ms) ttl
+                            secure: isProduction, // true in production (HTTPS), false locally (HTTP)
+                            sameSite: isProduction ? "None" : "Lax", // None for cross-origin in prod, Lax for local
+                            path: "/",
+                            maxAge: 24 * 60 * 60 * 1000,
                         });
 
                         // Return a success message
@@ -69,10 +70,14 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-    res.clearCookie("jwtToken", { httpOnly: true, secure: true, sameSite: "None" });
+    const isProduction = process.env.NODE_ENV === "production";
+    res.clearCookie("jwtToken", {
+        secure: isProduction, // Match login settings
+        sameSite: isProduction ? "None" : "Lax", // Match login settings
+        path: "/", // Ensure it clears the correct cookie
+    });
     res.status(200).json({ message: "Logged out successfully" });
 };
-
 exports.getUser = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
@@ -126,18 +131,20 @@ exports.emailCheck = (req, res, next) => {
 };
 
 // Server-side token verification endpoint
-exports.verifyToken = (req, res, next) => {
-    const token = req.body.token;
-
-    if (!token) {
-        return res.status(401).json({ login: false, data: "No token provided" });
+// Express backend
+exports.verifyToken = (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ login: false, message: "No token provided" });
     }
 
+    const token = authHeader.split(" ")[1];
+
     try {
-        const decode = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
-        return res.status(200).json({ login: true, data: decode });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+        return res.status(200).json({ login: true, user: decoded });
     } catch (error) {
         console.error("Token verification error:", error);
-        return res.status(401).json({ login: false, data: "Invalid token" });
+        return res.status(401).json({ login: false, message: "Invalid token" });
     }
 };

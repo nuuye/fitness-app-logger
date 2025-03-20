@@ -5,22 +5,17 @@ import { verifyTokenRequest } from "./services/user";
 export default async function authMiddleware(req) {
     try {
         const token = req.cookies.get("jwtToken")?.value;
-        console.log("token: ", token);
-        // Check if token exists before attempting verification
         if (!token) {
             const signinUrl = new URL("/signin", req.url);
             return NextResponse.redirect(signinUrl);
         }
 
-        const isLogged = await verifyTokenRequest(token);
-        console.log("isLogged: ", isLogged);
-
+        const isLogged = await verifyTokenRequest(token); // Pass token explicitly
         if (!isLogged) {
             const signinUrl = new URL("/signin", req.url);
             return NextResponse.redirect(signinUrl);
         }
 
-        // If token is valid, proceed with the request
         return NextResponse.next();
     } catch (error) {
         console.error("Auth middleware error:", error);

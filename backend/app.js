@@ -11,16 +11,6 @@ const userRoutes = require("./routes/user");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-//link mongo to our app
-mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => console.log("Connexion à MongoDB réussie !"))
-    .catch((err) => console.error("Connexion à MongoDB échouée !", err));
-
-app.use(express.json()); //retrieve requests bodies
-
-app.use(cookieParser());
-
 //Allow requests between different server, disabling CORS
 app.use(
     cors({
@@ -30,6 +20,16 @@ app.use(
         allowedHeaders: "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
     })
 );
+
+//link mongo to our app
+mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log("Connexion à MongoDB réussie !"))
+    .catch((err) => console.error("Connexion à MongoDB échouée !", err));
+
+app.use(express.json()); //retrieve requests bodies
+
+app.use(cookieParser());
 
 app.set("trust proxy", 1);
 

@@ -1,4 +1,6 @@
-const API_EXERCICE_URL: string = "https://fitlogs-backend.vercel.app/api/exercice";
+const API_EXERCICE_URL: string = "https://fitlogs.onrender.com/api/exercice";
+//const API_EXERCICE_URL: string = "http://localhost:8000/api/exercice";
+
 
 interface SetType {
     reps: number;
