@@ -30,6 +30,6 @@ export default async function authMiddleware(req) {
 }
 
 // Define the paths where this middleware should run
-export const config = {
-    matcher: ["/dashboard/:path*", "/dashboard"], // Ensures middleware runs on /dashboard and subroutes
-};
+// export const config = {
+//     matcher: ["/dashboard/:path*", "/dashboard"], // Ensures middleware runs on /dashboard and subroutes
+// };

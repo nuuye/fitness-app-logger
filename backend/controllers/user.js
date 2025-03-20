@@ -48,7 +48,6 @@ exports.login = (req, res, next) => {
                             sameSite: isProduction ? "None" : "Lax", // None for cross-origin in prod, Lax for local
                             path: "/",
                             maxAge: 24 * 60 * 60 * 1000,
-                            domain: isProduction ? ".fitlogs.vercel.app" : undefined,
                         });
 
                         // Return a success message
