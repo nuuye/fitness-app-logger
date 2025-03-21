@@ -21,10 +21,23 @@
             transition: width 0.3s ease-in-out;
         }
 
-        .title {
+        .titleContainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 16px;
-            font-size: 1.475rem;
-            color: rgb(187, 186, 185);
+            .title {
+                font-size: 1.475rem;
+                color: rgb(187, 186, 185);
+            }
+            .addButton {
+                margin-right: 10px;
+                margin-top: 5px;
+
+                width: 150px;
+                border-radius: 25px;
+                background-color: hsl(210, 58%, 32%);
+            }
         }
     }
 }

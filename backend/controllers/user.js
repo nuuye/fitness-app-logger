@@ -131,7 +131,6 @@ exports.emailCheck = (req, res, next) => {
 };
 
 // Server-side token verification endpoint
-// Express backend
 exports.verifyToken = (req, res) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

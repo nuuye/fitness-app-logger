@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import styles from "./exerciceTable.module.scss";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -30,9 +30,18 @@ interface ExerciceType {
 interface ExerciceTableProps {
     categoryId: string;
 }
+// Define what the parent will be able to call via the ref
+export interface ExerciceTableRef {
+    handleCreateExercice: () => void;
+}
 
-export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
+const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ categoryId }, ref) => {
     const [exercices, setExercices] = useState<ExerciceType[]>([]);
+
+    // Expose methods to parent via useImperativeHandle
+    useImperativeHandle(ref, () => ({
+        handleCreateExercice,
+    }));
 
     useEffect(() => {
         console.log(categoryId);
@@ -293,10 +302,8 @@ export default function ExerciceTable({ categoryId }: ExerciceTableProps) {
                         </div>
                     ))}
             </div>
-
-            <Button className={styles.addButton} variant="contained" onClick={() => handleCreateExercice()}>
-                Add new exercice
-            </Button>
         </div>
     );
-}
+});
+
+export default ExerciceTable;

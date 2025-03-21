@@ -1,6 +1,5 @@
 import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
-const API_USER_URL: string = "https://fitlogs.onrender.com/api/auth";
-//const API_USER_URL: string = "http://localhost:8000/api/auth";
+const API_USER_URL: string = "http://localhost:8000/api/auth";
 
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
