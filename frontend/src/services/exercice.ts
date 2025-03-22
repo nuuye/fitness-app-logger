@@ -1,4 +1,4 @@
-const API_EXERCICE_URL: string = "http://localhost:8000/api/exercice";
+const API_EXERCICE_URL = process.env.NEXT_PUBLIC_API_EXERCICE_URL;
 
 interface SetType {
     reps: number;

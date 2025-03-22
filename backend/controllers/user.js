@@ -45,7 +45,7 @@ exports.login = (req, res, next) => {
                         res.cookie("jwtToken", token, {
                             httpOnly: true,
                             secure: true,
-                            sameSite: "None",
+                            sameSite: "Lax",
                             path: "/",
                             maxAge: 24 * 60 * 60 * 1000,
                         });
@@ -132,12 +132,10 @@ exports.emailCheck = (req, res, next) => {
 
 // Server-side token verification endpoint
 exports.verifyToken = (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const token = req.cookies.jwtToken;
+    if (!token) {
         return res.status(401).json({ login: false, message: "No token provided" });
     }
-
-    const token = authHeader.split(" ")[1];
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_TOKEN);

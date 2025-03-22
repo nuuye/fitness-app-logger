@@ -45,6 +45,10 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
+app.get("/", (req, res) => {
+    res.send("API is running!");
+});
+
 //we give the initial routes to route files
 app.use("/api/auth", userRoutes);
 app.use("/api/category", categoryRoutes);

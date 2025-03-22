@@ -1,5 +1,5 @@
 import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
-const API_USER_URL: string = "http://localhost:8000/api/auth";
+const API_USER_URL = process.env.NEXT_PUBLIC_API_USER_URL;
 
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
@@ -21,6 +21,7 @@ export const signupRequest = async (data: SignupFormValues): Promise<AuthRespons
 };
 
 export const loginRequest = async (credentials: UserCredentials): Promise<AuthResponse> => {
+    console.log("process.env.API_USER_URL: ", API_USER_URL);
     try {
         const response = await fetch(`${API_USER_URL}/login`, {
             method: "POST",
@@ -80,20 +81,16 @@ export const getUserRequest = async (userId: string): Promise<User> => {
 };
 
 // services/user.ts
-export const verifyTokenRequest = async (token: string): Promise<boolean> => {
-    if (!token) {
-        console.log("No token provided to verifyTokenRequest");
-        return false;
-    }
+export const verifyTokenRequest = async (): Promise<boolean> => {
+    console.log("verifyTokenRequest process.env.API_USER_URL: ", API_USER_URL);
 
     try {
         const response = await fetch(`${API_USER_URL}/verifyToken`, {
-            method: "POST",
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
-            credentials: "include", // Send cookies to backend
+            credentials: "include",
         });
 
         console.log("Verify token response status:", response.status);

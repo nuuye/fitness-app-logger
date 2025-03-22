@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import ExerciceTable, { ExerciceTableRef } from "../components/exerciceTable/exerciceTable";
 import { getCategoryRequest } from "../services/category";
 import { Button } from "@mui/material";
+import AuthWrapper from "../components/authWrapper/authWrapper";
 
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
@@ -35,19 +36,21 @@ export default function Dashboard() {
     };
 
     return (
-        <div className={styles.root}>
-            <SideBar retrieveCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
-            <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
-                <div className={styles.titleContainer}>
-                    <span className={styles.title}>
-                        {selectedSubCategory ? selectedSubCategory + " section" : "..."}
-                    </span>
-                    <Button className={styles.addButton} variant="contained" onClick={triggerChildMethod}>
-                        Add new exercice
-                    </Button>
+        <AuthWrapper>
+            <div className={styles.root}>
+                <SideBar retrieveCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
+                <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
+                    <div className={styles.titleContainer}>
+                        <span className={styles.title}>
+                            {selectedSubCategory ? selectedSubCategory + " section" : "..."}
+                        </span>
+                        <Button className={styles.addButton} variant="contained" onClick={triggerChildMethod}>
+                            Add new exercice
+                        </Button>
+                    </div>
+                    <ExerciceTable categoryId={selectedSubCategoryId} ref={tableRef} />
                 </div>
-                <ExerciceTable categoryId={selectedSubCategoryId} ref={tableRef}/>
             </div>
-        </div>
+        </AuthWrapper>
     );
 }

@@ -1,12 +1,39 @@
 services:
-    fitlogs-frontend:
+    frontend:
         build:
-            context: .
-            dockerfile: ./frontend/Dockerfile
-        environment:
-            NODE_ENV: "DEV"
+            context: ./frontend
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
         ports:
             - "3000:3000"
-        command: npm run dev
+        depends_on:
+            - backend
+        environment:
+            - NODE_ENV=development
+            - NEXT_PUBLIC_API_USER_URL=http://localhost:8000/api/auth
+            - NEXT_PUBLIC_API_EXERCICE_URL=http://localhost:8000/api/exercice
+            - NEXT_PUBLIC_API_CATEGORY_URL=http://localhost:8000/api/category
+
+    backend:
+        build:
+            context: ./backend
         volumes:
-            - ./frontend/src:/frontend/src
+            - ./backend:/app
+            - /app/node_modules
+        ports:
+            - "8000:8000"
+        depends_on:
+            - mongo
+        environment:
+            - MONGO_URI=mongodb://mongo:27017/mydb
+
+    mongo:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo-data:/data/db
+
+volumes:
+    mongo-data:
