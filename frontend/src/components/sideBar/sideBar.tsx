@@ -176,7 +176,7 @@ export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sid
                                 <ListItemIcon>
                                     <AddCircleOutlineIcon className={styles.addIconButton} fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText primary="Add new category" />
+                                <ListItemText primary="Add sub-category" />
                             </ListItemButton>
                         </List>
                     </Collapse>
