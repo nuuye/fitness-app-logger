@@ -2,7 +2,7 @@ import styles from "./dashboard.module.scss";
 import SideBar from "../components/sideBar/sideBar";
 import { useEffect, useRef, useState } from "react";
 import ExerciceTable, { ExerciceTableRef } from "../components/exerciceTable/exerciceTable";
-import { getCategoryRequest } from "../services/category";
+import { getSubCategoryRequest } from "../services/subCategory";
 import { Button } from "@mui/material";
 import AuthWrapper from "../components/authWrapper/authWrapper";
 
@@ -23,7 +23,7 @@ export default function Dashboard() {
 
     const handleCategory = async (categoryId: string) => {
         localStorage.setItem("subCategoryId", categoryId);
-        const retrieveCategory = await getCategoryRequest(categoryId);
+        const retrieveCategory = await getSubCategoryRequest(categoryId);
         if (retrieveCategory) {
             setSelectedSubCategoryId(categoryId);
             setSelectedSubCategory(retrieveCategory.name);
@@ -38,7 +38,7 @@ export default function Dashboard() {
     return (
         <AuthWrapper>
             <div className={styles.root}>
-                <SideBar retrieveCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
+                <SideBar retrieveSubCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
                 <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
                     <div className={styles.titleContainer}>
                         <span className={styles.title}>

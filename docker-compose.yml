@@ -14,6 +14,8 @@ services:
             - NEXT_PUBLIC_API_USER_URL=http://localhost:8000/api/auth
             - NEXT_PUBLIC_API_EXERCICE_URL=http://localhost:8000/api/exercice
             - NEXT_PUBLIC_API_CATEGORY_URL=http://localhost:8000/api/category
+            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://localhost:8000/api/subCategory
+
 
     backend:
         build:

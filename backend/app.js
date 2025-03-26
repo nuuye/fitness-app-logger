@@ -6,6 +6,7 @@ const rateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
 
 const categoryRoutes = require("./routes/category");
+const subCategoryRoutes = require("./routes/subCategory");
 const exerciceRoutes = require("./routes/exercice");
 const userRoutes = require("./routes/user");
 const cookieParser = require("cookie-parser");
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
 //we give the initial routes to route files
 app.use("/api/auth", userRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/subCategory", subCategoryRoutes);
 app.use("/api/exercice", exerciceRoutes);
 
 module.exports = app;

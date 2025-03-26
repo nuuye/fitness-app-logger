@@ -10,6 +10,21 @@
     background-color: rgb(51 51 52 / 42%);
     transition: width 0.3s ease-in-out;
     z-index: 2;
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #717070;
+    }
     &.rootSideBarClosed {
         width: 60px;
     }
@@ -51,16 +66,10 @@
             .homeIcon {
                 color: rgb(187, 186, 185);
             }
-        }
-        .sessionContainer {
-            width: 100%;
-            padding: unset;
-            color: rgb(182, 181, 181);
-            .categoriesIcon {
-                color: rgb(187, 186, 185);
-            }
-            .addIconButton {
-                color: rgb(187, 186, 185);
+            .addCategoryContainer {
+                .addIconButton {
+                    color: rgb(182, 181, 181);
+                }
             }
         }
     }

@@ -1,19 +1,19 @@
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import styles from "./session.module.scss";
+import styles from "./subCategory.module.scss";
 import AdjustIcon from "@mui/icons-material/Adjust";
 import { useState } from "react";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Input from "@mui/material/Input";
-import { editCategoryRequest } from "../../services/category";
+import { editSubCategoryRequest } from "../../services/subCategory";
 
-interface sessionProps {
+interface subCategoryProps {
     id: string;
     label: string;
     onClickDelete: () => void;
 }
 
-export default function Session({ label, onClickDelete, id }: sessionProps) {
+export default function SubCategory({ label, onClickDelete, id }: subCategoryProps) {
     const [showMore, setShowMore] = useState<boolean>(false);
     const [categoryLabel, setCategoryLabel] = useState<string>(label);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
@@ -22,7 +22,7 @@ export default function Session({ label, onClickDelete, id }: sessionProps) {
     const handleShowInput = async () => {
         if (isInputVisible && label !== categoryLabel) {
             try {
-                await editCategoryRequest(id, categoryLabel);
+                await editSubCategoryRequest(id, categoryLabel);
             } catch (error) {
                 console.log("error editing category", error);
             }

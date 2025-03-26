@@ -10,7 +10,7 @@ const exerciceSchema = mongoose.Schema({
         },
     ],
     note: { type: String, required: false },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+    subCategory: { type: mongoose.Schema.Types.ObjectId, ref: "subCategory", required: true },
     userId: { type: String, required: true },
 });
 

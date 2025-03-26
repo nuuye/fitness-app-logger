@@ -9,8 +9,12 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Session from "../session/session";
-import { createCategoryRequest, deleteCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
+import Session from "../subCategory/subCategory";
+import {
+    createSubCategoryRequest,
+    deleteSubCategoryRequest,
+    retrieveSubCategoriesRequest,
+} from "../../services/subCategory";
 import { categoryType } from "../../types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Button } from "@mui/material";
@@ -21,13 +25,15 @@ import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { User } from "../../types/user";
 import { BiLogOut } from "react-icons/bi";
+import Category from "../Category/category";
+import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 
 interface sideBarProps {
-    retrieveCategory: (category: string) => void;
+    retrieveSubCategory: (category: string) => void;
     retrieveSideBarStatus: (open: boolean) => void;
 }
 
-export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sideBarProps) {
+export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus }: sideBarProps) {
     const router = useRouter();
     const [user, setUser] = useState<User>(null);
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
@@ -48,6 +54,7 @@ export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sid
                 const user = await retrieveCurrentUser(storageUserId);
                 if (user) {
                     setUser(user);
+                    console.log("user found", user);
                     retrieveCategories(user.userId);
                 } else {
                     redirectLogin();
@@ -75,8 +82,9 @@ export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sid
     };
 
     //async function to create a category, adding it then to the list of categories
-    const handleCreateSession = async () => {
+    const handleCreateCategory = async () => {
         const newCategory = await createCategoryRequest("default category", user.userId);
+        console.log("new category:", newCategory);
         if (newCategory) {
             setCategories((prevCategories) => (prevCategories ? [...prevCategories, newCategory] : [newCategory]));
         }
@@ -84,7 +92,7 @@ export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sid
 
     //async function to delete a category based on its id
     const handleSessionDelete = async (id: string) => {
-        const success = await deleteCategoryRequest(id);
+        const success = await deleteSubCategoryRequest(id);
         if (success) {
             setCategories((prevCategories) => prevCategories.filter((category) => category._id !== id));
         }
@@ -145,41 +153,26 @@ export default function SideBar({ retrieveCategory, retrieveSideBarStatus }: sid
                         </ListItemIcon>
                         <ListItemText primary="Home page" />
                     </ListItemButton>
-                </List>
+                    {categories &&
+                        categories.map((category) => (
+                            <Category
+                                key={category._id}
+                                user={user}
+                                categoryId={category._id}
+                                retrieveSubCategory={retrieveSubCategory}
+                            />
+                        ))}
 
-                <List
-                    sx={{ display: sideBarOpen ? "block" : "none" }}
-                    component="nav"
-                    className={styles.sessionContainer}
-                >
-                    <ListItemButton onClick={() => setCategoryListOpen(!categoryListOpen)}>
+                    <ListItemButton
+                        className={styles.addCategoryContainer}
+                        sx={{ pl: 1.5 }}
+                        onClick={() => handleCreateCategory()}
+                    >
                         <ListItemIcon>
-                            <ArticleIcon className={styles.categoriesIcon} />
+                            <AddCircleOutlineIcon className={styles.addIconButton} fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText primary="Categories" />
-                        {categoryListOpen ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Add new category" />
                     </ListItemButton>
-                    <Collapse in={categoryListOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            {categories &&
-                                categories.map((category) => (
-                                    <div onClick={() => retrieveCategory(category._id)} key={category._id}>
-                                        <Session
-                                            id={category._id}
-                                            label={category.name}
-                                            key={category._id}
-                                            onClickDelete={() => handleSessionDelete(category._id)}
-                                        />
-                                    </div>
-                                ))}
-                            <ListItemButton sx={{ pl: 2 }} onClick={() => handleCreateSession()}>
-                                <ListItemIcon>
-                                    <AddCircleOutlineIcon className={styles.addIconButton} fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText primary="Add sub-category" />
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
                 </List>
             </div>
 

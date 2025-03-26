@@ -1,7 +1,8 @@
 const Category = require("../models/category");
 const Exercice = require("../models/exercice");
+const subCategory = require("../models/subCategory");
 
-//creates a category
+//creates a subCategory
 exports.createCategory = (req, res, next) => {
     delete req.body._id;
     const newCategory = new Category({ ...req.body });
@@ -9,19 +10,19 @@ exports.createCategory = (req, res, next) => {
         .save()
         .then(() => res.status(201).json(newCategory))
         .catch((error) => {
-            console.error("Error saving category:", error);
+            console.error("Error saving Category:", error);
             res.status(400).json({ error });
         });
 };
 
 exports.getCategory = (req, res, next) => {
     Category.findOne({ _id: req.params.categoryId })
-        .then((category) => {
-            if (!category || category.userId !== req.auth.userId) {
-                return res.status(403).json({ message: "Category not found" });
+        .then((Category) => {
+            if (!Category || Category.userId !== req.auth.userId) {
+                return res.status(403).json({ message: "subCategory not found" });
             }
 
-            return res.status(200).json(category);
+            return res.status(200).json(Category);
         })
         .catch((error) => {
             console.error(error);
@@ -29,28 +30,29 @@ exports.getCategory = (req, res, next) => {
         });
 };
 
-//deletes a category based on its Id
+//deletes a Category based on its Id
 exports.deleteCategory = (req, res, next) => {
     Category.findOne({ _id: req.params.id })
-        .then((category) => {
-            if (!category) {
-                return res.status(404).json({ message: "Category not found" });
+        .then((Category) => {
+            if (!Category) {
+                return res.status(404).json({ message: "subCategory not found" });
             }
-            if (category.userId !== req.auth.userId) {
+            if (Category.userId !== req.auth.userId) {
                 return res.status(403).json({ message: "Not authorized" });
             }
 
-            // delete category
+            // delete subCategory
             Category.deleteOne({ _id: req.params.id })
                 .then(() => {
-                    // delete exercices related to the category
-                    Exercice.deleteMany({ category: req.params.id })
+                    // delete exercices related to the subCategory
+                    subCategory
+                        .deleteMany({ Category: req.params.id })
                         .then(() => {
-                            res.status(200).json({ message: "Category and related exercises deleted!" });
+                            res.status(200).json({ message: "Category and related sub categories deleted!" });
                         })
                         .catch((error) => {
                             res.status(500).json({
-                                message: "Category deleted, but failed to delete exercises",
+                                message: "Category deleted, but failed to delete sub categories",
                                 error,
                             });
                         });
@@ -63,11 +65,11 @@ exports.deleteCategory = (req, res, next) => {
 //edits a category based on its Id
 exports.editCategory = (req, res, next) => {
     Category.findOne({ _id: req.params.id })
-        .then((category) => {
-            if (!category) {
+        .then((Category) => {
+            if (!Category) {
                 return res.status(404).json({ message: "Category not found" });
             }
-            if (category.userId !== req.auth.userId) {
+            if (Category.userId !== req.auth.userId) {
                 return res.status(403).json({ message: "Not authorized" });
             }
 
@@ -81,13 +83,13 @@ exports.editCategory = (req, res, next) => {
 //retrieve all categories from a user by using its Id
 exports.getAllCategories = (req, res, next) => {
     Category.find({ userId: req.params.userId })
-        .then((categoryList) => {
-            // Check if at least one category does not match the authenticated user
-            if (categoryList.some((category) => category.userId !== req.auth.userId)) {
+        .then((CategoryList) => {
+            // Check if at least one subCategory does not match the authenticated user
+            if (CategoryList.some((subCategory) => subCategory.userId !== req.auth.userId)) {
                 return res.status(403).json({ message: "Not authorized" });
             }
 
-            res.status(200).json(categoryList);
+            res.status(200).json(CategoryList);
         })
         .catch((error) => res.status(400).json({ error }));
 };
