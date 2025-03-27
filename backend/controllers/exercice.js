@@ -47,7 +47,7 @@ exports.editExercice = (req, res, next) => {
 
 //retrieve all sub category exercices from a user by using its Id
 exports.getAllExercice = (req, res, next) => {
-    Exercice.find({ userId: req.params.userId, category: req.params.subCategoryId })
+    Exercice.find({ userId: req.params.userId, subCategory: req.params.subCategoryId })
         .then((exerciceList) => {
             // Check if at least one category does not match the authenticated user
             if (exerciceList.some((exercice) => exercice.userId !== req.auth.userId)) {

@@ -22,20 +22,20 @@ interface ExerciceType {
     _id: string;
     name: string;
     sets: SetType[];
-    categoryId: string;
+    subCategoryId: string;
     userId: string;
     isEditing?: boolean;
 }
 
 interface ExerciceTableProps {
-    categoryId: string;
+    subCategoryId: string;
 }
 // Define what the parent will be able to call via the ref
 export interface ExerciceTableRef {
     handleCreateExercice: () => void;
 }
 
-const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ categoryId }, ref) => {
+const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCategoryId }, ref) => {
     const [exercices, setExercices] = useState<ExerciceType[]>([]);
 
     // Expose methods to parent via useImperativeHandle
@@ -44,17 +44,17 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ catego
     }));
 
     useEffect(() => {
-        console.log(categoryId);
+        console.log(subCategoryId);
         const storageUserId = localStorage.getItem("userId");
-        if (storageUserId && categoryId) {
-            retrieveExercices(storageUserId, categoryId);
+        if (storageUserId && subCategoryId) {
+            retrieveExercices(storageUserId, subCategoryId);
         }
-    }, [categoryId]);
+    }, [subCategoryId]);
 
     const retrieveExercices = async (userId: string, subCategoryId: string): Promise<void> => {
         const data = await getAllExerciceRequest(userId, subCategoryId);
+        console.log("data: ", data);
         if (data) {
-            console.log("data: ", data);
             const updated = data.map((ex) => ({ ...ex, isEditing: false }));
             setExercices(updated);
         }
@@ -69,7 +69,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ catego
                 { kg: 0, reps: 0 },
             ],
             localStorage.getItem("userId"),
-            categoryId
+            subCategoryId
         );
         if (newExercice) {
             const updatedExercice = { ...newExercice, isEditing: false };

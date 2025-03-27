@@ -48,7 +48,7 @@ export default function Dashboard() {
                             Add new exercice
                         </Button>
                     </div>
-                    <ExerciceTable categoryId={selectedSubCategoryId} ref={tableRef} />
+                    <ExerciceTable subCategoryId={selectedSubCategoryId} ref={tableRef} />
                 </div>
             </div>
         </AuthWrapper>

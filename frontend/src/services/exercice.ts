@@ -8,7 +8,7 @@ interface ExerciceType {
     _id: string;
     name: string;
     sets: SetType[];
-    categoryId: string;
+    subCategoryId: string;
     userId: string;
     note?: string;
 }
@@ -17,14 +17,14 @@ export const createExerciceRequest = async (
     name: string,
     sets: { kg: number; reps: number }[],
     userId: string,
-    category: string,
+    subCategory: string,
     note?: string
 ): Promise<ExerciceType> => {
     try {
         const response = await fetch(`${API_EXERCICE_URL}/create`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, sets, userId, category, ...(note && { note }) }),
+            body: JSON.stringify({ name, sets, userId, subCategory, ...(note && { note }) }),
         });
         if (!response) {
             return null;
