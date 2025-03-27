@@ -40,7 +40,7 @@ export default function Dashboard() {
             <div className={styles.root}>
                 <SideBar retrieveSubCategory={handleCategory} retrieveSideBarStatus={handleSideBarStatus} />
                 <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
-                    <div className={styles.titleContainer}>
+                    <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
                         <span className={styles.title}>
                             {selectedSubCategory ? selectedSubCategory + " section" : "..."}
                         </span>

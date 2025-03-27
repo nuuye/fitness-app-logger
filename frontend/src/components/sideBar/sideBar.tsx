@@ -4,12 +4,7 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import ArticleIcon from "@mui/icons-material/Article";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Session from "../subCategory/subCategory";
 import {
     createSubCategoryRequest,
     deleteSubCategoryRequest,
@@ -36,7 +31,6 @@ interface sideBarProps {
 export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus }: sideBarProps) {
     const router = useRouter();
     const [user, setUser] = useState<User>(null);
-    const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
     const [categories, setCategories] = useState<categoryType[]>(null);
 

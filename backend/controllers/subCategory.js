@@ -33,8 +33,7 @@ exports.createSubCategory = async (req, res, next) => {
 
 //res.status(201).json(newSubCategory)
 exports.getSubCategory = (req, res, next) => {
-    SubCategory
-        .findOne({ _id: req.params.subCategoryId })
+    SubCategory.findOne({ _id: req.params.subCategoryId })
         .then((subCategory) => {
             if (!subCategory || subCategory.userId !== req.auth.userId) {
                 return res.status(403).json({ message: "subCategory not found" });
@@ -50,8 +49,7 @@ exports.getSubCategory = (req, res, next) => {
 
 //deletes a subCategory based on its Id
 exports.deleteSubCategory = (req, res, next) => {
-    SubCategory
-        .findOne({ _id: req.params.id })
+    SubCategory.findOne({ _id: req.params.id })
         .then((subCategory) => {
             if (!subCategory) {
                 return res.status(404).json({ message: "subCategory not found" });
@@ -61,8 +59,7 @@ exports.deleteSubCategory = (req, res, next) => {
             }
 
             // delete subCategory
-            SubCategory
-                .deleteOne({ _id: req.params.id })
+            SubCategory.deleteOne({ _id: req.params.id })
                 .then(() => {
                     // delete exercices related to the subCategory
                     Exercice.deleteMany({ subCategory: req.params.id })
@@ -83,8 +80,7 @@ exports.deleteSubCategory = (req, res, next) => {
 
 //edits a subCategory based on its Id
 exports.editSubCategory = (req, res, next) => {
-    SubCategory
-        .findOne({ _id: req.params.id })
+    SubCategory.findOne({ _id: req.params.id })
         .then((subCategory) => {
             if (!subCategory) {
                 return res.status(404).json({ message: "subCategory not found" });
@@ -93,7 +89,7 @@ exports.editSubCategory = (req, res, next) => {
                 return res.status(403).json({ message: "Not authorized" });
             }
 
-            subCategory
+            SubCategory
                 .updateOne({ _id: req.params.id }, { ...req.body, userId: req.auth.userId })
                 .then(() => res.status(200).json({ message: "subCategory modified!" }))
                 .catch((error) => res.status(400).json({ error }));
@@ -103,8 +99,7 @@ exports.editSubCategory = (req, res, next) => {
 
 //retrieve all categories from a user by using its Id
 exports.getAllSubCategories = (req, res, next) => {
-    SubCategory
-        .find({ category: req.params.categoryId })
+    SubCategory.find({ category: req.params.categoryId })
         .then((subCategoryList) => {
             // Check if at least one subCategory does not match the authenticated user
             if (subCategoryList.some((subCategory) => subCategory.userId !== req.auth.userId)) {

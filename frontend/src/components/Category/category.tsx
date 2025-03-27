@@ -21,7 +21,7 @@ interface categoryProps {
 }
 
 export default function Category({ user, categoryId, retrieveSubCategory }: categoryProps) {
-    const [categoryListOpen, setCategoryListOpen] = useState<boolean>(true);
+    const [categoryListOpen, setCategoryListOpen] = useState<boolean>(false);
     const [subCategories, setSubCategories] = useState<subCategoryType[]>(null);
 
     //retrieve subCategories

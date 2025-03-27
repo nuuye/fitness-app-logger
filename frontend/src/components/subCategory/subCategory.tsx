@@ -22,7 +22,8 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
     const handleShowInput = async () => {
         if (isInputVisible && label !== categoryLabel) {
             try {
-                await editSubCategoryRequest(id, categoryLabel);
+                const result = await editSubCategoryRequest(id, categoryLabel);
+                console.log("result: ", result);
             } catch (error) {
                 console.log("error editing category", error);
             }
