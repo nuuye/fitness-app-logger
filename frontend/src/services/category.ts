@@ -39,3 +39,28 @@ export const retrieveCategoriesRequest = async (userId: string): Promise<categor
         return null;
     }
 };
+
+//API request to delete a specific category
+export const deleteCategoryRequest = async (id: string): Promise<boolean> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return;
+        }
+        const response = await fetch(`${API_CATEGORY_URL}/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!response.ok) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};

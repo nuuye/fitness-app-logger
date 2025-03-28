@@ -13,16 +13,20 @@ import {
     retrieveSubCategoriesRequest,
 } from "../../services/subCategory";
 import { User } from "../../types/user";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface categoryProps {
     user: User;
     categoryId: string;
     retrieveSubCategory: (subCategoryId: string) => void;
+    onClickDelete: (categoryId: string) => void;
 }
 
-export default function Category({ user, categoryId, retrieveSubCategory }: categoryProps) {
+export default function Category({ user, categoryId, retrieveSubCategory, onClickDelete }: categoryProps) {
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(false);
     const [subCategories, setSubCategories] = useState<subCategoryType[]>(null);
+    const [showMore, setShowMore] = useState<boolean>(false);
 
     //retrieve subCategories
     useEffect(() => {
@@ -53,13 +57,41 @@ export default function Category({ user, categoryId, retrieveSubCategory }: cate
         }
     };
 
+    const handleShowInput = () => {
+        console.log("modifying");
+    };
+
     return (
-        <List component="nav" className={styles.sessionContainer}>
-            <ListItemButton onClick={() => setCategoryListOpen(!categoryListOpen)}>
+        <List component="nav" className={styles.categoryContainer}>
+            <ListItemButton
+                onMouseEnter={() => setShowMore(true)}
+                onMouseLeave={() => setShowMore(false)}
+                onClick={() => setCategoryListOpen(!categoryListOpen)}
+            >
                 <ListItemIcon>
                     <ArticleIcon className={styles.categoriesIcon} />
                 </ListItemIcon>
                 <ListItemText primary="Default Category" />
+                {showMore && (
+                    <ListItemIcon className={styles.iconContainer}>
+                        <BorderColorIcon
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                handleShowInput();
+                            }}
+                            className={styles.editIcon}
+                            fontSize="small"
+                        />
+                        <DeleteIcon
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                onClickDelete(categoryId);
+                            }}
+                            className={styles.deleteIcon}
+                            fontSize="small"
+                        />
+                    </ListItemIcon>
+                )}
                 {categoryListOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={categoryListOpen} timeout="auto" unmountOnExit>

@@ -1,10 +1,35 @@
-.sessionContainer {
+.categoryContainer {
     width: 100%;
     padding: unset;
     color: rgb(182, 181, 181);
     .categoriesIcon {
         color: rgb(187, 186, 185);
+        width: 21px;
+        height: 21px;
     }
+    .iconContainer {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        .editIcon {
+            height: 15px;
+            width: 15px;
+            color: rgb(187, 186, 185);
+            &:hover {
+                color: rgb(255, 255, 255);
+            }
+        }
+        .deleteIcon {
+            height: 18px;
+            width: 18px;
+            color: rgb(165, 27, 27);
+            &:hover {
+                color: rgb(230, 7, 7);
+            }
+        }
+    }
+
     .addIconButton {
         color: rgb(187, 186, 185);
     }

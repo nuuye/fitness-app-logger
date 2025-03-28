@@ -49,7 +49,7 @@ export const getSubCategoryRequest = async (categoryId: string): Promise<subCate
     }
 };
 
-//API request to delete a specific category
+//API request to delete a specific subCategory
 export const deleteSubCategoryRequest = async (id: string): Promise<boolean> => {
     try {
         const token = localStorage.getItem("token");

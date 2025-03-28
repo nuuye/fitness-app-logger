@@ -5,11 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import {
-    createSubCategoryRequest,
-    deleteSubCategoryRequest,
-    retrieveSubCategoriesRequest,
-} from "../../services/subCategory";
+import { deleteCategoryRequest } from "../../services/category";
 import { categoryType } from "../../types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Button } from "@mui/material";
@@ -85,8 +81,9 @@ export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus }: 
     };
 
     //async function to delete a category based on its id
-    const handleSessionDelete = async (id: string) => {
-        const success = await deleteSubCategoryRequest(id);
+    const handleCategoryDelete = async (id: string) => {
+        console.log("deleting");
+        const success = await deleteCategoryRequest(id);
         if (success) {
             setCategories((prevCategories) => prevCategories.filter((category) => category._id !== id));
         }
@@ -154,6 +151,7 @@ export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus }: 
                                 user={user}
                                 categoryId={category._id}
                                 retrieveSubCategory={retrieveSubCategory}
+                                onClickDelete={handleCategoryDelete}
                             />
                         ))}
 
