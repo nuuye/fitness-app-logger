@@ -152,6 +152,7 @@ export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus }: 
                                 categoryId={category._id}
                                 retrieveSubCategory={retrieveSubCategory}
                                 onClickDelete={handleCategoryDelete}
+                                label={category.name}
                             />
                         ))}
 

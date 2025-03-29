@@ -65,11 +65,11 @@ exports.deleteCategory = (req, res, next) => {
 //edits a category based on its Id
 exports.editCategory = (req, res, next) => {
     Category.findOne({ _id: req.params.id })
-        .then((Category) => {
-            if (!Category) {
+        .then((category) => {
+            if (!category) {
                 return res.status(404).json({ message: "Category not found" });
             }
-            if (Category.userId !== req.auth.userId) {
+            if (category.userId !== req.auth.userId) {
                 return res.status(403).json({ message: "Not authorized" });
             }
 

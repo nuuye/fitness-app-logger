@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { ListItemButton, ListItemIcon, ListItemText, Collapse } from "@mui/material";
+import { ListItemButton, ListItemIcon, ListItemText, Collapse, Input } from "@mui/material";
 import List from "@mui/material/List";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import styles from "./category.module.scss";
@@ -15,18 +15,22 @@ import {
 import { User } from "../../types/user";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { editCategoryRequest } from "../../services/category";
 
 interface categoryProps {
+    label: string;
     user: User;
     categoryId: string;
     retrieveSubCategory: (subCategoryId: string) => void;
     onClickDelete: (categoryId: string) => void;
 }
 
-export default function Category({ user, categoryId, retrieveSubCategory, onClickDelete }: categoryProps) {
+export default function Category({ label, user, categoryId, retrieveSubCategory, onClickDelete }: categoryProps) {
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(false);
     const [subCategories, setSubCategories] = useState<subCategoryType[]>(null);
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
+    const [CategoryLabel, setCategoryLabel] = useState<string>(label);
 
     //retrieve subCategories
     useEffect(() => {
@@ -57,8 +61,16 @@ export default function Category({ user, categoryId, retrieveSubCategory, onClic
         }
     };
 
-    const handleShowInput = () => {
-        console.log("modifying");
+    const handleShowInput = async () => {
+        if (isInputVisible && label !== CategoryLabel) {
+            try {
+                const result = await editCategoryRequest(categoryId, CategoryLabel);
+                console.log("result: ", result);
+            } catch (error) {
+                console.log("error editing category", error);
+            }
+        }
+        setIsInputVisible(!isInputVisible);
     };
 
     return (
@@ -71,7 +83,17 @@ export default function Category({ user, categoryId, retrieveSubCategory, onClic
                 <ListItemIcon>
                     <ArticleIcon className={styles.categoriesIcon} />
                 </ListItemIcon>
-                <ListItemText primary="Default Category" />
+                {isInputVisible ? (
+                    <Input
+                        className={styles.inputContainer}
+                        onChange={(e) => setCategoryLabel(e.target.value)}
+                        value={CategoryLabel}
+                        autoFocus
+                        onClick={(event) => event.stopPropagation()}
+                    />
+                ) : (
+                    <ListItemText primary={CategoryLabel} />
+                )}
                 {showMore && (
                     <ListItemIcon className={styles.iconContainer}>
                         <BorderColorIcon

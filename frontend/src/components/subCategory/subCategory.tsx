@@ -15,15 +15,14 @@ interface subCategoryProps {
 
 export default function SubCategory({ label, onClickDelete, id }: subCategoryProps) {
     const [showMore, setShowMore] = useState<boolean>(false);
-    const [categoryLabel, setCategoryLabel] = useState<string>(label);
+    const [subCategoryLabel, setSubCategoryLabel] = useState<string>(label);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
     //async handler to show/unshow input. When unshowing updates the database with new value
     const handleShowInput = async () => {
-        if (isInputVisible && label !== categoryLabel) {
+        if (isInputVisible && label !== subCategoryLabel) {
             try {
-                const result = await editSubCategoryRequest(id, categoryLabel);
-                console.log("result: ", result);
+                await editSubCategoryRequest(id, subCategoryLabel);
             } catch (error) {
                 console.log("error editing category", error);
             }
@@ -43,12 +42,12 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
             {isInputVisible ? (
                 <Input
                     className={styles.inputContainer}
-                    onChange={(e) => setCategoryLabel(e.target.value)}
-                    value={categoryLabel}
+                    onChange={(e) => setSubCategoryLabel(e.target.value)}
+                    value={subCategoryLabel}
                     autoFocus
                 />
             ) : (
-                <ListItemText primary={categoryLabel} />
+                <ListItemText primary={subCategoryLabel} />
             )}
             {showMore && (
                 <ListItemIcon className={styles.iconContainer}>
