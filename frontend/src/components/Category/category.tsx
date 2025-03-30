@@ -15,6 +15,7 @@ import {
 import { User } from "../../types/user";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from '@mui/icons-material/Check';
 import { editCategoryRequest } from "../../services/category";
 
 interface categoryProps {
@@ -22,7 +23,7 @@ interface categoryProps {
     user: User;
     categoryId: string;
     retrieveSubCategory: (subCategoryId: string) => void;
-    onClickDelete: (categoryId: string) => void;
+    onClickDelete: (categoryId: string, label: string) => void;
 }
 
 export default function Category({ label, user, categoryId, retrieveSubCategory, onClickDelete }: categoryProps) {
@@ -45,7 +46,6 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
     //async function to create a sub category, adding it then to the list of categories
     const handleCreateSubCategory = async () => {
         const newSubCategory = await createSubCategoryRequest("default sub-category", user.userId, categoryId);
-        console.log("newSubCategory:", newSubCategory);
         if (newSubCategory) {
             setSubCategories((prevSubCategories) =>
                 prevSubCategories ? [...prevSubCategories, newSubCategory] : [newSubCategory]
@@ -107,7 +107,7 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
                         <DeleteIcon
                             onClick={(event) => {
                                 event.stopPropagation();
-                                onClickDelete(categoryId);
+                                onClickDelete(categoryId, label);
                             }}
                             className={styles.deleteIcon}
                             fontSize="small"

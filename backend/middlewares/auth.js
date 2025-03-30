@@ -1,10 +1,10 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-//middleware qui vérifiant la validité du token JWT
+//middleware to verify JWT token validity
 module.exports = (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
+        const authHeader = req.headers.authorization; //retrieving authorization header
         if (!authHeader) {
             throw new Error("Authorization header missing");
         }

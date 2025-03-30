@@ -1,0 +1,35 @@
+@use "../../styles/colors" as colors;
+
+.rootContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .card {
+        min-width: 350px;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        background: rgb(176 206 207);
+        h3 {
+            margin-top: unset;
+        }
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            width: 100%;
+            Button {
+                border-radius: 50px;
+            }
+        }
+    }
+}

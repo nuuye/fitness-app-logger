@@ -70,10 +70,9 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-    const isProduction = process.env.NODE_ENV === "production";
     res.clearCookie("jwtToken", {
-        secure: isProduction, // Match login settings
-        sameSite: isProduction ? "None" : "Lax", // Match login settings
+        secure: true, // Match login settings
+        sameSite: "Lax", // Match login settings
         path: "/", // Ensure it clears the correct cookie
     });
     res.status(200).json({ message: "Logged out successfully" });
