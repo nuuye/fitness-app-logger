@@ -73,9 +73,7 @@ export default function Dashboard() {
                 />
                 <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
-                        <span className={styles.title}>
-                            {selectedSubCategory ? selectedSubCategory + " section" : "..."}
-                        </span>
+                        <span className={styles.title}>{selectedSubCategory ? selectedSubCategory : "..."}</span>
                         <Button className={styles.addButton} variant="contained" onClick={triggerCreateExercice}>
                             Add new exercice
                         </Button>

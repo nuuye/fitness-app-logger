@@ -15,7 +15,7 @@ import {
 import { User } from "../../types/user";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 import { editCategoryRequest } from "../../services/category";
 
 interface categoryProps {
@@ -90,6 +90,15 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
                         value={CategoryLabel}
                         autoFocus
                         onClick={(event) => event.stopPropagation()}
+                        onKeyDown={(e) => {
+                            console.log(e);
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleShowInput();
+                                (document.activeElement as HTMLElement)?.blur();
+                            }
+                        }}
                     />
                 ) : (
                     <ListItemText primary={CategoryLabel} />

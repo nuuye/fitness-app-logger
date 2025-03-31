@@ -45,6 +45,15 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
                     onChange={(e) => setSubCategoryLabel(e.target.value)}
                     value={subCategoryLabel}
                     autoFocus
+                    onKeyDown={(e) => {
+                        console.log(e);
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleShowInput();
+                            (document.activeElement as HTMLElement)?.blur();
+                        }
+                    }}
                 />
             ) : (
                 <ListItemText primary={subCategoryLabel} />
