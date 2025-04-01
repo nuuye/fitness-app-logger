@@ -14,8 +14,8 @@ import {
 import Input from "@mui/material/Input";
 
 interface SetType {
-    reps: number;
-    kg: number;
+    reps: number | string;
+    kg: number | string;
 }
 
 interface ExerciceType {
@@ -90,27 +90,45 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         );
     };
 
-    const handleChangeSetKg = (exerciceId: string, setIndex: number, value: number) => {
+    const handleChangeSetKg = (exerciceId: string, setIndex: number, value: number | string) => {
         setExercices((prev) =>
             prev.map((row) => {
                 if (row._id === exerciceId) {
                     const updatedSets = [...row.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], kg: value };
-                    editExerciceRequest(exerciceId, undefined, updatedSets);
+
+                    editExerciceRequest(
+                        exerciceId,
+                        undefined,
+                        updatedSets.map((set) => ({
+                            ...set,
+                            reps: Number(set.reps) || 0,
+                            kg: Number(set.kg) || 0,
+                        }))
+                    );
                     return { ...row, sets: updatedSets };
                 }
                 return row;
             })
         );
     };
-
-    const handleChangeSetReps = (exerciceId: string, setIndex: number, value: number) => {
+    const handleChangeSetReps = (exerciceId: string, setIndex: number, value: number | string) => {
         setExercices((prev) =>
             prev.map((row) => {
                 if (row._id === exerciceId) {
                     const updatedSets = [...row.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], reps: value };
-                    editExerciceRequest(exerciceId, undefined, updatedSets);
+
+                    editExerciceRequest(
+                        exerciceId,
+                        undefined,
+                        updatedSets.map((set) => ({
+                            ...set,
+                            reps: Number(set.reps) || 0,
+                            kg: Number(set.kg) || 0,
+                        }))
+                    );
+
                     return { ...row, sets: updatedSets };
                 }
                 return row;
@@ -172,15 +190,11 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             value={set.kg}
                                                             type="number"
                                                             inputProps={{
-                                                                min: 0,
+                                                                min: -10,
                                                                 style: { width: `${String(set.kg).length + 2}ch` },
                                                             }}
                                                             onChange={(e) =>
-                                                                handleChangeSetKg(
-                                                                    row._id,
-                                                                    index,
-                                                                    Number(e.target.value)
-                                                                )
+                                                                handleChangeSetKg(row._id, index, e.target.value)
                                                             }
                                                         />
                                                         kg /
@@ -189,16 +203,13 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             value={set.reps}
                                                             type="number"
                                                             inputProps={{
-                                                                min: 0,
+                                                                min: -10,
                                                                 style: { width: `${String(set.reps).length + 2}ch` },
                                                             }}
-                                                            onChange={(e) =>
-                                                                handleChangeSetReps(
-                                                                    row._id,
-                                                                    index,
-                                                                    Number(e.target.value)
-                                                                )
-                                                            }
+                                                            onChange={(e) => {
+                                                                console.log(e.target.value);
+                                                                handleChangeSetReps(row._id, index, e.target.value);
+                                                            }}
                                                         />
                                                         reps
                                                     </label>
@@ -273,7 +284,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             style: { width: `${String(set.kg).length + 2}ch` },
                                                         }}
                                                         onChange={(e) =>
-                                                            handleChangeSetKg(row._id, index, Number(e.target.value))
+                                                            handleChangeSetKg(row._id, index, e.target.value)
                                                         }
                                                     />
                                                     kg |
@@ -286,7 +297,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             style: { width: `${String(set.reps).length + 2}ch` },
                                                         }}
                                                         onChange={(e) =>
-                                                            handleChangeSetReps(row._id, index, Number(e.target.value))
+                                                            handleChangeSetReps(row._id, index, e.target.value)
                                                         }
                                                     />
                                                     reps
