@@ -6,6 +6,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Input from "@mui/material/Input";
 import { editSubCategoryRequest } from "../../services/subCategory";
+import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 
 interface subCategoryProps {
     id: string;
@@ -60,7 +61,11 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
             )}
             {showMore && (
                 <ListItemIcon className={styles.iconContainer}>
-                    <BorderColorIcon onClick={handleShowInput} className={styles.editIcon} fontSize="small" />
+                    {isInputVisible ? (
+                        <FileDownloadDoneIcon onClick={handleShowInput} className={styles.validIcon} fontSize="small" />
+                    ) : (
+                        <BorderColorIcon onClick={handleShowInput} className={styles.editIcon} fontSize="small" />
+                    )}
                     <DeleteIcon onClick={onClickDelete} className={styles.deleteIcon} fontSize="small" />
                 </ListItemIcon>
             )}

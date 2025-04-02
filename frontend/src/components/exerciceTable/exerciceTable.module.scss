@@ -87,6 +87,14 @@
                             color: rgb(255, 255, 255);
                         }
                     }
+                    .validIcon {
+                        height: 20px;
+                        width: 20px;
+                        color: rgb(187, 186, 185);
+                        &:hover {
+                            color: rgb(255, 255, 255);
+                        }
+                    }
                 }
             }
 
@@ -184,6 +192,14 @@
             .editIcon {
                 height: 16px;
                 width: 16px;
+                color: rgb(187, 186, 185);
+                &:hover {
+                    color: rgb(255, 255, 255);
+                }
+            }
+            .validIcon {
+                height: 20px;
+                width: 20px;
                 color: rgb(187, 186, 185);
                 &:hover {
                     color: rgb(255, 255, 255);

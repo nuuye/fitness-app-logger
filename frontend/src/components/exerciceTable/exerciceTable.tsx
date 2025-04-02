@@ -5,6 +5,8 @@ import Checkbox from "@mui/material/Checkbox";
 import { Button, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
+
 import {
     createExerciceRequest,
     getAllExerciceRequest,
@@ -220,7 +222,11 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                         ))}
                                     <td className={styles.iconColumn}>
                                         <IconButton color="info" onClick={() => handleEditExercice(row)}>
-                                            <BorderColorIcon className={styles.editIcon} />
+                                            {row.isEditing ? (
+                                                <FileDownloadDoneIcon className={styles.validIcon} />
+                                            ) : (
+                                                <BorderColorIcon className={styles.editIcon} />
+                                            )}
                                         </IconButton>
                                         <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">
                                             <DeleteIcon className={styles.deleteIcon} />
@@ -260,7 +266,11 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                 )}
                                 <div className={styles.cardActions}>
                                     <IconButton color="info" onClick={() => handleEditExercice(row)}>
-                                        <BorderColorIcon className={styles.editIcon} />
+                                        {row.isEditing ? (
+                                            <FileDownloadDoneIcon className={styles.validIcon} />
+                                        ) : (
+                                            <BorderColorIcon className={styles.editIcon} />
+                                        )}
                                     </IconButton>
                                     <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">
                                         <DeleteIcon className={styles.deleteIcon} />

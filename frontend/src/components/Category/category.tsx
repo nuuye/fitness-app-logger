@@ -15,7 +15,7 @@ import {
 import { User } from "../../types/user";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from "@mui/icons-material/Check";
+import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
 import { editCategoryRequest } from "../../services/category";
 
 interface categoryProps {
@@ -105,14 +105,24 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
                 )}
                 {showMore && (
                     <ListItemIcon className={styles.iconContainer}>
-                        <BorderColorIcon
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                handleShowInput();
-                            }}
-                            className={styles.editIcon}
-                            fontSize="small"
-                        />
+                        {isInputVisible ? (
+                            <FileDownloadDoneIcon
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleShowInput();
+                                }}
+                                className={styles.validIcon}
+                            />
+                        ) : (
+                            <BorderColorIcon
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleShowInput();
+                                }}
+                                className={styles.editIcon}
+                                fontSize="small"
+                            />
+                        )}
                         <DeleteIcon
                             onClick={(event) => {
                                 event.stopPropagation();

@@ -14,8 +14,16 @@
     align-items: center;
 
     .editIcon {
-        height: 17px;
-        width: 17px;
+        height: 16px;
+        width: 16px;
+        color: rgb(187, 186, 185);
+        &:hover {
+            color: rgb(255, 255, 255);
+        }
+    }
+    .validIcon {
+        height: 19px;
+        width: 19px;
         color: rgb(187, 186, 185);
         &:hover {
             color: rgb(255, 255, 255);
