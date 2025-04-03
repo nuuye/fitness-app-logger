@@ -18,6 +18,8 @@ export default function Dashboard() {
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
     useEffect(() => {
+        setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
+
         const subCategoryId = localStorage.getItem("subCategoryId");
         if (!subCategoryId) return;
 
@@ -52,6 +54,10 @@ export default function Dashboard() {
         setShowConfirmationWindow(!showConfirmationWindow);
     };
 
+    const handleSideBarStatus = (open: boolean) => {
+        setSideBarOpen(open);
+    };
+
     return (
         <AuthWrapper>
             <div className={styles.root}>
@@ -68,7 +74,7 @@ export default function Dashboard() {
                 )}
                 <SideBar
                     retrieveSubCategory={handleSubCategory}
-                    retrieveSideBarStatus={setSideBarOpen}
+                    retrieveSideBarStatus={handleSideBarStatus}
                     onClickDelete={(categoryId, label) => {
                         handleCancelWindow();
                         setTempCategory({ id: categoryId, label: label });

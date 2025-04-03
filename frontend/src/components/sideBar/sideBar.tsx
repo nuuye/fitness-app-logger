@@ -35,7 +35,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
     ({ retrieveSubCategory, retrieveSideBarStatus, onClickDelete, onChangeSubCategoryLabel }, ref) => {
         const router = useRouter();
         const [user, setUser] = useState<User>(null);
-        const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+        const [sideBarOpen, setSideBarOpen] = useState<boolean>(localStorage.getItem("sideBarOpen") === "true");
         const [categories, setCategories] = useState<categoryType[]>(null);
 
         useImperativeHandle(ref, () => ({
@@ -134,6 +134,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                             className={styles.wrapIcon}
                             onClick={() => {
                                 setSideBarOpen(!sideBarOpen);
+                                localStorage.setItem("sideBarOpen", "false");
                                 retrieveSideBarStatus(false);
                             }}
                         />
@@ -142,6 +143,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                             className={`${styles.wrapIcon} ${!sideBarOpen && styles.wrapIconClosed}`}
                             onClick={() => {
                                 setSideBarOpen(!sideBarOpen);
+                                localStorage.setItem("sideBarOpen", "true");
                                 retrieveSideBarStatus(true);
                             }}
                         />
