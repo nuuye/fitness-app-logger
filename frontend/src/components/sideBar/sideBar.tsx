@@ -16,13 +16,14 @@ import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { User } from "../../types/user";
 import { BiLogOut } from "react-icons/bi";
-import Category from "../Category/category";
+import Category from "../category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 
 interface sideBarProps {
-    retrieveSubCategory: (category: string) => void;
+    retrieveSubCategory: (subCategoryId: string) => void;
     retrieveSideBarStatus: (open: boolean) => void;
     onClickDelete: (categoryId: string, label: string) => void;
+    onChangeSubCategoryLabel: (label: string) => void;
 }
 
 export interface SideBarRef {
@@ -31,7 +32,7 @@ export interface SideBarRef {
 
 //export default function SideBar({ retrieveSubCategory, retrieveSideBarStatus, onClickDelete }: sideBarProps) {
 const SideBar = forwardRef<SideBarRef, sideBarProps>(
-    ({ retrieveSubCategory, retrieveSideBarStatus, onClickDelete }, ref) => {
+    ({ retrieveSubCategory, retrieveSideBarStatus, onClickDelete, onChangeSubCategoryLabel }, ref) => {
         const router = useRouter();
         const [user, setUser] = useState<User>(null);
         const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
@@ -166,6 +167,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                         onClickDelete(categoryId, category.name);
                                     }}
                                     label={category.name}
+                                    onChangeSubCategoryLabel={onChangeSubCategoryLabel}
                                 />
                             ))}
 

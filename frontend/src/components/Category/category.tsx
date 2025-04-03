@@ -24,9 +24,10 @@ interface categoryProps {
     categoryId: string;
     retrieveSubCategory: (subCategoryId: string) => void;
     onClickDelete: (categoryId: string, label: string) => void;
+    onChangeSubCategoryLabel: (label: string) => void;
 }
 
-export default function Category({ label, user, categoryId, retrieveSubCategory, onClickDelete }: categoryProps) {
+export default function Category({ label, user, categoryId, retrieveSubCategory, onClickDelete, onChangeSubCategoryLabel }: categoryProps) {
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(false);
     const [subCategories, setSubCategories] = useState<subCategoryType[]>(null);
     const [showMore, setShowMore] = useState<boolean>(false);
@@ -145,6 +146,7 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
                                     label={subCategory.name}
                                     key={subCategory._id}
                                     onClickDelete={() => subCategoryDeleteHandler(subCategory._id)}
+                                    onChangeSubCategoryLabel={onChangeSubCategoryLabel}
                                 />
                             </div>
                         ))}

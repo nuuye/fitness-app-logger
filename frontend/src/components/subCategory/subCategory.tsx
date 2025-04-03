@@ -12,9 +12,10 @@ interface subCategoryProps {
     id: string;
     label: string;
     onClickDelete: () => void;
+    onChangeSubCategoryLabel: (label: string) => void;
 }
 
-export default function SubCategory({ label, onClickDelete, id }: subCategoryProps) {
+export default function SubCategory({ label, onChangeSubCategoryLabel,  onClickDelete, id }: subCategoryProps) {
     const [showMore, setShowMore] = useState<boolean>(false);
     const [subCategoryLabel, setSubCategoryLabel] = useState<string>(label);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
@@ -24,6 +25,7 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
         if (isInputVisible && label !== subCategoryLabel) {
             try {
                 await editSubCategoryRequest(id, subCategoryLabel);
+                onChangeSubCategoryLabel(subCategoryLabel);
             } catch (error) {
                 console.log("error editing category", error);
             }
@@ -47,7 +49,6 @@ export default function SubCategory({ label, onClickDelete, id }: subCategoryPro
                     value={subCategoryLabel}
                     autoFocus
                     onKeyDown={(e) => {
-                        console.log(e);
                         if (e.key === "Enter") {
                             e.preventDefault();
                             e.stopPropagation();

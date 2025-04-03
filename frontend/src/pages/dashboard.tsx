@@ -10,15 +10,22 @@ import ConfirmWindow from "../components/confirmationWindow/confirmWindow";
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
     const sideBarRef = useRef<SideBarRef>(null);
+
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
-    const [selectedSubCategory, setSelectedSubCategory] = useState<string>();
+    const [selectedSubCategoryLabel, setSelectedSubCategoryLabel] = useState<string>();
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
     const [showConfirmationWindow, setShowConfirmationWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
     useEffect(() => {
-        setSelectedSubCategory(localStorage.getItem("subCategory"));
-        setSelectedSubCategoryId(localStorage.getItem("subCategoryId"));
+        const subCategoryId = localStorage.getItem("subCategoryId");
+        if (!subCategoryId) return;
+
+        getSubCategoryRequest(subCategoryId).then((subCategory) => {
+            if (!subCategory) return;
+            setSelectedSubCategoryId(subCategoryId);
+            setSelectedSubCategoryLabel(subCategory.name);
+        });
     }, []);
 
     const triggerCreateExercice = () => {
@@ -30,18 +37,15 @@ export default function Dashboard() {
         sideBarRef.current?.handleCategoryDelete(id);
     };
 
-    const handleCategory = async (categoryId: string) => {
+    //handles the display of sub categories on dashboard whenever click
+    const handleSubCategory = async (categoryId: string) => {
         localStorage.setItem("subCategoryId", categoryId);
-        const retrieveCategory = await getSubCategoryRequest(categoryId);
-        if (retrieveCategory) {
+        const retrieveSubCategory = await getSubCategoryRequest(categoryId);
+        if (retrieveSubCategory) {
             setSelectedSubCategoryId(categoryId);
-            setSelectedSubCategory(retrieveCategory.name);
-            localStorage.setItem("subCategory", retrieveCategory.name);
+            setSelectedSubCategoryLabel(retrieveSubCategory.name);
+            localStorage.setItem("subCategory", retrieveSubCategory.name);
         }
-    };
-
-    const handleSideBarStatus = (open: boolean) => {
-        setSideBarOpen(open);
     };
 
     const handleCancelWindow = () => {
@@ -63,17 +67,20 @@ export default function Dashboard() {
                     />
                 )}
                 <SideBar
-                    retrieveSubCategory={handleCategory}
-                    retrieveSideBarStatus={handleSideBarStatus}
+                    retrieveSubCategory={handleSubCategory}
+                    retrieveSideBarStatus={setSideBarOpen}
                     onClickDelete={(categoryId, label) => {
                         handleCancelWindow();
                         setTempCategory({ id: categoryId, label: label });
                     }}
                     ref={sideBarRef}
+                    onChangeSubCategoryLabel={setSelectedSubCategoryLabel}
                 />
                 <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
-                        <span className={styles.title}>{selectedSubCategory ? selectedSubCategory : "..."}</span>
+                        <span className={styles.title}>
+                            {selectedSubCategoryLabel ? selectedSubCategoryLabel : "..."}
+                        </span>
                         <Button className={styles.addButton} variant="contained" onClick={triggerCreateExercice}>
                             Add new exercice
                         </Button>

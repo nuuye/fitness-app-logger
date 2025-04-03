@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import logo from "../../../public/images/dumbbell_icon.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import MenuIcon from '@mui/icons-material/Menu';
 
 export default function AppBar() {
     const router = useRouter();
