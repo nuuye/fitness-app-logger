@@ -1,5 +1,5 @@
-import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
-import React from "react";
+import { Button, Card } from "@mui/material";
+import React, { useState } from "react";
 import styles from "./confirmWindow.module.scss";
 
 interface ConfirmWindowProps {
@@ -10,8 +10,18 @@ interface ConfirmWindowProps {
 }
 
 export default function ConfirmWindow({ isCategory, label, onCancel, onConfirm }: ConfirmWindowProps) {
+    const [isExiting, setIsExiting] = useState(false);
+
+    // Fonction simple pour gérer l'animation de sortie
+    const handleClose = (callback: () => void) => {
+        setIsExiting(true);
+        setTimeout(() => {
+            callback();
+        }, 250); // Correspondant à la durée de l'animation
+    };
+
     return (
-        <div className={styles.rootContainer}>
+        <div className={`${styles.rootContainer} ${isExiting ? styles.exit : ""}`}>
             <Card variant="outlined" className={styles.card}>
                 <div>
                     <h3>Are you sure?</h3>
@@ -22,10 +32,10 @@ export default function ConfirmWindow({ isCategory, label, onCancel, onConfirm }
                     )}
                 </div>
                 <div className={styles.actions}>
-                    <Button variant="outlined" onClick={onCancel}>
+                    <Button variant="outlined" onClick={() => handleClose(onCancel)}>
                         Cancel
                     </Button>
-                    <Button variant="contained" color="error" onClick={onConfirm}>
+                    <Button variant="contained" color="error" onClick={() => handleClose(onConfirm)}>
                         Delete category
                     </Button>
                 </div>
