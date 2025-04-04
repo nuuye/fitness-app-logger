@@ -1,7 +1,7 @@
 .rootSideBarOpen {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
@@ -9,7 +9,15 @@
     border-right: 2px solid rgb(38 48 45);
     background-color: rgb(51 51 52 / 42%);
     transition: width 0.3s ease-in-out;
+    transition: height 0.3s ease-in-out;
     z-index: 2;
+    @media (max-width: 575px) {
+        bottom: unset;
+        right: 0;
+        width: 100%;
+        height: 60px;
+        flex-direction: row;
+    }
     ::-webkit-scrollbar {
         width: 8px;
     }
@@ -27,92 +35,147 @@
     }
     &.rootSideBarClosed {
         width: 60px;
+        @media (max-width: 575px) {
+            bottom: unset;
+            right: 0;
+            width: 100%;
+            height: 60px;
+            flex-direction: row;
+        }
     }
-
-    .header {
-        padding: 10px 0px 10px 10px;
+    &.menuExtanded {
+        height: 95%;
+    }
+    .mainContainer {
         display: flex;
-        align-items: center;
-        justify-content: space-around;
-        gap: 10px;
-        span {
-            white-space: nowrap;
-            color: rgb(187, 186, 185);
+        height: 100%;
+        flex-direction: column;
+        @media (max-width: 575px) {
+            height: unset;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 10px 15px;
+            align-items: flex-start;
         }
-        .wrapIcon {
-            cursor: pointer;
-            height: 24px;
-            width: 24px;
-            color: rgb(187, 186, 185);
-            margin-right: 10px;
-            &:hover {
-                color: rgb(255, 255, 255);
-            }
-            &.wrapIconClosed {
-                margin-right: unset;
-            }
-        }
-        &.headerClosed {
-            flex-direction: column;
-            padding-right: 10px;
-            gap: 20px;
-        }
-    }
-    .body {
-        flex-grow: 1;
-        overflow-y: auto;
-        .homeContainer {
-            color: rgb(182, 181, 181);
-            .homeIcon {
+        .header {
+            padding: 10px 0px 10px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 10px;
+            span {
+                white-space: nowrap;
                 color: rgb(187, 186, 185);
             }
-            .addCategoryContainer {
-                .addIconButton {
-                    color: rgb(182, 181, 181);
+            .wrapIcon {
+                cursor: pointer;
+                height: 24px;
+                width: 24px;
+                color: rgb(187, 186, 185);
+                margin-right: 10px;
+                &:hover {
+                    color: rgb(255, 255, 255);
+                }
+                &.wrapIconClosed {
+                    margin-right: unset;
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
+            }
+            &.headerClosed {
+                flex-direction: column;
+                padding-right: 10px;
+                gap: 20px;
+                @media (max-width: 575px) {
+                    padding: unset;
                 }
             }
         }
-    }
-    .footer {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 20px;
-        &.wrappedFooter {
-            gap: 0px;
-        }
-        .settingsButton {
-            width: 100%;
-            color: rgb(187, 186, 185);
-            border-color: rgb(187, 186, 185);
-            &:hover {
-                background-color: rgba(108, 108, 108, 0.29);
-                color: white;
+        .body {
+            flex-grow: 1;
+            overflow-y: auto;
+            .homeContainer {
+                color: rgb(182, 181, 181);
+                .homeIcon {
+                    color: rgb(187, 186, 185);
+                }
+                .addCategoryContainer {
+                    .addIconButton {
+                        color: rgb(182, 181, 181);
+                    }
+                }
+            }
+            @media (max-width: 575px) {
+                display: none;
             }
         }
-        .wrappedSettingsButton {
-            border: unset;
-            height: 50px;
-            span {
-                margin: unset;
+        .footer {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            @media (max-width: 575px) {
+                padding: unset;
             }
-        }
-        .logoutButton {
-            width: 100%;
-            color: rgb(205, 11, 11);
-            border-color: rgb(205, 11, 11);
-            &:hover {
-                background-color: rgba(205, 11, 11, 0.29);
+
+            &.wrappedFooter {
+                gap: 0px;
+            }
+            .settingsButton {
+                width: 100%;
                 color: rgb(187, 186, 185);
+                border-color: rgb(187, 186, 185);
+                &:hover {
+                    background-color: rgba(108, 108, 108, 0.29);
+                    color: white;
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
             }
-        }
-        .wrappedLogoutButton {
-            border: unset;
-            height: 50px;
-            span {
-                margin: unset;
+            .wrappedSettingsButton {
+                border: unset;
+                height: 50px;
+                span {
+                    margin: unset;
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
+            }
+            .logoutButton {
+                width: 100%;
+                color: rgb(205, 11, 11);
+                border-color: rgb(205, 11, 11);
+                &:hover {
+                    background-color: rgba(205, 11, 11, 0.29);
+                    color: rgb(187, 186, 185);
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
+            }
+            .wrappedLogoutButton {
+                border: unset;
+                height: 50px;
+                span {
+                    margin: unset;
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
+            }
+
+            .menuButton {
+                color: rgb(187, 186, 185);
+                border-radius: 50%;
+                @media (min-width: 575px) {
+                    display: none;
+                }
             }
         }
     }

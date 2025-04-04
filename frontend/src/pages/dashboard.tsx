@@ -11,7 +11,9 @@ export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
     const sideBarRef = useRef<SideBarRef>(null);
 
-    const [sideBarOpen, setSideBarOpen] = useState<boolean>(true);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
+    const [showMenu, setShowMenu] = useState<boolean>(true);
+
     const [selectedSubCategoryLabel, setSelectedSubCategoryLabel] = useState<string>();
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
     const [showConfirmationWindow, setShowConfirmationWindow] = useState<boolean>(false);
@@ -54,10 +56,6 @@ export default function Dashboard() {
         setShowConfirmationWindow(!showConfirmationWindow);
     };
 
-    const handleSideBarStatus = (open: boolean) => {
-        setSideBarOpen(open);
-    };
-
     return (
         <AuthWrapper>
             <div className={styles.root}>
@@ -74,15 +72,20 @@ export default function Dashboard() {
                 )}
                 <SideBar
                     retrieveSubCategory={handleSubCategory}
-                    retrieveSideBarStatus={handleSideBarStatus}
+                    retrieveSideBarStatus={setSideBarOpen}
                     onClickDelete={(categoryId, label) => {
                         handleCancelWindow();
                         setTempCategory({ id: categoryId, label: label });
                     }}
                     ref={sideBarRef}
                     onChangeSubCategoryLabel={setSelectedSubCategoryLabel}
+                    retrieveShowMenuStatus={setShowMenu}
                 />
-                <div className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer}`}>
+                <div
+                    className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer} ${
+                        !showMenu && styles.isMenuOpen
+                    }`}
+                >
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
                         <span className={styles.title}>
                             {selectedSubCategoryLabel ? selectedSubCategoryLabel : "..."}
