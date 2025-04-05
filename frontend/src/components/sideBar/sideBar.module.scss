@@ -8,8 +8,7 @@
     width: 240px;
     border-right: 2px solid rgb(38 48 45);
     background-color: rgb(51 51 52 / 42%);
-    transition: width 0.3s ease-in-out;
-    transition: height 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out, height 0.6s ease-in-out;
     z-index: 2;
     @media (max-width: 575px) {
         bottom: unset;
@@ -53,20 +52,32 @@
         @media (max-width: 575px) {
             height: unset;
             width: 100%;
-            flex-direction: row;
             justify-content: space-between;
             padding: 10px 15px;
             align-items: flex-start;
+            gap: 20px;
         }
         .header {
             padding: 10px 0px 10px 10px;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: space-between;
             gap: 10px;
             span {
                 white-space: nowrap;
                 color: rgb(187, 186, 185);
+            }
+            .profileSection {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .menuButton {
+                color: rgb(187, 186, 185);
+                border-radius: 50%;
+                @media (min-width: 575px) {
+                    display: none;
+                }
             }
             .wrapIcon {
                 cursor: pointer;
@@ -92,12 +103,28 @@
                     padding: unset;
                 }
             }
+            &.headerMenu {
+                flex-direction: row;
+                width: 100%;
+            }
         }
         .body {
             flex-grow: 1;
             overflow-y: auto;
+            @media (max-width: 575px) {
+                width: 100%;
+            }
             .homeContainer {
                 color: rgb(182, 181, 181);
+                &.homeContainerHidden {
+                    display: none;
+                }
+                @media (max-width: 575px) {
+                    display: none;
+                }
+                &.homeContainerMenu {
+                    display: block;
+                }
                 .homeIcon {
                     color: rgb(187, 186, 185);
                 }
@@ -106,9 +133,6 @@
                         color: rgb(182, 181, 181);
                     }
                 }
-            }
-            @media (max-width: 575px) {
-                display: none;
             }
         }
         .footer {
@@ -166,14 +190,6 @@
                     margin: unset;
                 }
                 @media (max-width: 575px) {
-                    display: none;
-                }
-            }
-
-            .menuButton {
-                color: rgb(187, 186, 185);
-                border-radius: 50%;
-                @media (min-width: 575px) {
                     display: none;
                 }
             }

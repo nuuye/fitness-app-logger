@@ -12,7 +12,7 @@ export default function Dashboard() {
     const sideBarRef = useRef<SideBarRef>(null);
 
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
-    const [showMenu, setShowMenu] = useState<boolean>(true);
+    const [hideMenu, setHideMenu] = useState<boolean>(true);
 
     const [selectedSubCategoryLabel, setSelectedSubCategoryLabel] = useState<string>();
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
@@ -79,11 +79,11 @@ export default function Dashboard() {
                     }}
                     ref={sideBarRef}
                     onChangeSubCategoryLabel={setSelectedSubCategoryLabel}
-                    retrieveShowMenuStatus={setShowMenu}
+                    retrieveShowMenuStatus={setHideMenu}
                 />
                 <div
                     className={`${styles.mainContainer} ${!sideBarOpen && styles.extendedMainContainer} ${
-                        !showMenu && styles.isMenuOpen
+                        !hideMenu && styles.isMenuOpen
                     }`}
                 >
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>

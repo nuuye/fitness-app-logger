@@ -42,6 +42,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         const [user, setUser] = useState<User>(null);
         const [sideBarOpen, setSideBarOpen] = useState<boolean>(localStorage.getItem("sideBarOpen") === "true");
         const [showMenu, setShowMenu] = useState<boolean>(false);
+        const [mobileSideBar, setMobileSideBar] = useState<boolean>(false);
         const [categories, setCategories] = useState<categoryType[]>(null);
 
         useImperativeHandle(ref, () => ({
@@ -80,8 +81,13 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             const handleResize = () => {
                 const screenWidth = window.innerWidth;
                 if (screenWidth <= 575) {
+                    setMobileSideBar(true);
                     setSideBarOpen(false);
                     retrieveSideBarStatus(false);
+                } else {
+                    setMobileSideBar(false);
+                    setShowMenu(false);
+                    retrieveShowMenuStatus(true);
                 }
             };
 
@@ -92,7 +98,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             return () => {
                 window.removeEventListener("resize", handleResize);
             };
-        }, [retrieveSideBarStatus]);
+        }, [retrieveShowMenuStatus, retrieveSideBarStatus]);
 
         //async function to retrieve the logged user
         const retrieveCurrentUser = async (userId: string): Promise<User> => {
@@ -160,31 +166,48 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                 }`}
             >
                 <div className={styles.mainContainer}>
-                    <div className={`${styles.header} ${!sideBarOpen && styles.headerClosed}`}>
-                        <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
-                        {sideBarOpen && <span>{user ? user.name : ""}</span>}
-                        {sideBarOpen ? (
-                            <GoSidebarExpand
-                                className={styles.wrapIcon}
-                                onClick={() => {
-                                    setSideBarOpen(!sideBarOpen);
-                                    localStorage.setItem("sideBarOpen", "false");
-                                    retrieveSideBarStatus(false);
-                                }}
-                            />
+                    <div
+                        className={`${styles.header} ${!sideBarOpen && styles.headerClosed} ${
+                            mobileSideBar && styles.headerMenu
+                        }`}
+                    >
+                        <div className={styles.profileSection}>
+                            <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
+                            {sideBarOpen && <span>{user ? user.name : ""}</span>}
+                        </div>
+
+                        {!mobileSideBar ? (
+                            sideBarOpen ? (
+                                <GoSidebarExpand
+                                    className={styles.wrapIcon}
+                                    onClick={() => {
+                                        setSideBarOpen(false);
+                                        localStorage.setItem("sideBarOpen", "false");
+                                        retrieveSideBarStatus(false);
+                                    }}
+                                />
+                            ) : (
+                                <GoSidebarCollapse
+                                    className={`${styles.wrapIcon} ${styles.wrapIconClosed}`}
+                                    onClick={() => {
+                                        setSideBarOpen(true);
+                                        localStorage.setItem("sideBarOpen", "true");
+                                        retrieveSideBarStatus(true);
+                                    }}
+                                />
+                            )
                         ) : (
-                            <GoSidebarCollapse
-                                className={`${styles.wrapIcon} ${!sideBarOpen && styles.wrapIconClosed}`}
-                                onClick={() => {
-                                    setSideBarOpen(!sideBarOpen);
-                                    localStorage.setItem("sideBarOpen", "true");
-                                    retrieveSideBarStatus(true);
-                                }}
-                            />
+                            <IconButton onClick={handleShowMenu} className={styles.menuButton}>
+                                <MenuIcon />
+                            </IconButton>
                         )}
                     </div>
                     <div className={styles.body}>
-                        <List sx={{ display: sideBarOpen ? "block" : "none" }} className={styles.homeContainer}>
+                        <List
+                            className={`${styles.homeContainer} ${!sideBarOpen && styles.homeContainerHidden} ${
+                                showMenu && styles.homeContainerMenu
+                            }`}
+                        >
                             <ListItemButton>
                                 <ListItemIcon>
                                     <HomeIcon className={styles.homeIcon} />
@@ -235,9 +258,6 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                         >
                             {sideBarOpen ? "Logout" : ""}
                         </Button>
-                        <IconButton onClick={() => handleShowMenu()} className={styles.menuButton}>
-                            <MenuIcon />
-                        </IconButton>
                     </div>
                 </div>
             </div>
