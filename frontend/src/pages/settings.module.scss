@@ -1,0 +1,64 @@
+@use "../styles/colors" as colors;
+
+.root {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-image: radial-gradient(at 50% 50%, rgba(0, 41, 82, 0.5), rgb(9, 11, 17));
+    display: flex;
+    flex-direction: row-reverse;
+    @media (max-width: 575px) {
+        align-items: flex-end;
+    }
+    .mainContainer {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 260px);
+        height: 100%;
+        overflow-y: auto;
+        background-color: rgb(51 51 52 / 42%);
+        transition: width 0.3s ease-in-out;
+        @media (max-width: 575px) {
+            width: 100%;
+            height: calc(100% - 80px);
+        }
+        &.extendedMainContainer {
+            width: calc(100% - 80px);
+            transition: width 0.3s ease-in-out;
+            @media (max-width: 575px) {
+                width: 100%;
+                height: calc(100% - 80px);
+            }
+        }
+        &.isMenuOpen {
+            display: none;
+        }
+
+        .titleContainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px 16px 15px;
+            border-bottom: 2px solid rgb(104 105 105);
+            .title {
+                font-size: 1.475rem;
+                color: rgb(187, 186, 185);
+            }
+            .logoutButton {
+                color: rgb(205, 11, 11);
+                border-color: rgb(205, 11, 11);
+                &:hover {
+                    background-color: rgba(205, 11, 11, 0.29);
+                    color: rgb(187, 186, 185);
+                }
+            }
+        }
+        .titleContainerResponsive {
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    }
+}

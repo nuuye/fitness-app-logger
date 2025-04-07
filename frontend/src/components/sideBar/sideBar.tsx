@@ -19,14 +19,13 @@ import { User } from "../../types/user";
 import { BiLogOut } from "react-icons/bi";
 import Category from "../category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
-import Divider from "@mui/material/Divider";
 
 interface sideBarProps {
     retrieveSubCategory: (subCategoryId: string) => void;
     retrieveSideBarStatus: (open: boolean) => void;
     retrieveShowMenuStatus: (open: boolean) => void;
     onClickDelete: (categoryId: string, label: string) => void;
-    onChangeSubCategoryLabel: (label: string) => void;
+    onChangeSubCategoryLabel?: (label: string) => void;
 }
 
 export interface SideBarRef {
@@ -247,6 +246,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                             className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
                             variant="outlined"
                             startIcon={<SettingsOutlinedIcon />}
+                            onClick={() => router.push("/settings")}
                         >
                             {sideBarOpen ? "Settings" : ""}
                         </Button>
