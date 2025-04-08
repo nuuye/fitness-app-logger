@@ -13,6 +13,7 @@
     .mainContainer {
         display: flex;
         flex-direction: column;
+        gap: 50px;
         width: calc(100% - 260px);
         height: 100%;
         overflow-y: auto;
@@ -53,11 +54,10 @@
                 }
             }
         }
-        .titleContainerResponsive {
-            @media (max-width: 768px) {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+        .contentContainer {
+            .avatarContainer {
+                display: flex;
+                justify-content: center;
             }
         }
     }

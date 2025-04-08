@@ -8,17 +8,17 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { deleteCategoryRequest } from "../../services/category";
 import { categoryType } from "../../types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { Button, IconButton, Menu } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
-import { getUserRequest, logoutRequest } from "../../services/user";
+import { logoutRequest } from "../../services/user";
 import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
-import { User } from "../../types/user";
 import { BiLogOut } from "react-icons/bi";
 import Category from "../category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
+import { useUser } from "../../context/userContext";
 
 interface sideBarProps {
     retrieveSubCategory: (subCategoryId: string) => void;
@@ -38,7 +38,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         ref
     ) => {
         const router = useRouter();
-        const [user, setUser] = useState<User>(null);
+        const { user, userInitials } = useUser();
         const [sideBarOpen, setSideBarOpen] = useState<boolean>(localStorage.getItem("sideBarOpen") === "true");
         const [showMenu, setShowMenu] = useState<boolean>(false);
         const [mobileSideBar, setMobileSideBar] = useState<boolean>(false);
@@ -57,23 +57,17 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             };
 
             const fetchUserAndCategories = async () => {
-                const storageUserId = localStorage.getItem("userId");
-                if (storageUserId) {
-                    const user = await retrieveCurrentUser(storageUserId);
-                    if (user) {
-                        setUser(user);
-                        console.log("user found", user);
-                        retrieveCategories(user.userId);
-                    } else {
-                        redirectLogin();
-                    }
+                if (user === undefined) return;
+                if (user) {
+                    console.log("user found", user);
+                    retrieveCategories(user.userId);
                 } else {
                     redirectLogin();
                 }
             };
 
             fetchUserAndCategories();
-        }, [router]);
+        }, [router, user]);
 
         //closing sideBar at 575 (goes at top)
         useEffect(() => {
@@ -98,12 +92,6 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                 window.removeEventListener("resize", handleResize);
             };
         }, [retrieveShowMenuStatus, retrieveSideBarStatus]);
-
-        //async function to retrieve the logged user
-        const retrieveCurrentUser = async (userId: string): Promise<User> => {
-            const user = await getUserRequest(userId);
-            return user ? user : null;
-        };
 
         //async function to retrieve categories related to the current user
         const retrieveCategories = async (userId: string) => {
@@ -145,19 +133,6 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             retrieveShowMenuStatus(showMenu);
         };
 
-        //function retrieving initals of a provided name (full name or only firstName)
-        const getUserNameInitials = (name: string): string => {
-            let splittedName: string[] = name.trim().split(" ");
-            return splittedName.length > 1
-                ? splittedName[0].charAt(0) + splittedName[1].charAt(0)
-                : splittedName[0].charAt(0);
-        };
-
-        //memoizing user initials to avoid re calculation at every render
-        const userInitials = useMemo(() => {
-            return user && user.name ? getUserNameInitials(user.name).toUpperCase() : "...";
-        }, [user]);
-
         return (
             <div
                 className={`${styles.rootSideBarOpen} ${!sideBarOpen && styles.rootSideBarClosed} ${
@@ -170,7 +145,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                             mobileSideBar && styles.headerMenu
                         }`}
                     >
-                        <div className={styles.profileSection}>
+                        <div className={styles.profileSection} onClick={() => router.push("/settings")}>
                             <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
                             {sideBarOpen && <span>{user ? user.name : ""}</span>}
                         </div>

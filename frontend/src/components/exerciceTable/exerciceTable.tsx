@@ -46,7 +46,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
     }));
 
     useEffect(() => {
-        console.log(subCategoryId);
         const storageUserId = localStorage.getItem("userId");
         if (storageUserId && subCategoryId) {
             retrieveExercices(storageUserId, subCategoryId);

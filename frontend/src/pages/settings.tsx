@@ -8,10 +8,14 @@ import { useRouter } from "next/router";
 import { Button } from "@mui/material";
 import { BiLogOut } from "react-icons/bi";
 import { logoutRequest } from "../services/user";
+import { useUser } from "../context/userContext";
+import Avatar from "@mui/material/Avatar";
 
 export default function Settings() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
+
+    const { user, userInitials } = useUser();
 
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
@@ -83,13 +87,19 @@ export default function Settings() {
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
                         <span className={styles.title}>Settings</span>
                         <Button
-                            className={`${styles.logoutButton}`}
+                            className={styles.logoutButton}
                             variant="outlined"
                             startIcon={<BiLogOut />}
                             onClick={() => handleLogout()}
                         >
                             Logout
                         </Button>
+                    </div>
+                    <div className={styles.contentContainer}>
+                        <div className={styles.avatarContainer}>
+                            <Avatar sx={{ width: 150, height: 150, fontSize: '4rem' }}>{userInitials}</Avatar>
+                        </div>
+                        <div className={styles.dataContainer}></div>
                     </div>
                 </div>
             </div>

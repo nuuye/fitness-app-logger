@@ -97,7 +97,6 @@ export const verifyTokenRequest = async (): Promise<boolean> => {
         if (!response.ok) return false;
 
         const data = await response.json();
-        console.log("Verify token response data:", data);
         return data.login;
     } catch (error) {
         console.error("Error verifying token:", error);
