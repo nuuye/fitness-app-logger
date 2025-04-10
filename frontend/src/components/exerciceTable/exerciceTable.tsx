@@ -208,7 +208,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                                 style: { width: `${String(set.reps).length + 2}ch` },
                                                             }}
                                                             onChange={(e) => {
-                                                                console.log(e.target.value);
                                                                 handleChangeSetReps(row._id, index, e.target.value);
                                                             }}
                                                         />

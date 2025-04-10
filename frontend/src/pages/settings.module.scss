@@ -58,6 +58,53 @@
             .avatarContainer {
                 display: flex;
                 justify-content: center;
+                .badge {
+                    color: white;
+                    svg {
+                        cursor: pointer;
+                        width: 38px;
+                        height: 38px;
+                    }
+                }
+            }
+            .dataContainer {
+                padding: 25px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                .nameContainer,
+                .emailContainer {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    span {
+                        color: rgb(187, 186, 185);
+                    }
+                    Input {
+                        background-color: rgb(70 78 83);
+                        border-radius: 3px;
+                        padding-left: 3px;
+                        font-size: 15px;
+                        color: rgb(187, 186, 185);
+                    }
+                }
+            }
+            .buttonContainer {
+                padding: 25px;
+                display: flex;
+                justify-content: flex-end;
+                gap: 15px;
+                Button {
+                    &:first-child {
+                        border-color: hsl(210, 58%, 32%);
+                    }
+                    &:last-child {
+                        background-color: hsl(210, 58%, 32%);
+                        &:hover {
+                            background-color: hsl(210, 57%, 39%);
+                        }
+                    }
+                }
             }
         }
     }

@@ -5,11 +5,13 @@ import SideBar, { SideBarRef } from "../components/sideBar/sideBar";
 import { useEffect, useRef, useState } from "react";
 import { getSubCategoryRequest } from "../services/subCategory";
 import { useRouter } from "next/router";
-import { Button } from "@mui/material";
+import { Badge, Button } from "@mui/material";
 import { BiLogOut } from "react-icons/bi";
 import { logoutRequest } from "../services/user";
 import { useUser } from "../context/userContext";
 import Avatar from "@mui/material/Avatar";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import Input from "@mui/material/Input";
 
 export default function Settings() {
     const router = useRouter();
@@ -23,12 +25,34 @@ export default function Settings() {
     const [showConfirmationWindow, setShowConfirmationWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [canSave, setCanSave] = useState<boolean>(false);
+
+    //retrieving user whenever its available
+    useEffect(() => {
+        if (user) {
+            setName(user.name ?? "");
+            setEmail(user.email ?? "");
+        }
+    }, [user]);
+
+    //retrieving sideBar status at reload
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
     }, []);
 
+    //useEffect to monitor changes and make save button available or not
+    useEffect(() => {
+        if (!user) return;
+
+        const isNameChanged = name !== user.name;
+        const isEmailChanged = email !== user.email;
+
+        setCanSave(isNameChanged || isEmailChanged);
+    }, [name, email, user]);
+
     const triggerDeleteCategory = (id: string) => {
-        console.log("triggered");
         sideBarRef.current?.handleCategoryDelete(id);
     };
 
@@ -47,11 +71,22 @@ export default function Settings() {
     };
 
     const handleLogout = async (): Promise<void> => {
-        const success = await logoutRequest();
-        if (success) {
-            localStorage.removeItem("userId");
-            localStorage.removeItem("token");
-            router.push("/");
+        try {
+            const success = await logoutRequest();
+            if (success) {
+                localStorage.removeItem("userId");
+                localStorage.removeItem("token");
+                router.push("/");
+            }
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    };
+
+    const handleCancelEdit = () => {
+        if (user) {
+            setName(user.name);
+            setEmail(user.email);
         }
     };
 
@@ -97,9 +132,33 @@ export default function Settings() {
                     </div>
                     <div className={styles.contentContainer}>
                         <div className={styles.avatarContainer}>
-                            <Avatar sx={{ width: 150, height: 150, fontSize: '4rem' }}>{userInitials}</Avatar>
+                            <Badge
+                                className={styles.badge}
+                                overlap="circular"
+                                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                                badgeContent={<AddAPhotoIcon />}
+                            >
+                                <Avatar sx={{ width: 150, height: 150, fontSize: "4rem" }}>{userInitials}</Avatar>
+                            </Badge>
                         </div>
-                        <div className={styles.dataContainer}></div>
+                        <div className={styles.dataContainer}>
+                            <div className={styles.nameContainer}>
+                                <span>Name:</span>
+                                <Input value={name} type="text" onChange={(e) => setName(e.target.value)} />
+                            </div>
+                            <div className={styles.emailContainer}>
+                                <span>Email:</span>
+                                <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className={styles.buttonContainer}>
+                            <Button variant="outlined" onClick={handleCancelEdit}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained" disabled={!canSave}>
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
