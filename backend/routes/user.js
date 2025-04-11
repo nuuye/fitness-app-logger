@@ -10,7 +10,7 @@ router.get("/getUser/:id", auth, userCtrl.getUser);
 router.delete("/deleteUser/:id", auth, userCtrl.deleteUser);
 router.put("/editUser/:id", auth, userCtrl.editUser);
 router.post("/checkUser", userCtrl.emailCheck);
-router.get("/verifyToken", userCtrl.verifyToken); // work with auth middleware to simplify
+router.get("/verifyToken", userCtrl.verifyToken);
 router.post("/logout", userCtrl.logout);
 
 module.exports = router;

@@ -24,7 +24,7 @@ export const retrieveCategoriesRequest = async (userId: string): Promise<categor
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return null;
         }
         const response = await fetch(`${API_CATEGORY_URL}/getAll/${userId}`, {
             method: "GET",
@@ -46,7 +46,7 @@ export const deleteCategoryRequest = async (id: string): Promise<boolean> => {
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return false;
         }
         const response = await fetch(`${API_CATEGORY_URL}/delete/${id}`, {
             method: "DELETE",
@@ -70,7 +70,7 @@ export const editCategoryRequest = async (id: string, label: string): Promise<bo
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return false;
         }
         const response = await fetch(`${API_CATEGORY_URL}/edit/${id}`, {
             method: "PUT",

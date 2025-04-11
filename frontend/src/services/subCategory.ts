@@ -29,7 +29,7 @@ export const getSubCategoryRequest = async (categoryId: string): Promise<subCate
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return null;
         }
         const response = await fetch(`${API_SUBCATEGORY_URL}/get/${categoryId}`, {
             method: "GET",
@@ -55,7 +55,7 @@ export const deleteSubCategoryRequest = async (id: string): Promise<boolean> => 
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return false;
         }
         const response = await fetch(`${API_SUBCATEGORY_URL}/delete/${id}`, {
             method: "DELETE",
@@ -79,7 +79,7 @@ export const retrieveSubCategoriesRequest = async (categoryId: string): Promise<
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return null;
         }
         const response = await fetch(`${API_SUBCATEGORY_URL}/getAll/${categoryId}`, {
             method: "GET",
@@ -100,7 +100,7 @@ export const editSubCategoryRequest = async (id: string, label: string): Promise
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return false;
         }
         const response = await fetch(`${API_SUBCATEGORY_URL}/edit/${id}`, {
             method: "PUT",

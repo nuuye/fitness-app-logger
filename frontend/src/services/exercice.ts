@@ -41,7 +41,7 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return null;
         }
 
         const response = await fetch(`${API_EXERCICE_URL}/getAll/${userId}/${subCategoryId}`, {
@@ -61,12 +61,12 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
     }
 };
 
-export const deleteExerciceRequest = async (exerciceId: string) => {
+export const deleteExerciceRequest = async (exerciceId: string): Promise<boolean> => {
     try {
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return false;
         }
         const response = await fetch(`${API_EXERCICE_URL}/delete/${exerciceId}`, {
             method: "DELETE",

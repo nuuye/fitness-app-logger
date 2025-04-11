@@ -12,12 +12,13 @@ import { useUser } from "../context/userContext";
 import Avatar from "@mui/material/Avatar";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Input from "@mui/material/Input";
+import { editUserRequest } from "../services/user";
 
 export default function Settings() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
 
-    const { user, userInitials } = useUser();
+    const { user, userInitials, setUser } = useUser();
 
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
@@ -90,6 +91,18 @@ export default function Settings() {
         }
     };
 
+    const handleSaveForm = async () => {
+        try {
+            const success = await editUserRequest(user.userId, name, email);
+            if (success) {
+                setUser((prevUser) => (prevUser ? { ...prevUser, name, email } : prevUser));
+                setCanSave(false);
+            }
+        } catch (error) {
+            console.error("Unexpected error while saving form:", error);
+        }
+    };
+
     return (
         <AuthWrapper>
             <div className={styles.root}>
@@ -155,7 +168,7 @@ export default function Settings() {
                             <Button variant="outlined" onClick={handleCancelEdit}>
                                 Cancel
                             </Button>
-                            <Button variant="contained" disabled={!canSave}>
+                            <Button variant="contained" disabled={!canSave} onClick={handleSaveForm}>
                                 Save
                             </Button>
                         </div>

@@ -21,7 +21,6 @@ export const signupRequest = async (data: SignupFormValues): Promise<AuthRespons
 };
 
 export const loginRequest = async (credentials: UserCredentials): Promise<AuthResponse> => {
-    console.log("process.env.API_USER_URL: ", API_USER_URL);
     try {
         const response = await fetch(`${API_USER_URL}/login`, {
             method: "POST",
@@ -56,12 +55,40 @@ export const emailCheckRequest = async (email: string): Promise<boolean> => {
     }
 };
 
+export const editUserRequest = async (
+    userId: string,
+    name?: string,
+    email?: string
+): Promise<{ success: boolean; user?: User }> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return { success: false };
+        }
+
+        const response = await fetch(`${API_USER_URL}/editUser/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ email, name }),
+        });
+        if (response.status !== 200) {
+            return { success: false };
+        }
+        const data = await response.json();
+        return { success: true, user: data.user };
+    } catch (error) {
+        console.error("Error editing user:", error);
+        return { success: false };
+    }
+};
+
 export const getUserRequest = async (userId: string): Promise<User> => {
     try {
         const token = localStorage.getItem("token");
         if (!token) {
             console.error("Token not found in localStorage");
-            return;
+            return null;
         }
         const response = await fetch(`${API_USER_URL}/getUser/${userId}`, {
             method: "GET",
@@ -80,10 +107,7 @@ export const getUserRequest = async (userId: string): Promise<User> => {
     }
 };
 
-// services/user.ts
 export const verifyTokenRequest = async (): Promise<boolean> => {
-    console.log("verifyTokenRequest process.env.API_USER_URL: ", API_USER_URL);
-
     try {
         const response = await fetch(`${API_USER_URL}/verifyToken`, {
             method: "GET",
@@ -93,7 +117,6 @@ export const verifyTokenRequest = async (): Promise<boolean> => {
             credentials: "include",
         });
 
-        console.log("Verify token response status:", response.status);
         if (!response.ok) return false;
 
         const data = await response.json();

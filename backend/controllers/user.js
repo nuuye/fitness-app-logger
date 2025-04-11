@@ -77,6 +77,7 @@ exports.logout = (req, res, next) => {
     });
     res.status(200).json({ message: "Logged out successfully" });
 };
+
 exports.getUser = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
@@ -103,18 +104,20 @@ exports.deleteUser = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-exports.editUser = (req, res, next) => {
-    User.findOne({ _id: req.params.id })
-        .then((user) => {
-            if (user && user._id === req.auth.userId) {
-                user.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-                    .then(() => res.status(200).json({ message: "User modified!" }))
-                    .catch((error) => res.status(401).json({ error }));
-            } else {
-                res.status(401).json({ message: "Not authorized" });
-            }
-        })
-        .catch((error) => res.status(400).json({ error }));
+exports.editUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user || user._id.toString() !== req.auth.userId) {
+            return res.status(401).json({ message: "Not authorized" });
+        }
+
+        const { name, email } = req.body;
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
+
+        res.status(200).json({ message: "User modified!", user: updatedUser });
+    } catch (error) {
+        res.status(400).json({ error });
+    }
 };
 
 exports.emailCheck = (req, res, next) => {

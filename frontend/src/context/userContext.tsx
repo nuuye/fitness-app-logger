@@ -2,7 +2,11 @@ import React, { createContext, useContext, useMemo, useState, useEffect } from "
 import { User } from "../types/user";
 import { getUserRequest } from "../services/user";
 
-type UserContextType = { user: User | undefined; userInitials: string };
+type UserContextType = {
+    user: User | undefined;
+    userInitials: string;
+    setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+};
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -37,7 +41,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         return user?.name ? getUserNameInitials(user.name).toUpperCase() : "...";
     }, [user]);
 
-    return <UserContext.Provider value={{ user, userInitials }}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, userInitials, setUser }}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {
