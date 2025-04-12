@@ -5,7 +5,7 @@ import ExerciceTable, { ExerciceTableRef } from "../components/exerciceTable/exe
 import { getSubCategoryRequest } from "../services/subCategory";
 import { Button } from "@mui/material";
 import AuthWrapper from "../components/authWrapper/authWrapper";
-import ConfirmWindow from "../components/confirmationWindow/confirmWindow";
+import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCategoryWindow";
 
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
@@ -16,7 +16,7 @@ export default function Dashboard() {
 
     const [selectedSubCategoryLabel, setSelectedSubCategoryLabel] = useState<string>();
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
-    const [showConfirmationWindow, setShowConfirmationWindow] = useState<boolean>(false);
+    const [showDeleteCategoryWindow, setShowDeleteCategoryWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
     useEffect(() => {
@@ -53,14 +53,14 @@ export default function Dashboard() {
     };
 
     const handleCancelWindow = () => {
-        setShowConfirmationWindow(!showConfirmationWindow);
+        setShowDeleteCategoryWindow(!showDeleteCategoryWindow);
     };
 
     return (
         <AuthWrapper>
             <div className={styles.root}>
-                {showConfirmationWindow && (
-                    <ConfirmWindow
+                {showDeleteCategoryWindow && (
+                    <DeleteCategoryWindow
                         isCategory
                         label={tempCategory.label}
                         onCancel={handleCancelWindow}

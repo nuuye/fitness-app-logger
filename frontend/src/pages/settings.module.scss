@@ -88,9 +88,13 @@
                         color: rgb(187, 186, 185);
                     }
                 }
+                .passwordButton {
+                    margin-top: 5px;
+                    color: rgb(208, 207, 206);
+                }
             }
             .buttonContainer {
-                padding: 25px;
+                padding: 20px 25px;
                 display: flex;
                 justify-content: flex-end;
                 gap: 15px;

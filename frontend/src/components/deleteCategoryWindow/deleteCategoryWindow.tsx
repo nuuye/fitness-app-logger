@@ -1,23 +1,23 @@
 import { Button, Card } from "@mui/material";
 import React, { useState } from "react";
-import styles from "./confirmWindow.module.scss";
+import styles from "./deleteCategoryWindow.module.scss";
 
-interface ConfirmWindowProps {
+interface deleteCategoryWindowProps {
     isCategory: boolean;
     label: string;
     onCancel: () => void;
     onConfirm: () => void;
 }
 
-export default function ConfirmWindow({ isCategory, label, onCancel, onConfirm }: ConfirmWindowProps) {
+export default function DeleteCategoryWindow({ isCategory, label, onCancel, onConfirm }: deleteCategoryWindowProps) {
     const [isExiting, setIsExiting] = useState(false);
 
-    // Fonction simple pour gérer l'animation de sortie
+    // Function to handle exit animation
     const handleClose = (callback: () => void) => {
         setIsExiting(true);
         setTimeout(() => {
             callback();
-        }, 250); // Correspondant à la durée de l'animation
+        }, 250); // Animation duration
     };
 
     return (

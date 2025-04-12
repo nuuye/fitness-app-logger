@@ -1,6 +1,6 @@
 import styles from "./settings.module.scss";
 import AuthWrapper from "../components/authWrapper/authWrapper";
-import ConfirmWindow from "../components/confirmationWindow/confirmWindow";
+import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCategoryWindow";
 import SideBar, { SideBarRef } from "../components/sideBar/sideBar";
 import { useEffect, useRef, useState } from "react";
 import { getSubCategoryRequest } from "../services/subCategory";
@@ -13,6 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Input from "@mui/material/Input";
 import { editUserRequest } from "../services/user";
+import ChangePasswordWindow from "../components/changePasswordWindow/changePasswordWindow";
 
 export default function Settings() {
     const router = useRouter();
@@ -23,7 +24,8 @@ export default function Settings() {
     const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
 
-    const [showConfirmationWindow, setShowConfirmationWindow] = useState<boolean>(false);
+    const [showChangePasswordWindow, setShowChangePasswordWindow] = useState<boolean>(false);
+    const [showDeleteCategoryWindow, setShowDeleteCategoryWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
     const [name, setName] = useState<string>("");
@@ -68,7 +70,7 @@ export default function Settings() {
     };
 
     const handleCancelWindow = () => {
-        setShowConfirmationWindow(!showConfirmationWindow);
+        setShowDeleteCategoryWindow(!showDeleteCategoryWindow);
     };
 
     const handleLogout = async (): Promise<void> => {
@@ -106,8 +108,8 @@ export default function Settings() {
     return (
         <AuthWrapper>
             <div className={styles.root}>
-                {showConfirmationWindow && (
-                    <ConfirmWindow
+                {showDeleteCategoryWindow && (
+                    <DeleteCategoryWindow
                         isCategory
                         label={tempCategory.label}
                         onCancel={handleCancelWindow}
@@ -117,6 +119,7 @@ export default function Settings() {
                         }}
                     />
                 )}
+                <ChangePasswordWindow />
                 <SideBar
                     retrieveSubCategory={handleSubCategory}
                     retrieveSideBarStatus={setSideBarOpen}
@@ -163,6 +166,9 @@ export default function Settings() {
                                 <span>Email:</span>
                                 <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
                             </div>
+                            <Button className={styles.passwordButton} variant="outlined">
+                                Change my password
+                            </Button>
                         </div>
                         <div className={styles.buttonContainer}>
                             <Button variant="outlined" onClick={handleCancelEdit}>

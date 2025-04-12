@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import styles from "./sideBar.module.scss";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
