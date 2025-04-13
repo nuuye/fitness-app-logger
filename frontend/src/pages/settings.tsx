@@ -119,7 +119,9 @@ export default function Settings() {
                         }}
                     />
                 )}
-                <ChangePasswordWindow />
+                {showChangePasswordWindow && (
+                    <ChangePasswordWindow onCancel={() => setShowChangePasswordWindow(!showChangePasswordWindow)} />
+                )}
                 <SideBar
                     retrieveSubCategory={handleSubCategory}
                     retrieveSideBarStatus={setSideBarOpen}
@@ -166,7 +168,11 @@ export default function Settings() {
                                 <span>Email:</span>
                                 <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
                             </div>
-                            <Button className={styles.passwordButton} variant="outlined">
+                            <Button
+                                className={styles.passwordButton}
+                                variant="outlined"
+                                onClick={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
+                            >
                                 Change my password
                             </Button>
                         </div>
