@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./changePassword.module.scss";
 import { Button, Card, Input } from "@mui/material";
 import { useUser } from "../../context/userContext";
+import { changePasswordRequest } from "../../services/user";
 
 interface changePasswordWindowProps {
     onCancel?: () => void;
@@ -17,6 +18,7 @@ export default function ChangePasswordWindow({ onCancel, onConfirm }: changePass
     const [canSave, setCanSave] = useState<boolean>(false);
     const [displayPasswordMatch, setDisplayPasswordMatch] = useState<boolean>(false);
     const [displayPasswordLengthWarning, setDisplayPasswordLengthWarning] = useState<boolean>(false);
+    const [displayWrongCurrentPassword, setDisplayWrongCurrentPassword] = useState<boolean>(false);
 
     const handleClose = (callback: () => void, resetFields?: boolean) => {
         if (resetFields) {
@@ -28,6 +30,15 @@ export default function ChangePasswordWindow({ onCancel, onConfirm }: changePass
         setTimeout(() => {
             callback();
         }, 250);
+    };
+
+    const changePasswordHandler = async () : Promise<void> => {
+        const success = await changePasswordRequest(user.userId, currentPassword, newPassword);
+        if (success) {
+            handleClose(onConfirm, true);
+        } else {
+            setDisplayWrongCurrentPassword(!success);
+        }
     };
 
     useEffect(() => {
@@ -51,6 +62,11 @@ export default function ChangePasswordWindow({ onCancel, onConfirm }: changePass
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                         />
+                        {displayWrongCurrentPassword && (
+                            <span className={`${styles.currentPasswordWarning} ${styles.show}`}>
+                                Your current password is incorrect.
+                            </span>
+                        )}
                         <span>New password:</span>
                         <Input
                             autoComplete="new-password"
@@ -81,12 +97,7 @@ export default function ChangePasswordWindow({ onCancel, onConfirm }: changePass
                     <Button variant="outlined" onClick={() => handleClose(onCancel, true)}>
                         Cancel
                     </Button>
-                    <Button
-                        disabled={!canSave}
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleClose(onConfirm)}
-                    >
+                    <Button disabled={!canSave} variant="contained" color="error" onClick={changePasswordHandler}>
                         Change password
                     </Button>
                 </div>

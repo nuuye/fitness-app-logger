@@ -120,7 +120,10 @@ export default function Settings() {
                     />
                 )}
                 {showChangePasswordWindow && (
-                    <ChangePasswordWindow onCancel={() => setShowChangePasswordWindow(!showChangePasswordWindow)} />
+                    <ChangePasswordWindow
+                        onConfirm={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
+                        onCancel={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
+                    />
                 )}
                 <SideBar
                     retrieveSubCategory={handleSubCategory}

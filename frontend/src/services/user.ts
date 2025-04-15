@@ -83,6 +83,32 @@ export const editUserRequest = async (
     }
 };
 
+export const changePasswordRequest = async (
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+): Promise<boolean> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return false;
+        }
+        const response = await fetch(`${API_USER_URL}/changePassword/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ currentPassword, newPassword }),
+        });
+        if (response.status !== 200) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.error("Error changing password:", error);
+        return false;
+    }
+};
+
 export const getUserRequest = async (userId: string): Promise<User> => {
     try {
         const token = localStorage.getItem("token");

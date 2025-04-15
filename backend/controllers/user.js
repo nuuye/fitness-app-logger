@@ -108,7 +108,7 @@ exports.editUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user || user._id.toString() !== req.auth.userId) {
-            return res.status(401).json({ message: "Not authorized" });
+            return res.status(403).json({ message: "Not authorized" });
         }
 
         const { name, email } = req.body;
@@ -117,6 +117,27 @@ exports.editUser = async (req, res, next) => {
         res.status(200).json({ message: "User modified!", user: updatedUser });
     } catch (error) {
         res.status(400).json({ error });
+    }
+};
+
+exports.changePassword = async (req, res, next) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const user = await User.findById(req.params.id);
+        if (!user || user._id.toString() !== req.auth.userId) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+        const samePassword = await bcrypt.compare(currentPassword, user.password);
+        if (samePassword) {
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            user.password = hashedPassword;
+            await user.save();
+            return res.status(200).json({ message: "Password modified!" });
+        } else {
+            return res.status(401).json({ message: "Wrong password" });
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
 

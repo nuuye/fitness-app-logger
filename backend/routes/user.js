@@ -12,5 +12,6 @@ router.put("/editUser/:id", auth, userCtrl.editUser);
 router.post("/checkUser", userCtrl.emailCheck);
 router.get("/verifyToken", userCtrl.verifyToken);
 router.post("/logout", userCtrl.logout);
+router.put("/changePassword/:id", auth, userCtrl.changePassword);
 
 module.exports = router;
