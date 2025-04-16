@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { signupRequest } from "../../services/user";
 import { useRouter } from "next/router";
+import { useUser } from "../../context/userContext";
 
 export default function SignUp() {
     const router = useRouter();
+    const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState("");
@@ -70,6 +72,7 @@ export default function SignUp() {
         const newUser = await signupRequest(formData);
 
         if (newUser) {
+            setUser({userId: newUser.userId, name: newUser.name, email: newUser.email})
             localStorage.setItem("userId", newUser.userId);
             localStorage.setItem("token", newUser.token);
             router.push("/dashboard");

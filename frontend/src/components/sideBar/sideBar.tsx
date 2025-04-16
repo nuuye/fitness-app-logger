@@ -53,6 +53,8 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             const redirectLogin = () => {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
+                localStorage.removeItem("subCategoryId");
+                localStorage.removeItem("subCategory");
                 router.push("/signin");
             };
 
@@ -124,6 +126,8 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             if (success) {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
+                localStorage.removeItem("subCategoryId");
+                localStorage.removeItem("subCategory");
                 router.push("/");
             }
         };

@@ -162,30 +162,32 @@ export default function Settings() {
                                 <Avatar sx={{ width: 150, height: 150, fontSize: "4rem" }}>{userInitials}</Avatar>
                             </Badge>
                         </div>
-                        <div className={styles.dataContainer}>
-                            <div className={styles.nameContainer}>
-                                <span>Name:</span>
-                                <Input value={name} type="text" onChange={(e) => setName(e.target.value)} />
+                        <div className={styles.formContainer}>
+                            <div className={styles.dataContainer}>
+                                <div className={styles.nameContainer}>
+                                    <span>Name:</span>
+                                    <Input value={name} type="text" onChange={(e) => setName(e.target.value)} />
+                                </div>
+                                <div className={styles.emailContainer}>
+                                    <span>Email:</span>
+                                    <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                <Button
+                                    className={styles.passwordButton}
+                                    variant="outlined"
+                                    onClick={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
+                                >
+                                    Change my password
+                                </Button>
                             </div>
-                            <div className={styles.emailContainer}>
-                                <span>Email:</span>
-                                <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
+                            <div className={styles.buttonContainer}>
+                                <Button variant="outlined" onClick={handleCancelEdit}>
+                                    Cancel
+                                </Button>
+                                <Button variant="contained" disabled={!canSave} onClick={handleSaveForm}>
+                                    Save
+                                </Button>
                             </div>
-                            <Button
-                                className={styles.passwordButton}
-                                variant="outlined"
-                                onClick={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
-                            >
-                                Change my password
-                            </Button>
-                        </div>
-                        <div className={styles.buttonContainer}>
-                            <Button variant="outlined" onClick={handleCancelEdit}>
-                                Cancel
-                            </Button>
-                            <Button variant="contained" disabled={!canSave} onClick={handleSaveForm}>
-                                Save
-                            </Button>
                         </div>
                     </div>
                 </div>

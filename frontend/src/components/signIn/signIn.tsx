@@ -5,9 +5,11 @@ import { useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
+import { useUser } from "../../context/userContext";
 
 export default function SignIn() {
     const router = useRouter();
+    const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>(localStorage.getItem("userEmail") || "");
     const [emailError, setEmailError] = useState<boolean>(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
@@ -48,6 +50,7 @@ export default function SignIn() {
         };
         const userData = await loginRequest(formData);
         if (userData) {
+            setUser({userId: userData.userId, name: userData.name, email: userData.email})
             localStorage.setItem("userId", userData.userId);
             localStorage.setItem("token", userData.token);
             router.push("/dashboard");

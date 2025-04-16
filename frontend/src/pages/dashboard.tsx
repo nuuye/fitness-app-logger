@@ -88,7 +88,7 @@ export default function Dashboard() {
                 >
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
                         <span className={styles.title}>
-                            {selectedSubCategoryLabel ? selectedSubCategoryLabel : "..."}
+                            {selectedSubCategoryLabel ? selectedSubCategoryLabel : "Select/Create a sub-cat"}
                         </span>
                         <Button className={styles.addButton} variant="contained" onClick={triggerCreateExercice}>
                             Add new exercice

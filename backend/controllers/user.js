@@ -18,13 +18,21 @@ exports.signup = (req, res, next) => {
             newUser
                 .save()
                 .then((user) => {
+                    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
+
+                    res.cookie("jwtToken", token, {
+                        httpOnly: true,
+                        secure: false,
+                        sameSite: "Lax",
+                        path: "/",
+                        maxAge: 24 * 60 * 60 * 1000,
+                    });
+
                     res.status(200).json({
                         userId: user._id,
-                        token: jwt.sign(
-                            { userId: user._id }, //on inclut l'user ID dans le payload
-                            process.env.JWT_SECRET_TOKEN, //string secrète pour déchiffrer le jwt
-                            { expiresIn: "24h" } //expiration date du token
-                        ),
+                        name: user.name,
+                        email: user.email,
+                        token: token,
                     });
                 })
                 .catch((err) => res.status(400).json({ err }));
@@ -44,7 +52,7 @@ exports.login = (req, res, next) => {
 
                         res.cookie("jwtToken", token, {
                             httpOnly: true,
-                            secure: true,
+                            secure: false,
                             sameSite: "Lax",
                             path: "/",
                             maxAge: 24 * 60 * 60 * 1000,
@@ -53,6 +61,8 @@ exports.login = (req, res, next) => {
                         // Return a success message
                         res.status(200).json({
                             userId: user._id,
+                            name: user.name,
+                            email: user.email,
                             token: token,
                         });
                     } else {
