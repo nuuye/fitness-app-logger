@@ -62,5 +62,15 @@
                 gap: 10px;
             }
         }
+        .dateSection {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            .date {
+                font-size: 1.475rem;
+                color: rgb(187, 186, 185);
+            }
+        }
     }
 }

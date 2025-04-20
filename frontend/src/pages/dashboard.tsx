@@ -3,9 +3,13 @@ import SideBar, { SideBarRef } from "../components/sideBar/sideBar";
 import { useEffect, useRef, useState } from "react";
 import ExerciceTable, { ExerciceTableRef } from "../components/exerciceTable/exerciceTable";
 import { getSubCategoryRequest } from "../services/subCategory";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import AuthWrapper from "../components/authWrapper/authWrapper";
 import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCategoryWindow";
+import dayjs, { Dayjs } from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
@@ -18,6 +22,8 @@ export default function Dashboard() {
     const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<string>();
     const [showDeleteCategoryWindow, setShowDeleteCategoryWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
+
+    const [value, setValue] = useState<Dayjs | null>(dayjs());
 
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
@@ -93,6 +99,39 @@ export default function Dashboard() {
                         <Button className={styles.addButton} variant="contained" onClick={triggerCreateExercice}>
                             Add new exercice
                         </Button>
+                    </div>
+                    <div className={styles.dateSection}>
+                        <span className={styles.date}>Today</span>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} className={styles.datePicker}>
+                            <DatePicker
+                                label="Date"
+                                value={value}
+                                onChange={(newValue) => setValue(newValue)}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        sx={{
+                                            input: { color: "rgb(187, 186, 185)" },
+                                            label: { color: "rgb(187, 186, 185)" },
+                                            ".MuiOutlinedInput-root": {
+                                                "& fieldset": {
+                                                    borderColor: "rgb(187, 186, 185)",
+                                                },
+                                                "&:hover fieldset": {
+                                                    borderColor: "gray",
+                                                },
+                                                "&.Mui-focused fieldset": {
+                                                    borderColor: "rgba(255, 255, 255, 0.7)",
+                                                },
+                                            },
+                                            ".MuiSvgIcon-root": {
+                                                color: "rgb(187, 186, 185)",
+                                            },
+                                        }}
+                                    />
+                                )}
+                            />
+                        </LocalizationProvider>
                     </div>
                     <ExerciceTable subCategoryId={selectedSubCategoryId} ref={tableRef} />
                 </div>
