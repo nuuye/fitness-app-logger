@@ -37,7 +37,6 @@ exports.editExercice = (req, res, next) => {
             if (exercice.userId !== req.auth.userId) {
                 return res.status(403).json({ message: "Not authorized" });
             }
-
             Exercice.updateOne({ _id: req.params.id }, { ...req.body, userId: req.auth.userId })
                 .then(() => res.status(200).json({ message: "Exercice modified!" }))
                 .catch((error) => res.status(400).json({ error }));

@@ -3,10 +3,16 @@ const uniqueValidator = require("mongoose-unique-validator");
 
 const exerciceSchema = mongoose.Schema({
     name: { type: String, required: true },
-    sets: [
+    performances: [
         {
-            kg: { type: Number, required: false },
-            reps: { type: Number, required: true },
+            date: { type: Date, required: true },
+            sets: [
+                {
+                    kg: { type: Number, required: false },
+                    reps: { type: Number, required: true },
+                },
+            ],
+            note: {type: String, required: false},
         },
     ],
     note: { type: String, required: false },

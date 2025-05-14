@@ -1,34 +1,56 @@
 const API_EXERCICE_URL = process.env.NEXT_PUBLIC_API_EXERCICE_URL;
 
-interface SetType {
-    reps: number;
-    kg: number;
+export interface SetType {
+    reps: number | string;
+    kg: number | string;
 }
-interface ExerciceType {
+
+export interface PerformanceType {
+    date: string; // Format ISO
+    sets: SetType[];
+    note?: string;
+}
+
+export interface ExerciceType {
     _id: string;
     name: string;
-    sets: SetType[];
+    performances: PerformanceType[];
     subCategoryId: string;
     userId: string;
-    note?: string;
 }
 
 export const createExerciceRequest = async (
     name: string,
-    sets: { kg: number; reps: number }[],
+    initialPerformance: PerformanceType,
     userId: string,
-    subCategory: string,
-    note?: string
+    subCategory: string
 ): Promise<ExerciceType> => {
     try {
+        // S'assurer que les valeurs numériques sont bien des nombres
+        const sanitizedPerformance = {
+            ...initialPerformance,
+            sets: initialPerformance.sets.map((set) => ({
+                kg: Number(set.kg) || 0,
+                reps: Number(set.reps) || 0,
+            })),
+        };
+
         const response = await fetch(`${API_EXERCICE_URL}/create`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, sets, userId, subCategory, ...(note && { note }) }),
+            body: JSON.stringify({
+                name,
+                performances: [sanitizedPerformance],
+                userId,
+                subCategory,
+            }),
         });
-        if (!response) {
+
+        if (!response.ok) {
+            console.error("Failed to create exercise:", await response.text());
             return null;
         }
+
         return response.json();
     } catch (error) {
         console.log("error creating exercice", error);
@@ -51,10 +73,12 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
                 Authorization: `Bearer ${token}`,
             },
         });
+
         if (!response.ok) {
             return null;
         }
         return response.json();
+        
     } catch (error) {
         console.log("error retrieving exercices", error);
         return null;
@@ -68,6 +92,7 @@ export const deleteExerciceRequest = async (exerciceId: string): Promise<boolean
             console.error("Token not found in localStorage");
             return false;
         }
+
         const response = await fetch(`${API_EXERCICE_URL}/delete/${exerciceId}`, {
             method: "DELETE",
             headers: {
@@ -75,9 +100,11 @@ export const deleteExerciceRequest = async (exerciceId: string): Promise<boolean
                 Authorization: `Bearer ${token}`,
             },
         });
+
         if (!response.ok) {
             return false;
         }
+
         return true;
     } catch (error) {
         console.log(error);
@@ -85,7 +112,7 @@ export const deleteExerciceRequest = async (exerciceId: string): Promise<boolean
     }
 };
 
-export const editExerciceRequest = async (exerciceId: string, label?: string, sets?: SetType[]): Promise<boolean> => {
+export const editExerciceRequest = async (exerciceId: string, label?: string, perfomances?: PerformanceType[]): Promise<boolean> => {
     try {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -95,7 +122,7 @@ export const editExerciceRequest = async (exerciceId: string, label?: string, se
 
         const body: Record<string, any> = {};
         if (label !== undefined) body.name = label;
-        if (sets !== undefined) body.sets = sets;
+        if (perfomances !== undefined) body.performances = perfomances;
 
         const response = await fetch(`${API_EXERCICE_URL}/edit/${exerciceId}`, {
             method: "PUT",

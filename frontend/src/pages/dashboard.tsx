@@ -24,6 +24,16 @@ export default function Dashboard() {
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
 
     const [value, setValue] = useState<Dayjs | null>(dayjs());
+    const [selectedDateISO, setSelectedDateISO] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        if (value) {
+            // Convertir la date Dayjs en chaîne ISO pour la passer au composant ExerciceTable
+            setSelectedDateISO(value.format("YYYY-MM-DD") + "T00:00:00.000Z");
+        } else {
+            setSelectedDateISO(undefined);
+        }
+    }, [value]);
 
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
@@ -60,6 +70,20 @@ export default function Dashboard() {
 
     const handleCancelWindow = () => {
         setShowDeleteCategoryWindow(!showDeleteCategoryWindow);
+    };
+
+    // Formater la date pour l'affichage
+    const getFormattedDisplayDate = () => {
+        if (!value) return "Today";
+
+        const today = dayjs();
+        const selected = value;
+
+        if (selected.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")) {
+            return "Today";
+        }
+
+        return selected.format("DD/MM/YYYY");
     };
 
     return (
@@ -101,7 +125,7 @@ export default function Dashboard() {
                         </Button>
                     </div>
                     <div className={styles.dateSection}>
-                        <span className={styles.date}>Today</span>
+                        <span className={styles.date}>{getFormattedDisplayDate()}</span>
                         <LocalizationProvider dateAdapter={AdapterDayjs} className={styles.datePicker}>
                             <DatePicker
                                 label="Date"
@@ -133,7 +157,11 @@ export default function Dashboard() {
                             />
                         </LocalizationProvider>
                     </div>
-                    <ExerciceTable subCategoryId={selectedSubCategoryId} ref={tableRef} />
+                    <ExerciceTable
+                        subCategoryId={selectedSubCategoryId}
+                        selectedDate={selectedDateISO}
+                        ref={tableRef}
+                    />
                 </div>
             </div>
         </AuthWrapper>
