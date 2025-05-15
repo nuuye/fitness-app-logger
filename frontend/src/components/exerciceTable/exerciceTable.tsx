@@ -175,7 +175,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                     const updatedPerformance = {
                         ...latestPerformance,
                         sets: updatedSets,
-                        date: selectedDate,
                     };
 
                     setNewPerformance(updatedPerformance);
@@ -206,7 +205,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                     const updatedPerformance = {
                         ...latestPerformance,
                         sets: updatedSets,
-                        date: selectedDate,
                     };
 
                     setNewPerformance(updatedPerformance);
@@ -222,9 +220,11 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         );
     };
 
+    // Triggered when user confirm changes
     const addPerformance = async (exerciceId: string) => {
         if (newPerformance) {
-            const updatedPerformances = [newPerformance, ...previousPerformances];
+            const updatedPerformance = { ...newPerformance, date: selectedDate };
+            const updatedPerformances = [updatedPerformance, ...previousPerformances];
             const success = await editExerciceRequest(exerciceId, undefined, updatedPerformances);
             if (success) {
                 console.log('success exercice is being updated');
@@ -237,6 +237,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                     )
                 );
                 setPreviousPerformances(undefined);
+                setNewPerformance(undefined);
             }
         }
     };
