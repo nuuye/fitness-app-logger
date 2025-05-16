@@ -227,8 +227,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
             const updatedPerformances = [updatedPerformance, ...previousPerformances];
             const success = await editExerciceRequest(exerciceId, undefined, updatedPerformances);
             if (success) {
-                console.log('success exercice is being updated');
-                console.log('perf list: ', updatedPerformances)
                 setExercices((exercice) =>
                     exercice.map((row) =>
                         row._id === exerciceId

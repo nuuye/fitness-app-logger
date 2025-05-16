@@ -111,7 +111,6 @@
         }
         .body {
             flex-grow: 1;
-            overflow-y: auto;
             @media (max-width: 575px) {
                 width: 100%;
             }
@@ -150,7 +149,8 @@
             &.wrappedFooter {
                 gap: 0px;
             }
-            .settingsButton {
+            .settingsButton,
+            .homeButton {
                 width: 100%;
                 color: rgb(187, 186, 185);
                 border-color: rgb(187, 186, 185);
@@ -162,7 +162,8 @@
                     display: none;
                 }
             }
-            .wrappedSettingsButton {
+            .wrappedSettingsButton,
+            .wrappedHomeButton {
                 border: unset;
                 height: 50px;
                 span {
@@ -172,6 +173,16 @@
                     display: none;
                 }
             }
+            .wrappedHomeButton {
+                transition: opacity 0.3s ease;
+                opacity: 1;
+            }
+
+            .wrappedHomeButtonHidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+
             .logoutButton {
                 width: 100%;
                 color: rgb(205, 11, 11);

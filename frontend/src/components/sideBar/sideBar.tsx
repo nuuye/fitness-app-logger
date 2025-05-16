@@ -192,6 +192,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                 </ListItemIcon>
                                 <ListItemText primary="Home page" />
                             </ListItemButton>
+
                             {categories &&
                                 categories.map((category) => (
                                     <Category
@@ -217,10 +218,26 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                 </ListItemIcon>
                                 <ListItemText primary="Add new category" />
                             </ListItemButton>
+                            {mobileSideBar && (
+                                <ListItemButton onClick={() => router.push("/settings")}>
+                                    <ListItemIcon>
+                                        <SettingsOutlinedIcon className={styles.homeIcon} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Settings" />
+                                </ListItemButton>
+                            )}
                         </List>
                     </div>
 
                     <div className={`${styles.footer} ${!sideBarOpen && styles.wrappedFooter}`}>
+                        <Button
+                            className={`${styles.homeButton} ${
+                                sideBarOpen ? styles.wrappedHomeButtonHidden : styles.wrappedHomeButton
+                            }`}
+                            variant="outlined"
+                            startIcon={<HomeIcon />}
+                            onClick={() => router.push("/home")}
+                        ></Button>
                         <Button
                             className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
                             variant="outlined"
