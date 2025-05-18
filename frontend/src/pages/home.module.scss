@@ -1,0 +1,31 @@
+.root {
+    display: flex;
+    flex-direction: row-reverse;
+    background-image: radial-gradient(at 50% 50%, rgba(0, 41, 82, 0.5), rgb(9, 11, 17));
+    height: 100%;
+    width: 100%;
+    .mainContainer {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 260px);
+        height: 100%;
+        overflow-y: auto;
+        background-color: rgb(51 51 52 / 42%);
+        transition: width 0.3s ease-in-out;
+        @media (max-width: 575px) {
+            width: 100%;
+            height: calc(100% - 80px);
+        }
+        &.extendedMainContainer {
+            width: calc(100% - 80px);
+            transition: width 0.3s ease-in-out;
+            @media (max-width: 575px) {
+                width: 100%;
+                height: calc(100% - 80px);
+            }
+        }
+        &.isMenuOpen {
+            display: none;
+        }
+    }
+}
