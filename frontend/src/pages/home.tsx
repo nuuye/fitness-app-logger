@@ -7,7 +7,7 @@ import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCateg
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { categoryType, subCategoryType } from "../types";
 import { useUser } from "../context/userContext";
-import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, ListSubheader, MenuItem, OutlinedInput, Select, Chip, Box } from "@mui/material";
 import { retrieveCategoriesRequest } from "../services/category";
 import { retrieveUserSubCategoriesRequest } from "../services/subCategory";
 import React from "react";
@@ -60,6 +60,7 @@ export default function Home() {
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
     const [data, setData] = useState<Map<categoryType, subCategoryType[]>>(new Map());
+    const [selectedSubCategories, setSelectedSubCategories] = React.useState([]);
 
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
@@ -77,7 +78,7 @@ export default function Home() {
         const subCategories = await retrieveUserSubCategoriesRequest(user.userId);
         console.log("categories: ", categories);
         console.log("subCategories: ", subCategories);
-        if (categories) {
+        if (categories && subCategories) {
             const newMap = new Map<categoryType, subCategoryType[]>();
             for (const category of categories) {
                 const filteredSubs = subCategories.filter((subCategory) => subCategory.category === category._id);
@@ -102,6 +103,28 @@ export default function Home() {
     };
 
     if (sideBarOpen === null) return null;
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setSelectedSubCategories(
+            // En cas d'autofill, on reçoit une chaîne stringifiée
+            typeof value === "string" ? value.split(",") : value
+        );
+        console.log("Selected subcategories:", typeof value === "string" ? value.split(",") : value);
+    };
+
+    // Fonction pour obtenir le nom d'une subcategory par son ID
+    const getSubCategoryName = (id) => {
+        for (const [category, subCategories] of data.entries()) {
+            const subCategory = subCategories.find((sub) => sub._id === id);
+            if (subCategory) {
+                return subCategory.name;
+            }
+        }
+        return id;
+    };
 
     return (
         <AuthWrapper>
@@ -135,16 +158,35 @@ export default function Home() {
                     <div className={`${styles.titleContainer} ${sideBarOpen && styles.titleContainerResponsive}`}>
                         <span className={styles.title}>Welcome back</span>
                     </div>
-                    <FormControl sx={{ m: 3, minWidth: 120 }}>
-                        <InputLabel htmlFor="grouped-select" sx={{ color: "grey.700" }}>
-                            Select an exercice to analyze
+                    <FormControl sx={{ m: 3, minWidth: 300 }}>
+                        <InputLabel id="multiple-grouped-select-label" sx={{ color: "grey.700" }}>
+                            Select exercises to analyze
                         </InputLabel>
                         <Select
-                            defaultValue=""
-                            id="grouped-select"
-                            label="Select an exercice to analyze"
+                            labelId="multiple-grouped-select-label"
+                            id="multiple-grouped-select"
+                            multiple
+                            value={selectedSubCategories}
+                            onChange={handleChange}
+                            input={<OutlinedInput label="Select exercises to analyze" />}
+                            renderValue={(selected) => (
+                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                                    {selected.map((value) => (
+                                        <Chip
+                                            key={value}
+                                            label={getSubCategoryName(value)}
+                                            size="small"
+                                            sx={{
+                                                bgcolor: "grey.200",
+                                                color: "grey.800",
+                                                fontSize: "0.75rem",
+                                            }}
+                                        />
+                                    ))}
+                                </Box>
+                            )}
                             sx={{
-                                color: "grey.800", // texte sélectionné
+                                color: "grey.800",
                                 ".MuiOutlinedInput-notchedOutline": {
                                     borderColor: "grey.500",
                                 },
@@ -167,21 +209,35 @@ export default function Home() {
                                 },
                             }}
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {Array.from(data.entries()).map(([category, subCategories]) => (
-                                <React.Fragment key={category._id}>
-                                    <ListSubheader sx={{ bgcolor: "hsl(210, 56%, 20%)", color: "hsl(220, 20%, 65%)" }}>
-                                        {category.name.toLocaleUpperCase()}
-                                    </ListSubheader>
-                                    {subCategories.map((subCategory) => (
-                                        <MenuItem key={subCategory._id} value={subCategory._id}>
+                            {[...data.entries()]
+                                .map(([category, subCategories]) => [
+                                    <ListSubheader
+                                        key={`header-${category._id}`}
+                                        sx={{ color: "hsl(219, 19.00%, 86.30%)" }}
+                                    >
+                                        {category.name}
+                                    </ListSubheader>,
+                                    ...subCategories.map((subCategory) => (
+                                        <MenuItem
+                                            key={subCategory._id}
+                                            value={subCategory._id}
+                                            sx={{
+                                                "&:hover": {
+                                                    bgcolor: "rgba(255, 255, 255, 0.1)",
+                                                },
+                                                "&.Mui-selected": {
+                                                    bgcolor: "rgba(255, 255, 255, 0.2)",
+                                                    "&:hover": {
+                                                        bgcolor: "rgba(255, 255, 255, 0.3)",
+                                                    },
+                                                },
+                                            }}
+                                        >
                                             {subCategory.name}
                                         </MenuItem>
-                                    ))}
-                                </React.Fragment>
-                            ))}
+                                    )),
+                                ])
+                                .flat()}
                         </Select>
                     </FormControl>
 
