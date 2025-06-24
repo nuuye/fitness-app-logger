@@ -9,7 +9,7 @@ export default function Home() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
 
-    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
     const [showDeleteCategoryWindow, setShowDeleteCategoryWindow] = useState<boolean>(false);
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
@@ -33,8 +33,10 @@ export default function Home() {
         sideBarRef.current?.handleCategoryDelete(id);
     };
 
+    if(sideBarOpen === null) return null;
+
     return (
-        <AuthWrapper>
+        <>
             <div className={styles.root}>
                 {showDeleteCategoryWindow && (
                     <DeleteCategoryWindow
@@ -63,6 +65,6 @@ export default function Home() {
                     }`}
                 ></div>
             </div>
-        </AuthWrapper>
+        </>
     );
 }

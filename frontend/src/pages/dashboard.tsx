@@ -15,7 +15,7 @@ export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
     const sideBarRef = useRef<SideBarRef>(null);
 
-    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
 
     const [selectedSubCategoryLabel, setSelectedSubCategoryLabel] = useState<string>();
@@ -85,6 +85,8 @@ export default function Dashboard() {
 
         return selected.format("DD/MM/YYYY");
     };
+
+    if(sideBarOpen === null) return null;
 
     return (
         <AuthWrapper>

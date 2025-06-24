@@ -10,7 +10,7 @@ export default function AppBar() {
     return (
         <div className={styles.mainContainer}>
             <div className={styles.leftNavContainer}>
-                <div className={styles.logoContainer}>
+                <div className={styles.logoContainer} onClick={() => router.push('/')}>
                     <Image alt="logo" src={logo}></Image>
                 </div>
                 <div className={styles.sectionContainer}>

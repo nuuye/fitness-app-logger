@@ -21,7 +21,7 @@ export default function Settings() {
 
     const { user, userInitials, setUser } = useUser();
 
-    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
 
     const [showChangePasswordWindow, setShowChangePasswordWindow] = useState<boolean>(false);
@@ -104,6 +104,8 @@ export default function Settings() {
             console.error("Unexpected error while saving form:", error);
         }
     };
+
+    if(sideBarOpen === null) return null;
 
     return (
         <AuthWrapper>

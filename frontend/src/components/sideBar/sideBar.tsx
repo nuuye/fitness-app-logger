@@ -39,7 +39,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
     ) => {
         const router = useRouter();
         const { user, userInitials } = useUser();
-        const [sideBarOpen, setSideBarOpen] = useState<boolean>(localStorage.getItem("sideBarOpen") === "true");
+        const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
         const [showMenu, setShowMenu] = useState<boolean>(false);
         const [mobileSideBar, setMobileSideBar] = useState<boolean>(false);
         const [categories, setCategories] = useState<categoryType[]>(null);
@@ -50,6 +50,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
 
         //retrieving the user and its categories on page loading
         useEffect(() => {
+            setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
             const redirectLogin = () => {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
@@ -136,6 +137,8 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
             setShowMenu(!showMenu);
             retrieveShowMenuStatus(showMenu);
         };
+
+        if (sideBarOpen === null) return null;
 
         return (
             <div
