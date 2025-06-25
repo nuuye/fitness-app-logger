@@ -6,5 +6,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: radial-gradient(at 50% 50%, rgba(0, 41, 82, 0.5), rgb(9, 11, 17));
+    background-image: radial-gradient(ellipse 90% 75% at 50% 13%, hsl(207, 100%, 19%), transparent);
+    background-color: hsl(220, 35%, 9%);
 }
