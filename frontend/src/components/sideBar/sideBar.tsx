@@ -16,7 +16,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { BiLogOut } from "react-icons/bi";
-import Category from "../category/category";
+import Category from "../Category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 import { useUser } from "../../context/userContext";
 

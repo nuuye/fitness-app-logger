@@ -1,7 +1,7 @@
 import Card from "@mui/material/Card";
 import styles from "./signIn.module.scss";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
 import { loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
@@ -10,11 +10,19 @@ import { useUser } from "../../context/userContext";
 export default function SignIn() {
     const router = useRouter();
     const { setUser } = useUser();
-    const [emailValue, setEmailValue] = useState<string>(localStorage.getItem("userEmail") || "");
+    const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState<boolean>(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
     const [passwordError, setPasswordError] = useState<boolean>(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+
+    // Accessing local storage after next SSR
+    useEffect(() => {
+        const storedEmail = localStorage.getItem("userEmail");
+        if (storedEmail) {
+            setEmailValue(storedEmail);
+        }
+    }, []);
 
     const validateInputs = (): void => {
         const email = document.getElementById("email") as HTMLInputElement;
