@@ -73,6 +73,7 @@ export default function SignIn() {
                 </div>
                 <div className={styles.body}>
                     <Box
+                        className={styles.form}
                         component="form"
                         onSubmit={handleSubmit}
                         sx={{ display: "flex", flexDirection: "column", gap: 2 }}
