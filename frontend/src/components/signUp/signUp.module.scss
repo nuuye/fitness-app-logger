@@ -4,7 +4,7 @@
     .cardContainer {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
         background: #061d20;
         width: 400px;
         padding: 20px;
@@ -12,48 +12,70 @@
         border-radius: 10px;
         margin-top: 78px;
         background: linear-gradient(145deg, rgba(6, 29, 32, 0.7), rgba(6, 29, 32, 0.9));
-
+        @media (max-height: 625px) {
+            padding: 17px;
+        }
+        @media (max-height: 575px) {
+            gap: unset;
+            padding-top: 14px;
+        }
         .header {
             h1 {
                 color: white;
                 margin: unset;
+                font-size: 1.8em;
+                @media (max-height: 615px) {
+                    font-size: 1.6em;
+                }
+                @media (max-height: 575px) {
+                    margin-bottom: 8px;
+                }
             }
         }
         .body {
-            .formLabel {
-                color: white;
-                margin-bottom: 5px;
-            }
-            .textField {
-                input {
+            .form{
+                @media (max-height: 610px) {
+                    gap: 11px;
+                }
+                .formLabel {
+                    color: white;
+                    margin-bottom: 5px;
+                }
+                .textField {
+                    input {
+                        color: #abbebc;
+                        border-radius: 5px;
+                        border: 1px solid rgb(11, 114, 84);
+                        height: 1.0375em;
+                        @media (max-height: 595px) {
+                            height: 0.65em;
+                        }
+                    }
+                    input::placeholder {
+                        color: rgba(255, 255, 255, 0.6);
+                    }
+                }
+
+                //autofill styling
+                input:-webkit-autofill,
+                input:-webkit-autofill:hover,
+                input:-webkit-autofill:focus,
+                input:-webkit-autofill:active {
+                    appearance: none;
+                    -webkit-text-fill-color: #abbebc;
+                    background-color: transparent;
+                    transition: background-color 5000s ease-in-out 0s;
+                }
+                input:-webkit-autofill::first-line {
                     color: #abbebc;
-                    border-radius: 5px;
-                    border: 1px solid rgb(11, 114, 84);
                 }
-                input::placeholder {
-                    color: rgba(255, 255, 255, 0.6);
-                }
-            }
 
-            //autofill styling
-            input:-webkit-autofill,
-            input:-webkit-autofill:hover,
-            input:-webkit-autofill:focus,
-            input:-webkit-autofill:active {
-                appearance: none;
-                -webkit-text-fill-color: #abbebc;
-                background-color: transparent;
-                transition: background-color 5000s ease-in-out 0s;
-            }
-            input:-webkit-autofill::first-line {
-                color: #abbebc;
-            }
-
-            .signUpButton {
-                background-color: rgb(11, 114, 84);
-                color: white;
-                &:hover {
-                    background-color: rgb(14, 124, 93);
+                .signUpButton {
+                    background-color: rgb(11, 114, 84);
+                    color: white;
+                    &:hover {
+                        background-color: rgb(14, 124, 93);
+                    }
                 }
             }
             .googleButton {
