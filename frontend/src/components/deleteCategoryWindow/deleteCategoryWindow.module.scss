@@ -17,8 +17,9 @@
         max-width: 400px;
         padding: 20px;
         border-radius: 12px;
+        border-radius: 12px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        background: rgb(176 206 207);
+        background: rgb(18, 37, 50);
         animation: fadeIn 0.3s ease-out forwards;
         @media (max-width: 575px) {
             max-width: 335px;
@@ -31,6 +32,10 @@
         }
         h3 {
             margin-top: unset;
+            color: rgb(187, 186, 185);
+        }
+        p{
+            color: rgb(187, 186, 185);
         }
         .actions {
             display: flex;

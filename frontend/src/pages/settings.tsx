@@ -174,17 +174,17 @@ export default function Settings() {
                                     <span>Email:</span>
                                     <Input value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
                                 </div>
+                                <Button variant="outlined" onClick={handleCancelEdit}>
+                                    Cancel
+                                </Button>
+                            </div>
+                            <div className={styles.buttonContainer}>
                                 <Button
                                     className={styles.passwordButton}
                                     variant="outlined"
                                     onClick={() => setShowChangePasswordWindow(!showChangePasswordWindow)}
                                 >
                                     Change my password
-                                </Button>
-                            </div>
-                            <div className={styles.buttonContainer}>
-                                <Button variant="outlined" onClick={handleCancelEdit}>
-                                    Cancel
                                 </Button>
                                 <Button variant="contained" disabled={!canSave} onClick={handleSaveForm}>
                                     Save

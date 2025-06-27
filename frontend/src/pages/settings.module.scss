@@ -55,6 +55,11 @@
             }
         }
         .contentContainer {
+            @media (min-width: 1030px) {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+            }
             .avatarContainer {
                 display: flex;
                 justify-content: center;
@@ -68,8 +73,20 @@
                 }
             }
             .formContainer {
+                @media (min-width: 1030px) {
+                    width: 500px;
+                }
+                @media (max-width: 1030px) {
+                    padding: 0px 45px;
+                }
+                @media (max-width: 750px) {
+                    padding: 0px 15px;
+                }
+                @media (max-width: 350px) {
+                    padding: unset;
+                }
                 .dataContainer {
-                    padding: 25px;
+                    padding: 25px 25px 0px 25px;
                     display: flex;
                     flex-direction: column;
                     gap: 15px;
@@ -87,22 +104,22 @@
                             padding-left: 3px;
                             font-size: 15px;
                             color: rgb(187, 186, 185);
+                            height: 1.7em;
                         }
                     }
-                    .passwordButton {
-                        margin-top: 5px;
-                        color: rgb(208, 207, 206);
-                    }
+                    
                 }
                 .buttonContainer {
-                    padding: 20px 25px;
+                    padding: 15px 25px;
                     display: flex;
                     justify-content: flex-end;
                     gap: 15px;
+                    flex-direction: column;
+                    padding-top: 15px;
+                    .passwordButton {
+                        color: rgb(208, 207, 206);
+                    }
                     Button {
-                        &:first-child {
-                            border-color: hsl(210, 58%, 32%);
-                        }
                         &:last-child {
                             background-color: hsl(210, 58%, 32%);
                             &:hover {
