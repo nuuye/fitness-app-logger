@@ -1,23 +1,7 @@
+import { ExerciceType, PerformanceType } from "../types/exercice";
+
 const API_EXERCICE_URL = process.env.NEXT_PUBLIC_API_EXERCICE_URL;
 
-export interface SetType {
-    reps: number | string;
-    kg: number | string;
-}
-
-export interface PerformanceType {
-    date: string; // Format ISO
-    sets: SetType[];
-    note?: string;
-}
-
-export interface ExerciceType {
-    _id: string;
-    name: string;
-    performances: PerformanceType[];
-    subCategoryId: string;
-    userId: string;
-}
 
 export const createExerciceRequest = async (
     name: string,
@@ -67,6 +51,33 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
         }
 
         const response = await fetch(`${API_EXERCICE_URL}/getAll/${userId}/${subCategoryId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            return null;
+        }
+        return response.json();
+        
+    } catch (error) {
+        console.log("error retrieving exercices", error);
+        return null;
+    }
+};
+
+export const getAllUserExerciceRequest = async (userId: string): Promise<ExerciceType[] | null> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return null;
+        }
+
+        const response = await fetch(`${API_EXERCICE_URL}/getAll/${userId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

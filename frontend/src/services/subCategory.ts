@@ -81,7 +81,28 @@ export const retrieveSubCategoriesRequest = async (categoryId: string): Promise<
             console.error("Token not found in localStorage");
             return null;
         }
-        const response = await fetch(`${API_SUBCATEGORY_URL}/getAll/${categoryId}`, {
+        const response = await fetch(`${API_SUBCATEGORY_URL}/retrieveAll/${categoryId}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        });
+        if (!response) {
+            return null;
+        }
+        return response.json();
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+export const retrieveUserSubCategoriesRequest = async (userId: string): Promise<subCategoryType[]> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            console.error("Token not found in localStorage");
+            return null;
+        }
+        const response = await fetch(`${API_SUBCATEGORY_URL}/getAll/${userId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         });

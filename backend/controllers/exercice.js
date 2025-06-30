@@ -56,3 +56,15 @@ exports.getAllExercice = (req, res, next) => {
         })
         .catch((error) => res.status(400).json({ error }));
 };
+
+//retrieve all exercices of a user by its Id
+exports.getAllUserExercice = (req, res, next) => {
+    Exercice.find({ userId: req.params.userId })
+        .then((exerciceList) => {
+            if (exerciceList.some((ex) => ex.userId != req.auth.userId)) {
+                return res.status(403).json({ message: "Not authorized" });
+            }
+            res.status(200).json(exerciceList);
+        })
+        .catch((error) => res.status(400).json({ error }));
+};

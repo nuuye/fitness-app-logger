@@ -189,7 +189,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                 showMenu && styles.homeContainerMenu
                             }`}
                         >
-                            <ListItemButton>
+                            <ListItemButton onClick={() => router.push("/home")}>
                                 <ListItemIcon>
                                     <HomeIcon className={styles.homeIcon} />
                                 </ListItemIcon>

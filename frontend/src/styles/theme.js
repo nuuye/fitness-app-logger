@@ -35,7 +35,18 @@ const theme = createTheme({
                 },
             },
         },
-    },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    color: 'red',
+                },
+                input: {
+                    // This targets the <input> inside <OutlinedInput>
+                    color: 'grey',
+                },
+            },
+        },
+    }
 });
 
 export default theme;

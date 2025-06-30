@@ -15,7 +15,7 @@ import {
 import { User } from "../../types/user";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
+import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { editCategoryRequest } from "../../services/category";
 
 interface categoryProps {
@@ -27,7 +27,14 @@ interface categoryProps {
     onChangeSubCategoryLabel: (label: string) => void;
 }
 
-export default function Category({ label, user, categoryId, retrieveSubCategory, onClickDelete, onChangeSubCategoryLabel }: categoryProps) {
+export default function Category({
+    label,
+    user,
+    categoryId,
+    retrieveSubCategory,
+    onClickDelete,
+    onChangeSubCategoryLabel,
+}: categoryProps) {
     const [categoryListOpen, setCategoryListOpen] = useState<boolean>(false);
     const [subCategories, setSubCategories] = useState<subCategoryType[]>(null);
     const [showMore, setShowMore] = useState<boolean>(false);
@@ -92,7 +99,6 @@ export default function Category({ label, user, categoryId, retrieveSubCategory,
                         autoFocus
                         onClick={(event) => event.stopPropagation()}
                         onKeyDown={(e) => {
-                            console.log(e);
                             if (e.key === "Enter") {
                                 e.preventDefault();
                                 e.stopPropagation();

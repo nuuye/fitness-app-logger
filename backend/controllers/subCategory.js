@@ -31,7 +31,7 @@ exports.createSubCategory = async (req, res, next) => {
     }
 };
 
-//res.status(201).json(newSubCategory)
+
 exports.getSubCategory = (req, res, next) => {
     SubCategory.findOne({ _id: req.params.subCategoryId })
         .then((subCategory) => {
@@ -107,6 +107,18 @@ exports.getAllSubCategories = (req, res, next) => {
             }
 
             res.status(200).json(subCategoryList);
+        })
+        .catch((error) => res.status(400).json({ error }));
+};
+
+exports.getAllUserSubCategories = (req, res, next) => {
+    SubCategory.find({ userId: req.params.userId })
+        .then((subcategories) => {
+            console.log("here: ", subcategories);
+            if (subcategories.some((subcategory) => subcategory.userId != req.auth.userId)) {
+                return res.status(403).json({ message: "Not authorized" });
+            }
+            res.status(200).json(subcategories);
         })
         .catch((error) => res.status(400).json({ error }));
 };

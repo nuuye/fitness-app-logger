@@ -86,7 +86,7 @@ export default function Dashboard() {
         return selected.format("DD/MM/YYYY");
     };
 
-    if(sideBarOpen === null) return null;
+    if (sideBarOpen === null) return null;
 
     return (
         <AuthWrapper>
