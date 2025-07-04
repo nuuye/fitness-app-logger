@@ -13,6 +13,6 @@ export interface ExerciceType {
     _id: string;
     name: string;
     performances: PerformanceType[];
-    subCategoryId: string;
+    subCategory: string;
     userId: string;
 }

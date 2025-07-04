@@ -5,48 +5,49 @@ import { useEffect, useRef, useState } from "react";
 import AuthWrapper from "../components/authWrapper/authWrapper";
 import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCategoryWindow";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
-import { categoryType, subCategoryType } from "../types";
+import { categoryType, ExerciceType, subCategoryType } from "../types";
 import { useUser } from "../context/userContext";
-import { FormControl, InputLabel, ListSubheader, MenuItem, OutlinedInput, Select, Chip, Box } from "@mui/material";
+import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from "@mui/material";
 import { retrieveCategoriesRequest } from "../services/category";
 import { retrieveUserSubCategoriesRequest } from "../services/subCategory";
 import React from "react";
+import { getAllUserExerciceRequest } from "../services/exercice";
 
 const chartData = [
     {
-        name: "Page A",
-        uv: 4000,
-        pv: 2400,
+        name: "2025-07-02",
+        chest: 4000,
+        shoulder: 2400,
     },
     {
-        name: "Page B",
-        uv: 3000,
-        pv: 1398,
+        name: "2025-07-04",
+        chest: 3000,
+        shoulder: 1398,
     },
     {
-        name: "Page C",
-        uv: 2000,
-        pv: 9800,
+        name: "2025-07-12",
+        chest: 2000,
+        shoulder: 9800,
     },
     {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
+        name: "2025-07-17",
+        chest: 2780,
+        shoulder: 3908,
     },
     {
-        name: "Page E",
-        uv: 1890,
-        pv: 4800,
+        name: "2025-07-22",
+        chest: 1890,
+        shoulder: 4800,
     },
     {
-        name: "Page F",
-        uv: 2390,
-        pv: 3800,
+        name: "2025-07-29",
+        chest: 2390,
+        shoulder: 3800,
     },
     {
-        name: "Page G",
-        uv: 3490,
-        pv: 4300,
+        name: "2025-08-04",
+        chest: 3490,
+        shoulder: 4300,
     },
 ];
 
@@ -60,24 +61,31 @@ export default function Home() {
     const [tempCategory, setTempCategory] = useState<{ id: string; label: string }>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
     const [data, setData] = useState<Map<categoryType, subCategoryType[]>>(new Map());
-    const [selectedSubCategories, setSelectedSubCategories] = React.useState([]);
+    const [selected, setSelected] = useState<string>("");
+    const [selectedExercices, setSelectedExercices] = useState<ExerciceType[]>();
 
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
         if (user) {
             retrieveData();
+            retrieveExercices();
         }
     }, [user]);
 
     useEffect(() => {
-        console.log("data updated:", data);
-    }, [data]);
+        console.log("exs: ", selectedExercices);
+    }, [data, selected, selectedExercices]);
+
+    const retrieveExercices = async () => {
+        const exs = await getAllUserExerciceRequest(user.userId);
+        if (exs) {
+            setSelectedExercices(exs.filter((ex) => ex.subCategory == selected));
+        }
+    };
 
     const retrieveData = async () => {
         const categories = await retrieveCategoriesRequest(user.userId);
         const subCategories = await retrieveUserSubCategoriesRequest(user.userId);
-        console.log("categories: ", categories);
-        console.log("subCategories: ", subCategories);
         if (categories && subCategories) {
             const newMap = new Map<categoryType, subCategoryType[]>();
             for (const category of categories) {
@@ -102,29 +110,12 @@ export default function Home() {
         sideBarRef.current?.handleCategoryDelete(id);
     };
 
-    if (sideBarOpen === null) return null;
-
     const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setSelectedSubCategories(
-            // En cas d'autofill, on reçoit une chaîne stringifiée
-            typeof value === "string" ? value.split(",") : value
-        );
-        console.log("Selected subcategories:", typeof value === "string" ? value.split(",") : value);
+        console.log("onChange triggered with value:", event.target.value);
+        setSelected(event.target.value);
     };
 
-    // Fonction pour obtenir le nom d'une subcategory par son ID
-    const getSubCategoryName = (id) => {
-        for (const [category, subCategories] of data.entries()) {
-            const subCategory = subCategories.find((sub) => sub._id === id);
-            if (subCategory) {
-                return subCategory.name;
-            }
-        }
-        return id;
-    };
+    if (sideBarOpen === null) return null;
 
     return (
         <AuthWrapper>
@@ -159,36 +150,21 @@ export default function Home() {
                         <span className={styles.title}>Welcome back</span>
                     </div>
                     <FormControl sx={{ m: 3, minWidth: 300 }}>
-                        <InputLabel id="multiple-grouped-select-label" sx={{ color: "grey.700" }}>
+                        <InputLabel id="multiple-grouped-select-label" sx={{ color: "grey.500" }}>
                             Select exercises to analyze
                         </InputLabel>
                         <Select
-                            labelId="multiple-grouped-select-label"
-                            id="multiple-grouped-select"
-                            multiple
-                            value={selectedSubCategories}
+                            value={selected}
                             onChange={handleChange}
-                            input={<OutlinedInput label="Select exercises to analyze" />}
-                            renderValue={(selected) => (
-                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                    {selected.map((value) => (
-                                        <Chip
-                                            key={value}
-                                            label={getSubCategoryName(value)}
-                                            size="small"
-                                            sx={{
-                                                bgcolor: "grey.200",
-                                                color: "grey.800",
-                                                fontSize: "0.75rem",
-                                            }}
-                                        />
-                                    ))}
-                                </Box>
-                            )}
+                            id="grouped-select"
+                            label="Select an exercice to analyze"
                             sx={{
                                 color: "grey.800",
+                                ".MuiOutlinedInput-input": {
+                                    color: "grey.400",
+                                },
                                 ".MuiOutlinedInput-notchedOutline": {
-                                    borderColor: "grey.500",
+                                    borderColor: "grey.600",
                                 },
                                 "&:hover .MuiOutlinedInput-notchedOutline": {
                                     borderColor: "grey.700",
@@ -197,7 +173,7 @@ export default function Home() {
                                     borderColor: "grey.800",
                                 },
                                 ".MuiSvgIcon-root": {
-                                    color: "grey.700",
+                                    color: "grey.500",
                                 },
                             }}
                             MenuProps={{
@@ -209,26 +185,26 @@ export default function Home() {
                                 },
                             }}
                         >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
                             {[...data.entries()]
                                 .map(([category, subCategories]) => [
                                     <ListSubheader
                                         key={`header-${category._id}`}
-                                        sx={{ color: "hsl(219, 19.00%, 86.30%)" }}
+                                        sx={{ bgcolor: "hsla(210, 88.90%, 17.60%, 0.50)", color: "hsl(220, 20%, 65%)" }}
                                     >
-                                        {category.name}
+                                        {category.name.toUpperCase()}
                                     </ListSubheader>,
                                     ...subCategories.map((subCategory) => (
                                         <MenuItem
                                             key={subCategory._id}
                                             value={subCategory._id}
                                             sx={{
-                                                "&:hover": {
-                                                    bgcolor: "rgba(255, 255, 255, 0.1)",
-                                                },
                                                 "&.Mui-selected": {
-                                                    bgcolor: "rgba(255, 255, 255, 0.2)",
+                                                    bgcolor: "rgba(51, 51, 52, 0.92)",
                                                     "&:hover": {
-                                                        bgcolor: "rgba(255, 255, 255, 0.3)",
+                                                        bgcolor: "rgba(51, 51, 52, 0.92)",
                                                     },
                                                 },
                                             }}
@@ -241,20 +217,7 @@ export default function Home() {
                         </Select>
                     </FormControl>
 
-                    <LineChart
-                        width={730}
-                        height={250}
-                        data={chartData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="pv" stroke="#8884d8" />
-                        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                    </LineChart>
+                    {/* Insert lines chart here */}
                 </div>
             </div>
         </AuthWrapper>
