@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import AuthWrapper from "../components/authWrapper/authWrapper";
 import DeleteCategoryWindow from "../components/deleteCategoryWindow/deleteCategoryWindow";
-import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { categoryType, ExerciceType, subCategoryType } from "../types";
 import { useUser } from "../context/userContext";
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from "@mui/material";
@@ -13,7 +13,7 @@ import { retrieveUserSubCategoriesRequest } from "../services/subCategory";
 import React from "react";
 import { getAllUserExerciceRequest } from "../services/exercice";
 
-const chartData = [
+const chartDataEx = [
     {
         name: "2025-07-02",
         chest: 4000,
@@ -62,24 +62,59 @@ export default function Home() {
     const [hideMenu, setHideMenu] = useState<boolean>(true);
     const [data, setData] = useState<Map<categoryType, subCategoryType[]>>(new Map());
     const [selected, setSelected] = useState<string>("");
-    const [selectedExercices, setSelectedExercices] = useState<ExerciceType[]>();
+    const [selectedExercices, setSelectedExercices] = useState<ExerciceType[]>([]);
+    const [chartData, setChartData] = useState([{}]);
 
     useEffect(() => {
         setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
         if (user) {
             retrieveData();
-            retrieveExercices();
         }
     }, [user]);
 
     useEffect(() => {
-        console.log("exs: ", selectedExercices);
-    }, [data, selected, selectedExercices]);
+        console.log(selectedExercices);
+        if (!selectedExercices || selectedExercices.length === 0) return;
 
-    const retrieveExercices = async () => {
+        // Map intermédiaire pour regrouper les volumes par date et par exercice
+        const tempData: Record<string, any> = {}; // { "2025-07-01": { date: ..., bench: ..., squat: ... } }
+
+        for (const ex of selectedExercices) {
+            const exerciseName = ex.name; // ou id si tu veux
+            for (const performance of ex.performances) {
+                const { date, sets } = performance;
+
+                const total = sets.reduce(
+                    (acc, curr) => {
+                        acc.totalKg += Number(curr.kg);
+                        acc.totalReps += Number(curr.reps);
+                        acc.volume += Number(curr.reps) * Number(curr.kg);
+                        return acc;
+                    },
+                    { totalKg: 0, totalReps: 0, volume: 0 }
+                );
+
+                if (!tempData[date]) {
+                    tempData[date] = { date };
+                }
+
+                tempData[date][exerciseName] = {
+                    kg: total.totalKg,
+                    reps: total.totalReps,
+                    volume: total.volume,
+                };
+            }
+        }
+
+        // Transformer le map en tableau
+        const result = Object.values(tempData);
+        setChartData(result);
+    }, [selectedExercices]);
+
+    const retrieveExercices = async (subCategoryId: string) => {
         const exs = await getAllUserExerciceRequest(user.userId);
         if (exs) {
-            setSelectedExercices(exs.filter((ex) => ex.subCategory == selected));
+            setSelectedExercices(exs.filter((ex) => ex.subCategory === subCategoryId));
         }
     };
 
@@ -111,9 +146,24 @@ export default function Home() {
     };
 
     const handleChange = (event) => {
+        const subCategoryId = event.target.value;
         console.log("onChange triggered with value:", event.target.value);
-        setSelected(event.target.value);
+        setSelected(subCategoryId);
+        retrieveExercices(subCategoryId);
     };
+
+    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#00c49f", "#ff6384", "#a28dd0"]; // Autant que d'exos max
+
+    type ChartProps = {
+        chartData: any[];
+    };
+
+    const VolumeChart = ({ chartData }: ChartProps) => {
+        if (!chartData || chartData.length === 0) return null;
+    };
+
+    // On extrait les noms des exercices (hors champ "date")
+    const exerciseNames = Object.keys(chartData[0]).filter((key) => key !== "date");
 
     if (sideBarOpen === null) return null;
 
@@ -218,6 +268,37 @@ export default function Home() {
                     </FormControl>
 
                     {/* Insert lines chart here */}
+                    <ResponsiveContainer width="100%" height={400}>
+                        <LineChart
+                            data={chartData.slice().reverse()}
+                            margin={{ top: 20, right: 40, left: 0, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="date" />
+                            <YAxis />
+                            <Tooltip
+                                formatter={(value: any, name: string, props: any) => {
+                                    const exoData = props.payload[name];
+                                    if (!exoData) return ["", name];
+                                    return [`${exoData.kg}kg × ${exoData.reps} = ${exoData.volume}kg`, name];
+                                }}
+                            />
+                            <Legend />
+
+                            {exerciseNames.map((name, idx) => (
+                                <Line
+                                    key={name}
+                                    type="monotone"
+                                    dataKey={(d: any) => d[name]?.volume ?? 0}
+                                    name={name}
+                                    stroke={colors[idx % colors.length]}
+                                    strokeWidth={3}
+                                    dot={{ r: 4 }}
+                                    activeDot={{ r: 6 }}
+                                />
+                            ))}
+                        </LineChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
         </AuthWrapper>

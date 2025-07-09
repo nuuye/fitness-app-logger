@@ -15,4 +15,10 @@ export interface ExerciceType {
     performances: PerformanceType[];
     subCategory: string;
     userId: string;
+    isEditing?: boolean;
+}
+
+interface ExerciceTableProps {
+    subCategoryId: string;
+    selectedDate?: string;
 }

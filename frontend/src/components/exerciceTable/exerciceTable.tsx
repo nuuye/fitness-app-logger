@@ -14,26 +14,7 @@ import {
     editExerciceRequest,
 } from "../../services/exercice";
 import Input from "@mui/material/Input";
-
-export interface SetType {
-    reps: number | string;
-    kg: number | string;
-}
-
-export interface PerformanceType {
-    date: string; //Format ISO
-    sets: SetType[];
-    note?: string;
-}
-
-export interface ExerciceType {
-    _id: string;
-    name: string;
-    performances: PerformanceType[];
-    subCategoryId: string;
-    userId: string;
-    isEditing?: boolean;
-}
+import { ExerciceType, PerformanceType } from "../../types/exercice";
 
 interface ExerciceTableProps {
     subCategoryId: string;
@@ -42,26 +23,6 @@ interface ExerciceTableProps {
 // Define what the parent will be able to call via the ref
 export interface ExerciceTableRef {
     handleCreateExercice: () => void;
-}
-
-export interface SetType {
-    reps: number | string;
-    kg: number | string;
-}
-
-export interface PerformanceType {
-    date: string; //Format ISO
-    sets: SetType[];
-    note?: string;
-}
-
-export interface ExerciceType {
-    _id: string;
-    name: string;
-    performances: PerformanceType[];
-    subCategoryId: string;
-    userId: string;
-    isEditing?: boolean;
 }
 
 interface ExerciceTableProps {
@@ -145,8 +106,8 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         );
     };
 
-    //retrieves last performance for a given list of performances
-    const getLatestPerformance = (performances: PerformanceType[]): PerformanceType => {
+    //retrieves the performance closest to the selected date
+    const getClosestPerformance = (performances: PerformanceType[], targetDate?: string): PerformanceType => {
         if (!performances || performances.length === 0) {
             return {
                 date: new Date().toISOString(),
@@ -155,8 +116,26 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
             };
         }
 
-        //sorting by date to retrieve last performance
-        return performances.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+        // Si aucune date cible n'est fournie, retourner la performance la plus récente
+        if (!targetDate) {
+            return performances.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+        }
+
+        const target = new Date(targetDate).getTime();
+
+        // Trouver la performance avec la date la plus proche
+        let closestPerformance = performances[0];
+        let smallestDifference = Math.abs(new Date(performances[0].date).getTime() - target);
+
+        for (let i = 1; i < performances.length; i++) {
+            const currentDifference = Math.abs(new Date(performances[i].date).getTime() - target);
+            if (currentDifference < smallestDifference) {
+                smallestDifference = currentDifference;
+                closestPerformance = performances[i];
+            }
+        }
+
+        return closestPerformance;
     };
 
     //handler trigered while changing kg
@@ -164,10 +143,10 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         setExercices((exercice) =>
             exercice.map((row) => {
                 if (row._id === exerciceId) {
-                    console.log('exercice list: ', exercice)
+                    console.log("exercice list: ", exercice);
                     //fetching the exercice being edited
                     //copying last performance
-                    const latestPerformance = getLatestPerformance(row.performances);
+                    const latestPerformance = getClosestPerformance(row.performances, selectedDate);
                     const updatedSets = [...latestPerformance.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], kg: value }; //updating value
 
@@ -194,10 +173,11 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         setExercices((exercice) =>
             exercice.map((row) => {
                 if (row._id === exerciceId) {
-                    console.log('exercice list: ', exercice)
+                    console.log("exercice list: ", exercice);
                     //fetching the exercice being edited
                     //copying last performance
-                    const latestPerformance = getLatestPerformance(row.performances);
+                    const latestPerformance = getClosestPerformance(row.performances, selectedDate);
+
                     const updatedSets = [...latestPerformance.sets];
                     updatedSets[setIndex] = { ...updatedSets[setIndex], reps: value };
 
@@ -229,9 +209,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
             if (success) {
                 setExercices((exercice) =>
                     exercice.map((row) =>
-                        row._id === exerciceId
-                            ? { ...row, performances: updatedPerformances }
-                            : row
+                        row._id === exerciceId ? { ...row, performances: updatedPerformances } : row
                     )
                 );
                 setPreviousPerformances(undefined);
@@ -276,7 +254,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                     <tbody>
                         {exercices &&
                             exercices.map((row, rowIndex) => {
-                                const latestPerformance = getLatestPerformance(row.performances);
+                                const latestPerformance = getClosestPerformance(row.performances, selectedDate);
                                 return (
                                     <tr key={rowIndex} className={rowIndex % 2 === 0 ? styles.zebraRow : undefined}>
                                         {row.isEditing ? (
@@ -377,7 +355,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
             <div className={styles.mobileView}>
                 {exercices &&
                     exercices.map((row, rowIndex) => {
-                        const latestPerformance = getLatestPerformance(row.performances);
+                        const latestPerformance = getClosestPerformance(row.performances, selectedDate);
                         return (
                             <div
                                 key={rowIndex}
