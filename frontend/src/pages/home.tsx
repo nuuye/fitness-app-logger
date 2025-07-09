@@ -12,6 +12,7 @@ import { retrieveCategoriesRequest } from "../services/category";
 import { retrieveUserSubCategoriesRequest } from "../services/subCategory";
 import React from "react";
 import { getAllUserExerciceRequest } from "../services/exercice";
+import dayjs from "dayjs";
 
 const chartDataEx = [
     {
@@ -274,7 +275,7 @@ export default function Home() {
                             margin={{ top: 20, right: 40, left: 0, bottom: 5 }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
+                            <XAxis dataKey="date" tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")} />
                             <YAxis />
                             <Tooltip
                                 formatter={(value: any, name: string, props: any) => {

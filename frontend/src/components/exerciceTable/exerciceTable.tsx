@@ -138,6 +138,87 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         return closestPerformance;
     };
 
+    // Fonction pour comparer deux performances
+    const arePerformancesEqual = (perf1: PerformanceType, perf2: PerformanceType): boolean => {
+        // Comparer les sets
+        if (perf1.sets.length !== perf2.sets.length) return false;
+
+        for (let i = 0; i < perf1.sets.length; i++) {
+            // Convertir en nombres pour la comparaison
+            const kg1 = Number(perf1.sets[i].kg);
+            const kg2 = Number(perf2.sets[i].kg);
+            const reps1 = Number(perf1.sets[i].reps);
+            const reps2 = Number(perf2.sets[i].reps);
+
+            if (kg1 !== kg2 || reps1 !== reps2) {
+                return false;
+            }
+        }
+
+        // Comparer les notes (en ignorant les différences entre undefined, null et "")
+        const note1 = perf1.note || "";
+        const note2 = perf2.note || "";
+        return note1 === note2;
+    };
+
+    // Fonction pour vérifier si une performance est vide (tous les sets à 0)
+    const isPerformanceEmpty = (performance: PerformanceType): boolean => {
+        return performance.sets.every((set) => {
+            const kg = Number(set.kg);
+            const reps = Number(set.reps);
+            return kg === 0 && reps === 0;
+        });
+    };
+
+    // Modifier la fonction addPerformance pour inclure ces vérifications :
+    const addPerformance = async (exerciceId: string) => {
+        if (newPerformance) {
+            // Créer une nouvelle performance sans l'_id (pour éviter les conflits)
+            const updatedPerformance = {
+                date: selectedDate,
+                sets: newPerformance.sets,
+                note: newPerformance.note || "",
+            };
+
+            console.log("Nouvelle performance:", updatedPerformance);
+            console.log("Performances précédentes:", previousPerformances);
+
+            // Vérifier si la performance est vide
+            if (isPerformanceEmpty(updatedPerformance)) {
+                console.log("Performance vide, pas d'ajout");
+                // Réinitialiser les états sans sauvegarder
+                setPreviousPerformances(undefined);
+                setNewPerformance(undefined);
+                return;
+            }
+
+            // Vérifier si la performance est identique à la performance originale (avant modification)
+            if (previousPerformances && previousPerformances.length > 0) {
+                const originalPerformance = getClosestPerformance(previousPerformances, selectedDate);
+                console.log("Performance originale:", originalPerformance);
+
+                if (arePerformancesEqual(updatedPerformance, originalPerformance)) {
+                    console.log("Performance identique à l'originale, pas d'ajout");
+                    // Réinitialiser les états sans sauvegarder
+                    setPreviousPerformances(undefined);
+                    setNewPerformance(undefined);
+                    return;
+                }
+            }
+
+            const updatedPerformances = [updatedPerformance, ...previousPerformances];
+            const success = await editExerciceRequest(exerciceId, undefined, updatedPerformances);
+            if (success) {
+                setExercices((exercice) =>
+                    exercice.map((row) =>
+                        row._id === exerciceId ? { ...row, performances: updatedPerformances } : row
+                    )
+                );
+                setPreviousPerformances(undefined);
+                setNewPerformance(undefined);
+            }
+        }
+    };
     //handler trigered while changing kg
     const handleChangeSetKg = (exerciceId: string, setIndex: number, value: number | string) => {
         setExercices((exercice) =>
@@ -198,24 +279,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                 return row;
             })
         );
-    };
-
-    // Triggered when user confirm changes
-    const addPerformance = async (exerciceId: string) => {
-        if (newPerformance) {
-            const updatedPerformance = { ...newPerformance, date: selectedDate };
-            const updatedPerformances = [updatedPerformance, ...previousPerformances];
-            const success = await editExerciceRequest(exerciceId, undefined, updatedPerformances);
-            if (success) {
-                setExercices((exercice) =>
-                    exercice.map((row) =>
-                        row._id === exerciceId ? { ...row, performances: updatedPerformances } : row
-                    )
-                );
-                setPreviousPerformances(undefined);
-                setNewPerformance(undefined);
-            }
-        }
     };
 
     const savePreviousPerformance = (exerciceId: string) => {
