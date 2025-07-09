@@ -103,6 +103,11 @@ export default function Home() {
                     kg: total.totalKg,
                     reps: total.totalReps,
                     volume: total.volume,
+                    // AJOUT : conserver les séries individuelles pour le tooltip
+                    sets: sets.map((set) => ({
+                        kg: Number(set.kg),
+                        reps: Number(set.reps),
+                    })),
                 };
             }
         }
@@ -275,13 +280,30 @@ export default function Home() {
                             margin={{ top: 20, right: 40, left: 0, bottom: 5 }}
                         >
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")} />
+                            <XAxis
+                                dataKey="date"
+                                tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
+                            />
                             <YAxis />
                             <Tooltip
                                 formatter={(value: any, name: string, props: any) => {
                                     const exoData = props.payload[name];
-                                    if (!exoData) return ["", name];
-                                    return [`${exoData.kg}kg × ${exoData.reps} = ${exoData.volume}kg`, name];
+                                    if (!exoData || !exoData.sets) return ["", name];
+
+                                    // Formater chaque série avec des retours à la ligne
+                                    const setsDisplay = exoData.sets
+                                        .map((set) => `${set.kg}kg x ${set.reps}`)
+                                        .join("\n");
+
+                                    return [`\n${setsDisplay}\n= ${exoData.volume}kg`, name];
+                                }}
+                                labelFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
+                                contentStyle={{
+                                    backgroundColor: "rgba(51, 51, 52, 0.95)",
+                                    border: "1px solid #666",
+                                    borderRadius: "8px",
+                                    color: "#fff",
+                                    whiteSpace: "pre-line",
                                 }}
                             />
                             <Legend />
