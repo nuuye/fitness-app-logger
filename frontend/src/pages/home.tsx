@@ -14,44 +14,6 @@ import React from "react";
 import { getAllUserExerciceRequest } from "../services/exercice";
 import dayjs from "dayjs";
 
-const chartDataEx = [
-    {
-        name: "2025-07-02",
-        chest: 4000,
-        shoulder: 2400,
-    },
-    {
-        name: "2025-07-04",
-        chest: 3000,
-        shoulder: 1398,
-    },
-    {
-        name: "2025-07-12",
-        chest: 2000,
-        shoulder: 9800,
-    },
-    {
-        name: "2025-07-17",
-        chest: 2780,
-        shoulder: 3908,
-    },
-    {
-        name: "2025-07-22",
-        chest: 1890,
-        shoulder: 4800,
-    },
-    {
-        name: "2025-07-29",
-        chest: 2390,
-        shoulder: 3800,
-    },
-    {
-        name: "2025-08-04",
-        chest: 3490,
-        shoulder: 4300,
-    },
-];
-
 export default function Home() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
@@ -74,47 +36,60 @@ export default function Home() {
     }, [user]);
 
     useEffect(() => {
-        console.log(selectedExercices);
-        if (!selectedExercices || selectedExercices.length === 0) return;
+        console.log("selected exs: ", selectedExercices);
+        if (!selectedExercices || selectedExercices.length === 0) {
+            setChartData([]);
+            return;
+        }
 
-        // Map intermédiaire pour regrouper les volumes par date et par exercice
-        const tempData: Record<string, any> = {}; // { "2025-07-01": { date: ..., bench: ..., squat: ... } }
+        // Map intermédiaire pour regrouper les volumes par date
+        const tempData: Record<string, any> = {}; // { "2025-07-01": { date: ..., "exercice1": ..., "exercice2": ... } }
 
         for (const ex of selectedExercices) {
-            const exerciseName = ex.name; // ou id si tu veux
+            const exerciseName = ex.name; // Utiliser le nom de l'exercice comme clé
+
             for (const performance of ex.performances) {
                 const { date, sets } = performance;
 
                 const total = sets.reduce(
                     (acc, curr) => {
-                        acc.totalKg += Number(curr.kg);
-                        acc.totalReps += Number(curr.reps);
-                        acc.volume += Number(curr.reps) * Number(curr.kg);
+                        const kg = Number(curr.kg);
+                        const reps = Number(curr.reps);
+                        acc.totalKg += kg;
+                        acc.totalReps += reps;
+                        // Si le poids est 0, le volume = nombre de reps (exercices au poids du corps)
+                        // Sinon, volume = reps * kg (exercices avec poids)
+                        acc.volume += kg === 0 ? reps : reps * kg;
                         return acc;
                     },
                     { totalKg: 0, totalReps: 0, volume: 0 }
                 );
 
-                if (!tempData[date]) {
-                    tempData[date] = { date };
-                }
+                if (ex.performances.length > 1 && total.volume > 0) {
+                    // Initialiser la date si elle n'existe pas
+                    if (!tempData[date]) {
+                        tempData[date] = { date };
+                    }
 
-                tempData[date][exerciseName] = {
-                    kg: total.totalKg,
-                    reps: total.totalReps,
-                    volume: total.volume,
-                    // AJOUT : conserver les séries individuelles pour le tooltip
-                    sets: sets.map((set) => ({
-                        kg: Number(set.kg),
-                        reps: Number(set.reps),
-                    })),
-                };
+                    // Ajouter les données de cet exercice pour cette date
+                    tempData[date][exerciseName] = {
+                        kg: total.totalKg,
+                        reps: total.totalReps,
+                        volume: total.volume,
+                        sets: sets.map((set) => ({
+                            kg: Number(set.kg),
+                            reps: Number(set.reps),
+                        })),
+                    };
+                }
             }
         }
 
-        // Transformer le map en tableau
-        const result = Object.values(tempData);
+        // Transformer le map en tableau et trier par date
+        const result = Object.values(tempData).sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1));
+
         setChartData(result);
+        console.log("chartdata: ", chartData);
     }, [selectedExercices]);
 
     const retrieveExercices = async (subCategoryId: string) => {
@@ -124,6 +99,7 @@ export default function Home() {
         }
     };
 
+    // Retrieves the categories and subCategories of logged user
     const retrieveData = async () => {
         const categories = await retrieveCategoriesRequest(user.userId);
         const subCategories = await retrieveUserSubCategoriesRequest(user.userId);
@@ -141,7 +117,6 @@ export default function Home() {
         setShowDeleteCategoryWindow(!showDeleteCategoryWindow);
     };
 
-    //handles the display of sub categories on dashboard whenever click
     const handleSubCategory = async (categoryId: string) => {
         localStorage.setItem("subCategoryId", categoryId);
         router.push("/dashboard");
@@ -154,23 +129,20 @@ export default function Home() {
     const handleChange = (event) => {
         const subCategoryId = event.target.value;
         console.log("onChange triggered with value:", event.target.value);
-        setSelected(subCategoryId);
-        retrieveExercices(subCategoryId);
+        if (subCategoryId) {
+            setSelected(subCategoryId);
+            retrieveExercices(subCategoryId);
+        } else {
+            setSelectedExercices([]);
+        }
     };
 
-    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#00c49f", "#ff6384", "#a28dd0"]; // Autant que d'exos max
+    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#00c49f", "#ff6384", "#a28dd0", "#8dd1e1", "#d084d0"];
 
-    type ChartProps = {
-        chartData: any[];
-    };
-
-    const VolumeChart = ({ chartData }: ChartProps) => {
-        if (!chartData || chartData.length === 0) return null;
-    };
-
-    // On extrait les noms des exercices (hors champ "date")
-    const exerciseNames = Object.keys(chartData[0]).filter((key) => key !== "date");
-
+    // Extraire les noms des exercices sélectionnés
+    const rawExerciseNames = chartData.map((data) => [...Object.keys(data)][1]);
+    const exerciseNames = new Set(rawExerciseNames);
+    
     if (sideBarOpen === null) return null;
 
     return (
@@ -273,55 +245,60 @@ export default function Home() {
                         </Select>
                     </FormControl>
 
-                    {/* Insert lines chart here */}
-                    <ResponsiveContainer width="100%" height={400}>
-                        <LineChart
-                            data={chartData.slice().reverse()}
-                            margin={{ top: 20, right: 40, left: 0, bottom: 5 }}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                                dataKey="date"
-                                tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
-                            />
-                            <YAxis />
-                            <Tooltip
-                                formatter={(value: any, name: string, props: any) => {
-                                    const exoData = props.payload[name];
-                                    if (!exoData || !exoData.sets) return ["", name];
-
-                                    // Formater chaque série avec des retours à la ligne
-                                    const setsDisplay = exoData.sets
-                                        .map((set) => `${set.kg}kg x ${set.reps}`)
-                                        .join("\n");
-
-                                    return [`\n${setsDisplay}\n= ${exoData.volume}kg`, name];
-                                }}
-                                labelFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
-                                contentStyle={{
-                                    backgroundColor: "rgba(51, 51, 52, 0.95)",
-                                    border: "1px solid #666",
-                                    borderRadius: "8px",
-                                    color: "#fff",
-                                    whiteSpace: "pre-line",
-                                }}
-                            />
-                            <Legend />
-
-                            {exerciseNames.map((name, idx) => (
-                                <Line
-                                    key={name}
-                                    type="monotone"
-                                    dataKey={(d: any) => d[name]?.volume ?? 0}
-                                    name={name}
-                                    stroke={colors[idx % colors.length]}
-                                    strokeWidth={3}
-                                    dot={{ r: 4 }}
-                                    activeDot={{ r: 6 }}
+                    {/* Graphique avec une ligne par exercice */}
+                    {chartData.length > 0 && (
+                        <ResponsiveContainer width="100%" height={400}>
+                            <LineChart data={chartData} margin={{ top: 20, right: 40, left: 0, bottom: 5 }}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis
+                                    dataKey="date"
+                                    tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
                                 />
-                            ))}
-                        </LineChart>
-                    </ResponsiveContainer>
+                                <YAxis />
+                                <Tooltip
+                                    formatter={(value: any, name: string, props: any) => {
+                                        const exoData = props.payload[name];
+                                        if (!exoData || !exoData.sets) return [value, name];
+
+                                        // Formater chaque série avec des retours à la ligne
+                                        const setsDisplay = exoData.sets
+                                            .map((set) => `${set.kg}kg x ${set.reps}`)
+                                            .join("\n");
+
+                                        const volumeDisplay = exoData.sets.some((set) => set.kg === 0)
+                                            ? `${exoData.volume} reps`
+                                            : `${exoData.volume}kg`;
+
+                                        return [`\n${setsDisplay}\n= ${volumeDisplay}`, name];
+                                    }}
+                                    labelFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
+                                    contentStyle={{
+                                        backgroundColor: "rgba(51, 51, 52, 0.95)",
+                                        border: "1px solid #666",
+                                        borderRadius: "8px",
+                                        color: "#fff",
+                                        whiteSpace: "pre-line",
+                                    }}
+                                />
+                                <Legend />
+
+                                {/* Créer une ligne pour chaque exercice */}
+                                {Array.from(exerciseNames).map((exerciseName, idx) => (
+                                    <Line
+                                        key={exerciseName}
+                                        type="monotone"
+                                        dataKey={(d: any) => d[exerciseName]?.volume ?? null}
+                                        name={exerciseName}
+                                        stroke={colors[idx % colors.length]}
+                                        strokeWidth={3}
+                                        dot={{ r: 4 }}
+                                        activeDot={{ r: 6 }}
+                                        connectNulls={false}
+                                    />
+                                ))}
+                            </LineChart>
+                        </ResponsiveContainer>
+                    )}
                 </div>
             </div>
         </AuthWrapper>
