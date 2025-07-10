@@ -170,7 +170,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
         });
     };
 
-    // Modifier la fonction addPerformance pour inclure ces vérifications :
     const addPerformance = async (exerciceId: string) => {
         if (newPerformance) {
             // Créer une nouvelle performance sans l'_id (pour éviter les conflits)
@@ -179,6 +178,8 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                 sets: newPerformance.sets,
                 note: newPerformance.note || "",
             };
+
+            let updatedPerformances: PerformanceType[] = [];
 
             console.log("Nouvelle performance:", updatedPerformance);
             console.log("Performances précédentes:", previousPerformances);
@@ -206,7 +207,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                 }
             }
 
-            const updatedPerformances = [updatedPerformance, ...previousPerformances];
+            if (
+                previousPerformances &&
+                previousPerformances.length === 1 &&
+                isPerformanceEmpty(previousPerformances[0])
+            ) {
+                updatedPerformances = [updatedPerformance];
+            } else {
+                updatedPerformances = [updatedPerformance, ...previousPerformances];
+            }
             const success = await editExerciceRequest(exerciceId, undefined, updatedPerformances);
             if (success) {
                 setExercices((exercice) =>
