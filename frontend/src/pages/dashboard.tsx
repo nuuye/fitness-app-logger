@@ -132,6 +132,7 @@ export default function Dashboard() {
                             <DatePicker
                                 label="Date"
                                 value={value}
+                                inputFormat="DD/MM/YYYY"
                                 onChange={(newValue) => setValue(newValue)}
                                 renderInput={(params) => (
                                     <TextField
