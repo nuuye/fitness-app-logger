@@ -142,7 +142,7 @@ export default function Home() {
     // Extraire les noms des exercices sélectionnés
     const rawExerciseNames = chartData.map((data) => [...Object.keys(data)][1]);
     const exerciseNames = new Set(rawExerciseNames);
-    
+
     if (sideBarOpen === null) return null;
 
     return (
@@ -213,9 +213,6 @@ export default function Home() {
                                 },
                             }}
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
                             {[...data.entries()]
                                 .map(([category, subCategories]) => [
                                     <ListSubheader
@@ -246,59 +243,63 @@ export default function Home() {
                     </FormControl>
 
                     {/* Graphique avec une ligne par exercice */}
-                    {chartData.length > 0 && (
-                        <ResponsiveContainer width="100%" height={400}>
-                            <LineChart data={chartData} margin={{ top: 20, right: 40, left: 0, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis
-                                    dataKey="date"
-                                    tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
-                                />
-                                <YAxis />
-                                <Tooltip
-                                    formatter={(value: any, name: string, props: any) => {
-                                        const exoData = props.payload[name];
-                                        if (!exoData || !exoData.sets) return [value, name];
-
-                                        // Formater chaque série avec des retours à la ligne
-                                        const setsDisplay = exoData.sets
-                                            .map((set) => `${set.kg}kg x ${set.reps}`)
-                                            .join("\n");
-
-                                        const volumeDisplay = exoData.sets.some((set) => set.kg === 0)
-                                            ? `${exoData.volume} reps`
-                                            : `${exoData.volume}kg`;
-
-                                        return [`\n${setsDisplay}\n= ${volumeDisplay}`, name];
-                                    }}
-                                    labelFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
-                                    contentStyle={{
-                                        backgroundColor: "rgba(51, 51, 52, 0.95)",
-                                        border: "1px solid #666",
-                                        borderRadius: "8px",
-                                        color: "#fff",
-                                        whiteSpace: "pre-line",
-                                    }}
-                                />
-                                <Legend />
-
-                                {/* Créer une ligne pour chaque exercice */}
-                                {Array.from(exerciseNames).map((exerciseName, idx) => (
-                                    <Line
-                                        key={exerciseName}
-                                        type="monotone"
-                                        dataKey={(d: any) => d[exerciseName]?.volume ?? null}
-                                        name={exerciseName}
-                                        stroke={colors[idx % colors.length]}
-                                        strokeWidth={3}
-                                        dot={{ r: 4 }}
-                                        activeDot={{ r: 6 }}
-                                        connectNulls={false}
+                    <div className={styles.chartContainer}>
+                        {chartData.length > 0 ? (
+                            <ResponsiveContainer width="100%" height={400}>
+                                <LineChart data={chartData} margin={{ top: 20, right: 40, left: 0, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis
+                                        dataKey="date"
+                                        tickFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
                                     />
-                                ))}
-                            </LineChart>
-                        </ResponsiveContainer>
-                    )}
+                                    <YAxis />
+                                    <Tooltip
+                                        formatter={(value: any, name: string, props: any) => {
+                                            const exoData = props.payload[name];
+                                            if (!exoData || !exoData.sets) return [value, name];
+
+                                            // Formater chaque série avec des retours à la ligne
+                                            const setsDisplay = exoData.sets
+                                                .map((set) => `${set.kg}kg x ${set.reps}`)
+                                                .join("\n");
+
+                                            const volumeDisplay = exoData.sets.some((set) => set.kg === 0)
+                                                ? `${exoData.volume} reps`
+                                                : `${exoData.volume}kg`;
+
+                                            return [`\n${setsDisplay}\n= ${volumeDisplay}`, name];
+                                        }}
+                                        labelFormatter={(dateStr: string) => dayjs(dateStr).format("DD/MM/YY")}
+                                        contentStyle={{
+                                            backgroundColor: "rgba(51, 51, 52, 0.95)",
+                                            border: "1px solid #666",
+                                            borderRadius: "8px",
+                                            color: "#fff",
+                                            whiteSpace: "pre-line",
+                                        }}
+                                    />
+                                    <Legend />
+
+                                    {/* Créer une ligne pour chaque exercice */}
+                                    {Array.from(exerciseNames).map((exerciseName, idx) => (
+                                        <Line
+                                            key={exerciseName}
+                                            type="monotone"
+                                            dataKey={(d: any) => d[exerciseName]?.volume ?? null}
+                                            name={exerciseName}
+                                            stroke={colors[idx % colors.length]}
+                                            strokeWidth={3}
+                                            dot={{ r: 4 }}
+                                            activeDot={{ r: 6 }}
+                                            connectNulls={false}
+                                        />
+                                    ))}
+                                </LineChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <span className={styles.chartTextWarning}>Not enough data to analyze performances</span>
+                        )}
+                    </div>
                 </div>
             </div>
         </AuthWrapper>

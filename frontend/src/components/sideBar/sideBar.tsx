@@ -193,7 +193,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                 <ListItemIcon>
                                     <HomeIcon className={styles.homeIcon} />
                                 </ListItemIcon>
-                                <ListItemText primary="Home page" />
+                                <ListItemText primary="Analytics" />
                             </ListItemButton>
 
                             {categories &&

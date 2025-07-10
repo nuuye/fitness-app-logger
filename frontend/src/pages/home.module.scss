@@ -37,5 +37,15 @@
                 color: rgb(187, 186, 185);
             }
         }
+        .chartContainer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+            height: 100%;
+            .chartTextWarning {
+                color: rgba(187, 186, 185, 0.75);
+            }
+        }
     }
 }
