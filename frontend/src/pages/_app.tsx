@@ -9,7 +9,11 @@ export default function App({ Component, pageProps }) {
     return (
         <>
             <Head>
-                <title>Fitlogs – Your fitness logger</title>
+                <title>Fitlogs</title>
+
+                {/* Favicons - utilise le chemin direct */}
+                <link rel="icon" type="image/png" href="/images/dumbbell_icon.png" />
+                <link rel="shortcut icon" href="/images/dumbbell_icon.png" />
             </Head>
             <ThemeProvider theme={theme}>
                 <UserProvider>

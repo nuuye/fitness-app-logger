@@ -322,7 +322,7 @@ export default function Home() {
                                             strokeWidth={3}
                                             dot={{ r: 4 }}
                                             activeDot={{ r: 6 }}
-                                            connectNulls={false}
+                                            connectNulls={true}
                                         />
                                     ))}
                                 </LineChart>
