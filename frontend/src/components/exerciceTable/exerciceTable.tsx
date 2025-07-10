@@ -331,6 +331,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                         onChange={(e) =>
                                                             handleChangeExerciceName(row._id, e.target.value)
                                                         }
+                                                        onKeyDown={(e) => {
+                                                            if (e.key === "Enter") {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                                handleEditExercice(row);
+                                                                addPerformance(row._id);
+                                                                (document.activeElement as HTMLElement)?.blur();
+                                                            }
+                                                        }}
                                                     />
                                                 </label>
                                             </th>
@@ -359,6 +368,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                                 onChange={(e) =>
                                                                     handleChangeSetKg(row._id, index, e.target.value)
                                                                 }
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === "Enter") {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        handleEditExercice(row);
+                                                                        addPerformance(row._id);
+                                                                        (document.activeElement as HTMLElement)?.blur();
+                                                                    }
+                                                                }}
                                                             />
                                                             kg /
                                                             <Input
@@ -373,6 +391,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                                 }}
                                                                 onChange={(e) => {
                                                                     handleChangeSetReps(row._id, index, e.target.value);
+                                                                }}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === "Enter") {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        handleEditExercice(row);
+                                                                        addPerformance(row._id);
+                                                                        (document.activeElement as HTMLElement)?.blur();
+                                                                    }
                                                                 }}
                                                             />
                                                             reps
@@ -433,6 +460,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                 autoFocus
                                                 value={row.name}
                                                 onChange={(e) => handleChangeExerciceName(row._id, e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === "Enter") {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        handleEditExercice(row);
+                                                        addPerformance(row._id);
+                                                        (document.activeElement as HTMLElement)?.blur();
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     ) : (
@@ -489,6 +525,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             onChange={(e) =>
                                                                 handleChangeSetKg(row._id, index, e.target.value)
                                                             }
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === "Enter") {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                    handleEditExercice(row);
+                                                                    addPerformance(row._id);
+                                                                    (document.activeElement as HTMLElement)?.blur();
+                                                                }
+                                                            }}
                                                         />
                                                         kg |
                                                         <Input
@@ -502,6 +547,15 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                             onChange={(e) =>
                                                                 handleChangeSetReps(row._id, index, e.target.value)
                                                             }
+                                                            onKeyDown={(e) => {
+                                                                if (e.key === "Enter") {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                    handleEditExercice(row);
+                                                                    addPerformance(row._id);
+                                                                    (document.activeElement as HTMLElement)?.blur();
+                                                                }
+                                                            }}
                                                         />
                                                         reps
                                                     </div>

@@ -14,6 +14,39 @@ import React from "react";
 import { getAllUserExerciceRequest } from "../services/exercice";
 import dayjs from "dayjs";
 
+const COLORS = [
+    "#8884d8",
+    "#82ca9d",
+    "#ff7300",
+    "#00c49f",
+    "#ff6384",
+    "#a28dd0",
+    "#8dd1e1",
+    "#d084d0",
+    "#ffc658",
+    "#4bc0c0",
+    "#c9cbcf",
+    "#ff9f40",
+    "#36a2eb",
+    "#9966ff",
+    "#f67019",
+    "#e84393",
+    "#00b894",
+    "#fdcb6e",
+    "#6c5ce7",
+    "#00cec9",
+    "#fab1a0",
+    "#e17055",
+    "#0984e3",
+    "#d63031",
+    "#e67e22",
+    "#1abc9c",
+    "#3498db",
+    "#9b59b6",
+    "#34495e",
+    "#2ecc71",
+];
+
 export default function Home() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
@@ -136,8 +169,6 @@ export default function Home() {
             setSelectedExercices([]);
         }
     };
-
-    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#00c49f", "#ff6384", "#a28dd0", "#8dd1e1", "#d084d0"];
 
     // Extraire les noms des exercices sélectionnés
     const rawExerciseNames = chartData.map((data) => [...Object.keys(data)][1]);
@@ -287,7 +318,7 @@ export default function Home() {
                                             type="monotone"
                                             dataKey={(d: any) => d[exerciseName]?.volume ?? null}
                                             name={exerciseName}
-                                            stroke={colors[idx % colors.length]}
+                                            stroke={COLORS[idx % COLORS.length]}
                                             strokeWidth={3}
                                             dot={{ r: 4 }}
                                             activeDot={{ r: 6 }}
@@ -297,7 +328,9 @@ export default function Home() {
                                 </LineChart>
                             </ResponsiveContainer>
                         ) : (
-                            <span className={styles.chartTextWarning}>Not enough data to analyze performances</span>
+                            <span className={styles.chartTextWarning}>
+                                {selectedExercices.length > 0 && "Not enough data to analyze performances"}
+                            </span>
                         )}
                     </div>
                 </div>
