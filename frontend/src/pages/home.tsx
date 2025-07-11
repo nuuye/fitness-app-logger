@@ -16,7 +16,6 @@ import dayjs from "dayjs";
 
 const COLORS = [
     "#8884d8",
-    "#82ca9d",
     "#ff7300",
     "#00c49f",
     "#ff6384",
@@ -329,7 +328,7 @@ export default function Home() {
                             </ResponsiveContainer>
                         ) : (
                             <span className={styles.chartTextWarning}>
-                                {selectedExercices.length > 0 && "Not enough data to analyze performances"}
+                                {selectedExercices.length <= 0 && "Not enough data to analyze performances"}
                             </span>
                         )}
                     </div>

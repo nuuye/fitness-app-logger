@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useRouter } from "next/router";
 import { emailCheckRequest } from "../services/user";
+import Image from "next/image";
+import previewImage from '../../public/images/landing.png'
 
 const Landing = () => {
     const router = useRouter();
@@ -54,6 +56,9 @@ const Landing = () => {
                             <KeyboardArrowRightIcon className={styles.arrowIcon} fontSize="small" />
                         </Button>
                     </div>
+                </div>
+                <div className={styles.previewContainer}>
+                    <Image className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
                 </div>
             </div>
         </div>

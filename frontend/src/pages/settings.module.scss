@@ -55,10 +55,13 @@
             }
         }
         .contentContainer {
-            @media (min-width: 1030px) {
+            @media (min-width: 1100px) {
                 display: flex;
                 align-items: center;
-                flex-direction: column;
+                flex-direction: row;
+                justify-content: center;
+                gap: 25px;
+                margin-top: 35px;
             }
             .avatarContainer {
                 display: flex;
@@ -73,10 +76,10 @@
                 }
             }
             .formContainer {
-                @media (min-width: 1030px) {
+                @media (min-width: 1100px) {
                     width: 500px;
                 }
-                @media (max-width: 1030px) {
+                @media (max-width: 1100px) {
                     padding: 0px 45px;
                 }
                 @media (max-width: 750px) {

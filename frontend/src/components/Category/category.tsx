@@ -95,7 +95,7 @@ export default function Category({
                     <Input
                         className={styles.inputContainer}
                         onChange={(e) => setCategoryLabel(e.target.value)}
-                        value={CategoryLabel}
+                        value={CategoryLabel.slice(0, 1).toUpperCase() + CategoryLabel.slice(1)}
                         autoFocus
                         onClick={(event) => event.stopPropagation()}
                         onKeyDown={(e) => {
@@ -108,7 +108,7 @@ export default function Category({
                         }}
                     />
                 ) : (
-                    <ListItemText primary={CategoryLabel} />
+                    <ListItemText primary={CategoryLabel.slice(0, 1).toUpperCase() + CategoryLabel.slice(1)} />
                 )}
                 {showMore && (
                     <ListItemIcon className={styles.iconContainer}>
