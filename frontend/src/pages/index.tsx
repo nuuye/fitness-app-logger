@@ -7,7 +7,10 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useRouter } from "next/router";
 import { emailCheckRequest } from "../services/user";
 import Image from "next/image";
-import previewImage from '../../public/images/landing.png'
+import previewImage from "../../public/images/landing.png";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import LockIcon from "@mui/icons-material/Lock";
 
 const Landing = () => {
     const router = useRouter();
@@ -59,6 +62,45 @@ const Landing = () => {
                 </div>
                 <div className={styles.previewContainer}>
                     <Image className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
+                </div>
+                <div className={styles.featuresSection}>
+                    <div className={styles.featuresContainer}>
+                        <h2 className={styles.featuresTitle}>
+                            Why <span style={{ color: "hsl(210, 100%, 65%)" }}>Fitlogs</span>?
+                        </h2>
+
+                        <div className={styles.featuresGrid}>
+                            <div className={styles.featureCard}>
+                                <div className={styles.featureIcon}>
+                                    <AddCircleOutlineIcon />
+                                </div>
+                                <h3 className={styles.featureCardTitle}>Real-time tracking</h3>
+                                <p className={styles.featureCardDescription}>
+                                    Record your performance instantly during your training sessions
+                                </p>
+                            </div>
+
+                            <div className={styles.featureCard}>
+                                <div className={styles.featureIcon}>
+                                    <QueryStatsIcon />
+                                </div>
+                                <h3 className={styles.featureCardTitle}>Progress analysis</h3>
+                                <p className={styles.featureCardDescription}>
+                                    Visualize your progress with detailed graphs and advanced statistics
+                                </p>
+                            </div>
+
+                            <div className={styles.featureCard}>
+                                <div className={styles.featureIcon}>
+                                    <LockIcon />
+                                </div>
+                                <h3 className={styles.featureCardTitle}>Secured data</h3>
+                                <p className={styles.featureCardDescription}>
+                                    Your training data is protected by secure authentication{" "}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
