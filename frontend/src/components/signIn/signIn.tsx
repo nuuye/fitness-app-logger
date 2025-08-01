@@ -87,10 +87,12 @@ export default function SignIn() {
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                     },
                                 }}
@@ -117,10 +119,12 @@ export default function SignIn() {
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                     },
                                 }}
@@ -145,9 +149,9 @@ export default function SignIn() {
                                         value="remember"
                                         color="primary"
                                         sx={{
-                                            color: "rgb(11, 114, 84)",
+                                            color: "hsla(210, 98%, 42%, 0.5)",
                                             "&.Mui-checked": {
-                                                color: "rgb(11, 114, 84)",
+                                                color: "hsl(210, 98%, 42%)",
                                             },
                                         }}
                                     />
@@ -164,7 +168,7 @@ export default function SignIn() {
                             <Link className={styles.forgotPasswordText}>Forgot your password?</Link>
                         </div>
                         <Button
-                            className={styles.signUpButton}
+                            className={styles.signInButton}
                             type="submit"
                             fullWidth
                             variant="contained"
