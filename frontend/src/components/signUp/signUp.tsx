@@ -103,10 +103,12 @@ export default function SignUp() {
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                     },
                                 }}
@@ -130,10 +132,12 @@ export default function SignUp() {
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                     },
                                 }}
@@ -160,10 +164,12 @@ export default function SignUp() {
                                 sx={{
                                     "& .MuiOutlinedInput-root": {
                                         "&:hover .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                            borderColor: "rgb(11, 114, 84)",
+                                            borderColor: "hsla(210, 98%, 42%, 0.5)",
+                                            borderRadius: "8px",
                                         },
                                     },
                                 }}
