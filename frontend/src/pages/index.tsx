@@ -11,6 +11,36 @@ import previewImage from "../../public/images/landing.png";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import LockIcon from "@mui/icons-material/Lock";
+import StarIcon from "@mui/icons-material/Star";
+import Avatar from "@mui/material/Avatar";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
+const testimonials = [
+    {
+        id: 1,
+        name: "Sarah Johnson",
+        role: "Fitness Enthusiast",
+        avatar: "SJ",
+        rating: 5,
+        text: "Fitlogs has completely transformed how I track my workouts. The interface is intuitive and the progress tracking keeps me motivated every day!",
+    },
+    {
+        id: 2,
+        name: "Mike Chen",
+        role: "Personal Trainer",
+        avatar: "MC",
+        rating: 5,
+        text: "As a personal trainer, I recommend Fitlogs to all my clients. The real-time tracking feature is game-changing for monitoring form and progress.",
+    },
+    {
+        id: 3,
+        name: "Emma Rodriguez",
+        role: "Marathon Runner",
+        avatar: "ER",
+        rating: 5,
+        text: "The detailed analytics helped me identify patterns in my training. I've improved my performance significantly since using Fitlogs!",
+    },
+];
 
 const Landing = () => {
     const router = useRouter();
@@ -99,6 +129,34 @@ const Landing = () => {
                                     Your training data is protected by secure authentication{" "}
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={styles.testimonialsSection}>
+                    <div className={styles.testimonialsContainer}>
+                        <h2 className={styles.testimonialsTitle}>
+                            <span className={styles.communityTitle} >
+                                Community love <FavoriteIcon fontSize="large"/>
+                            </span>
+                        </h2>
+                        <div className={styles.testimonialsGrid}>
+                            {testimonials.map((testimonial) => (
+                                <div key={testimonial.id} className={styles.testimonialCard}>
+                                    <div className={styles.testimonialHeader}>
+                                        <Avatar className={styles.testimonialAvatar}>{testimonial.avatar}</Avatar>
+                                        <div className={styles.testimonialUserInfo}>
+                                            <h4 className={styles.testimonialName}>{testimonial.name}</h4>
+                                            <p className={styles.testimonialRole}>{testimonial.role}</p>
+                                        </div>
+                                    </div>
+                                    <div className={styles.testimonialRating}>
+                                        {[...Array(testimonial.rating)].map((_, index) => (
+                                            <StarIcon key={index} className={styles.starIcon} />
+                                        ))}
+                                    </div>
+                                    <p className={styles.testimonialText}>"{testimonial.text}"</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

@@ -265,5 +265,120 @@
                 }
             }
         }
+
+        // Add these styles to your existing index.module.scss file
+
+        .testimonialsSection {
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        .testimonialsContainer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .testimonialsTitle {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+            font-family: "Roboto", sans-serif;
+            .communityTitle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                color: hsl(210, 100%, 65%);
+            }
+            @media (max-width: 768px) {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+        }
+
+        .testimonialsGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        .testimonialCard {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-8px);
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(66, 153, 225, 0.3);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .testimonialHeader {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .testimonialAvatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, hsl(210, 100%, 65%), hsl(210, 100%, 75%));
+            color: white;
+            font-weight: 600;
+            margin-right: 16px;
+        }
+
+        .testimonialUserInfo {
+            flex: 1;
+        }
+
+        .testimonialName {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            margin: 0 0 4px 0;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .testimonialRole {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .testimonialRating {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+
+        .starIcon {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .testimonialText {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-style: italic;
+            font-family: "Roboto", sans-serif;
+        }
     }
 }
