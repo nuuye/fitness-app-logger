@@ -69,7 +69,8 @@ const Landing = () => {
             <div className={styles.mainContainer}>
                 <div className={styles.textContainer}>
                     <p className={styles.title}>
-                        Fitlogs, your <span style={{ color: "hsl(210, 100%, 65%)" }}>personal</span> training
+                        Fit<span style={{ color: "hsl(210, 100%, 65%)" }}>logs</span>, your{" "}
+                        <span style={{ color: "hsl(210, 100%, 65%)" }}>personal</span> training
                         <span style={{ color: "hsl(210, 100%, 65%)" }}> companion</span>
                     </p>
                     <p className={styles.subTitle}>
@@ -95,12 +96,14 @@ const Landing = () => {
                     </div>
                 </div>
                 <div className={styles.previewContainer}>
-                    <Image className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
+                    <div className={styles.innerContainer}>
+                        <Image className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
+                    </div>
                 </div>
                 <div className={styles.featuresSection}>
                     <div className={styles.featuresContainer}>
                         <h2 className={styles.featuresTitle}>
-                            Why <span style={{ color: "hsl(210, 100%, 65%)" }}>Fitlogs</span>?
+                            Why Fit<span style={{ color: "hsl(210, 100%, 65%)" }}>logs</span>?
                         </h2>
 
                         <div className={styles.featuresGrid}>
@@ -209,7 +212,7 @@ const Landing = () => {
                                     </li>
                                     <li>
                                         <a href="/about" className={styles.footerLink}>
-                                            About Us
+                                            About Fitlogs
                                         </a>
                                     </li>
                                     <li>

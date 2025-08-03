@@ -14,7 +14,6 @@
         align-items: center;
         justify-content: flex-start;
         min-height: 100vh;
-        padding: 60px 20px 40px;
         gap: 30px;
 
         @media (max-width: 768px) {
@@ -28,7 +27,7 @@
             align-items: center;
             max-width: 800px;
             text-align: center;
-
+            padding-top: 60px;
             @media (max-width: 768px) {
                 gap: 15px;
             }
@@ -148,31 +147,32 @@
 
         .previewContainer {
             max-width: 900px;
-            width: 100%;
             display: flex;
             justify-content: center;
+            padding: 0 40px;
+            .innerContainer {
+                .previewImage {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 12px;
+                    box-shadow: 0 15px 30px hsla(220, 35%, 3%, 0.7);
+                    transition: transform 300ms ease-out;
 
-            .previewImage {
-                width: 100%;
-                height: auto;
-                border-radius: 12px;
-                box-shadow: 0 15px 30px hsla(220, 35%, 3%, 0.7);
-                transition: transform 300ms ease-out;
+                    @media (max-width: 768px) {
+                        border-radius: 8px;
+                        box-shadow: 0 8px 16px hsla(220, 35%, 3%, 0.6);
+                    }
 
-                @media (max-width: 768px) {
-                    border-radius: 8px;
-                    box-shadow: 0 8px 16px hsla(220, 35%, 3%, 0.6);
-                }
-
-                &:hover {
-                    transform: translateY(-3px);
+                    &:hover {
+                        transform: translateY(-3px);
+                    }
                 }
             }
         }
 
         .featuresSection {
             width: 100%;
-            padding: 80px 20px;
+            padding: 80px 0px;
 
             @media (max-width: 768px) {
                 padding: 60px 15px;
@@ -181,6 +181,7 @@
             .featuresContainer {
                 max-width: 1200px;
                 margin: 0 auto;
+                padding: 0 25px;
 
                 .featuresTitle {
                     font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -266,8 +267,6 @@
             }
         }
 
-        // Add these styles to your existing index.module.scss file
-
         .testimonialsSection {
             width: 100%;
             padding: 20px 0;
@@ -275,7 +274,7 @@
             .testimonialsContainer {
                 max-width: 1200px;
                 margin: 0 auto;
-                padding: 0 24px;
+                padding: 0 25px;
             }
 
             .testimonialsTitle {
