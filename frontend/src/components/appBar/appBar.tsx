@@ -42,7 +42,11 @@ export default function AppBar() {
                     <Button className={styles.sectionButtonContainer} variant="text">
                         About
                     </Button>
-                    <Button className={styles.sectionButtonContainer} variant="text">
+                    <Button
+                        className={styles.sectionButtonContainer}
+                        variant="text"
+                        onClick={() => router.push("/blog")}
+                    >
                         Blog
                     </Button>
                 </div>

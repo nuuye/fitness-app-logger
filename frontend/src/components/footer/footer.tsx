@@ -44,7 +44,14 @@ export default function footer() {
                             <IconButton className={styles.socialIcon} aria-label="Instagram">
                                 <Instagram />
                             </IconButton>
-                            <IconButton className={styles.socialIcon} aria-label="LinkedIn">
+                            <IconButton
+                                className={styles.socialIcon}
+                                aria-label="LinkedIn"
+                                component="a"
+                                href="https://www.linkedin.com/in/thomas-mostowfi-5425b32a0"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 <LinkedIn />
                             </IconButton>
                         </div>

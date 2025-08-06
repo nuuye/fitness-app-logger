@@ -114,6 +114,24 @@ export default function FAQ() {
                         </p>
                     </FAQItem>
 
+                    <FAQItem title="Cookies">
+                        <p>Fitlogs uses cookies to provide you with a secure and seamless experience.</p>
+
+                        <h4>🍪 How We Use Cookies</h4>
+                        <ul>
+                            <li>Authentication cookies: Used to keep you logged in and secure your session</li>
+                            <li>
+                                Session management: Automatically generated when you log in with a 24-hour expiration
+                            </li>
+                            <li>No tracking: We don't use cookies for advertising or tracking purposes</li>
+                        </ul>
+
+                        <p>
+                            We only use necessary cookies required for the application to work - no third-party tracking
+                            or analytics cookies are used.
+                        </p>
+                    </FAQItem>
+
                     <FAQItem title="Terms of Service">
                         <p>By using Fitlogs, you agree to these terms and conditions. Please read them carefully.</p>
 
