@@ -23,9 +23,11 @@ export default function FAQ() {
                             you monitor and analyze your workout performance over time.
                         </p>
                         <p>
-                            Our mission is to provide athletes, fitness enthusiasts, and anyone interested in improving
-                            their physical health with powerful tools to track their progress, identify trends, and
-                            optimize their training.
+                            Built with modern web technologies including React with TypeScript for a robust front-end
+                            experience, Node.js with Express for reliable backend services, and MongoDB for flexible
+                            data storage. The application is containerized with Docker and deployed on AWS
+                            infrastructure, ensuring scalability and performance. The user interface combines SCSS for
+                            custom styling with Material-UI components for a polished, responsive design.
                         </p>
 
                         <h4>Key Features:</h4>
@@ -52,25 +54,13 @@ export default function FAQ() {
                             detailed questions or technical issues. We typically respond within 24 hours.
                         </p>
 
-                        <h4>💬 Live Chat</h4>
-                        <p>
-                            Use the chat widget in the bottom-right corner of the application for quick questions and
-                            real-time assistance during business hours (9 AM - 6 PM EST).
-                        </p>
-
-                        <h4>📚 Documentation</h4>
-                        <p>
-                            Check out our comprehensive <a href="/docs">documentation</a> for step-by-step guides,
-                            tutorials, and best practices.
-                        </p>
-
                         <h4>🐛 Bug Reports</h4>
                         <p>
-                            Found a bug? Please report it to <a href="mailto:bugs@fitlogs.com">bugs@fitlogs.com</a>{" "}
-                            with:
+                            Found a bug? Please report it to <a href="mailto:bugs@fitlogs.com">bugs@fitlogs.com</a> with
+                            if possible:
                         </p>
                         <ul>
-                            <li>Detailed description of the issue</li>
+                            <li>Description of the issue</li>
                             <li>Steps to reproduce the problem</li>
                             <li>Screenshots or screen recordings if applicable</li>
                             <li>Your browser and device information</li>
@@ -169,51 +159,38 @@ export default function FAQ() {
 
                     <FAQItem title="Security">
                         <p>
-                            Security is at the core of everything we do at Fitlogs. Here's how we protect your data and
-                            ensure a secure experience.
+                            Security is a priority in Fitlogs development. Your data is protected through multiple
+                            layers of security measures implemented throughout the application.
                         </p>
 
                         <h4>🔐 Data Encryption</h4>
                         <ul>
+                            <li>All passwords are securely hashed using industry-standard bcrypt encryption</li>
                             <li>
-                                <strong>In Transit:</strong> All data transmitted between your device and our servers is
-                                encrypted using TLS 1.3
+                                Data transmission between your device and servers is protected with HTTPS encryption
                             </li>
-                            <li>
-                                <strong>At Rest:</strong> Your data is encrypted using AES-256 encryption when stored in
-                                our databases
-                            </li>
-                            <li>
-                                <strong>Backups:</strong> All backups are encrypted and stored in geographically
-                                distributed locations
-                            </li>
+                            <li>User authentication is required to access your personal dashboard and data</li>
                         </ul>
 
-                        <h4>🏗️ Infrastructure Security</h4>
+                        <h4>🛡️ Access Control</h4>
                         <ul>
-                            <li>Hosted on enterprise-grade cloud infrastructure with 24/7 monitoring</li>
-                            <li>Regular penetration testing by third-party security experts</li>
-                            <li>Automated security scanning and vulnerability assessments</li>
-                            <li>Multi-factor authentication required for all team access</li>
+                            <li>Protected API routes ensure only authenticated users can access their own data</li>
+                            <li>Request rate limiting prevents abuse and protects server resources</li>
+                            <li>Each user can only access and modify their own workout data</li>
                         </ul>
 
                         <h4>👤 Account Security</h4>
                         <p>Protect your account with these recommended practices:</p>
                         <ul>
                             <li>Use a strong, unique password for your Fitlogs account</li>
-                            <li>Enable two-factor authentication (2FA) when available</li>
                             <li>Log out from shared or public devices</li>
-                            <li>Report any suspicious activity immediately</li>
+                            <li>Contact support if you notice any unusual account activity</li>
                         </ul>
 
-                        <h4>🚨 Incident Response</h4>
-                        <p>In the unlikely event of a security incident:</p>
-                        <ul>
-                            <li>We have a dedicated incident response team available 24/7</li>
-                            <li>Affected users will be notified within 72 hours</li>
-                            <li>We work with law enforcement when necessary</li>
-                            <li>Transparent post-incident reports are published</li>
-                        </ul>
+                        <p>
+                            Your fitness data privacy and security are taken seriously, with ongoing attention to
+                            security best practices as the application evolves.
+                        </p>
 
                         <p>
                             Questions about security? Contact our security team at{" "}
