@@ -87,17 +87,16 @@ const Landing = () => {
                         <Button
                             className={styles.startButtonContainer}
                             variant="contained"
-                            endIcon
+                            endIcon={<KeyboardArrowRightIcon className={styles.arrowIcon} fontSize="small" />}
                             onClick={() => handleStartButton()}
                         >
                             Start now
-                            <KeyboardArrowRightIcon className={styles.arrowIcon} fontSize="small" />
                         </Button>
                     </div>
                 </div>
                 <div className={styles.previewContainer}>
                     <div className={styles.innerContainer}>
-                        <Image className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
+                        <Image priority className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
                     </div>
                 </div>
                 <div className={styles.featuresSection}>

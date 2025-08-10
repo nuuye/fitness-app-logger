@@ -6,6 +6,7 @@ import { GoogleIcon } from "../customIcons/customIcons";
 import { loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
+import { signIn } from "next-auth/react"
 
 export default function SignIn() {
     const router = useRouter();
@@ -181,7 +182,7 @@ export default function SignIn() {
                         className={styles.googleButton}
                         fullWidth
                         variant="outlined"
-                        onClick={() => alert("Sign in with Google")}
+                        onClick={() => signIn("google")}
                         startIcon={<GoogleIcon />}
                     >
                         Sign in with Google
