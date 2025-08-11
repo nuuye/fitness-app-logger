@@ -233,30 +233,36 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                     </div>
 
                     <div className={`${styles.footer} ${!sideBarOpen && styles.wrappedFooter}`}>
-                        <Button
-                            className={`${styles.homeButton} ${
-                                sideBarOpen ? styles.wrappedHomeButtonHidden : styles.wrappedHomeButton
-                            }`}
-                            variant="outlined"
-                            startIcon={<HomeIcon />}
-                            onClick={() => router.push("/home")}
-                        ></Button>
-                        <Button
-                            className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
-                            variant="outlined"
-                            startIcon={<SettingsOutlinedIcon />}
-                            onClick={() => router.push("/settings")}
-                        >
-                            {sideBarOpen ? "Settings" : ""}
-                        </Button>
-                        <Button
-                            className={`${styles.logoutButton} ${!sideBarOpen && styles.wrappedLogoutButton}`}
-                            variant="outlined"
-                            startIcon={<BiLogOut />}
-                            onClick={() => handleLogout()}
-                        >
-                            {sideBarOpen ? "Logout" : ""}
-                        </Button>
+                        <div className={`${styles.footerButton} ${sideBarOpen && styles.removeFooterButton}`}>
+                            <Button
+                                className={`${styles.homeButton} ${
+                                    sideBarOpen ? styles.wrappedHomeButtonHidden : styles.wrappedHomeButton
+                                }`}
+                                variant="outlined"
+                                startIcon={<HomeIcon />}
+                                onClick={() => router.push("/home")}
+                            ></Button>
+                        </div>
+                        <div className={styles.footerButton}>
+                            <Button
+                                className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
+                                variant="outlined"
+                                startIcon={<SettingsOutlinedIcon />}
+                                onClick={() => router.push("/settings")}
+                            >
+                                {sideBarOpen ? "Settings" : ""}
+                            </Button>
+                        </div>
+                        <div className={styles.footerButton}>
+                            <Button
+                                className={`${styles.logoutButton} ${!sideBarOpen && styles.wrappedLogoutButton}`}
+                                variant="outlined"
+                                startIcon={<BiLogOut />}
+                                onClick={() => handleLogout()}
+                            >
+                                {sideBarOpen ? "Logout" : ""}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
