@@ -13,5 +13,5 @@ router.post("/checkUser", userCtrl.emailCheck);
 router.get("/verifyToken", userCtrl.verifyToken);
 router.post("/logout", userCtrl.logout);
 router.put("/changePassword/:id", auth, userCtrl.changePassword);
-
+router.put("/google-auth", userCtrl.googleAuth);
 module.exports = router;

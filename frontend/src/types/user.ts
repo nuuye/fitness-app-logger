@@ -9,14 +9,7 @@ export interface UserCredentials {
     password: string;
 }
 
-export interface SignUpAuthResponse {
-    userId: string;
-    name: string;
-    email: string;
-    token: string;
-}
-
-export interface LoginAuthResponse {
+export interface AuthResponse {
     userId: string;
     name: string;
     email: string;

@@ -79,6 +79,66 @@ exports.login = (req, res, next) => {
         });
 };
 
+exports.googleAuth = (req, res, next) => {
+    const { email } = req.body;
+    User.findOne({ email })
+        .then((user) => {
+            if (user) { // if an email is found with google sso
+                const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, {
+                    expiresIn: "24h",
+                });
+
+                res.cookie("jwtToken", token, {
+                    httpOnly: true,
+                    secure: false,
+                    sameSite: "Lax",
+                    path: "/",
+                    maxAge: 24 * 60 * 60 * 1000,
+                });
+
+                // Return a success message
+                res.status(200).json({
+                    userId: user._id,
+                    name: user.name,
+                    email: user.email,
+                    token: token,
+                });
+
+            } else { //if no email is found with google sso, we create a new account
+                const newUser = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: null,
+                });
+
+                newUser
+                    .save()
+                    .then((user) => {
+                        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
+
+                        res.cookie("jwtToken", token, {
+                            httpOnly: true,
+                            secure: false,
+                            sameSite: "Lax",
+                            path: "/",
+                            maxAge: 24 * 60 * 60 * 1000,
+                        });
+
+                        res.status(200).json({
+                            userId: user._id,
+                            name: user.name,
+                            email: user.email,
+                            token: token,
+                        });
+                    })
+                    .catch((err) => res.status(400).json({ err }));
+            }
+        })
+        .catch((err) => {
+            res.status(400).json({ err });
+        });
+};
+
 exports.logout = (req, res, next) => {
     res.clearCookie("jwtToken", {
         secure: true, // Match login settings

@@ -1,7 +1,7 @@
-import { User, UserCredentials, SignUpAuthResponse, LoginAuthResponse, SignupFormValues } from "../types";
+import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
 const API_USER_URL = process.env.NEXT_PUBLIC_API_USER_URL;
 
-export const signupRequest = async (data: SignupFormValues): Promise<SignUpAuthResponse> => {
+export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
         const response = await fetch(`${API_USER_URL}/signup`, {
             method: "POST",
@@ -20,7 +20,7 @@ export const signupRequest = async (data: SignupFormValues): Promise<SignUpAuthR
     }
 };
 
-export const loginRequest = async (credentials: UserCredentials): Promise<LoginAuthResponse> => {
+export const loginRequest = async (credentials: UserCredentials): Promise<AuthResponse> => {
     try {
         const response = await fetch(`${API_USER_URL}/login`, {
             method: "POST",
@@ -35,6 +35,25 @@ export const loginRequest = async (credentials: UserCredentials): Promise<LoginA
         return response.json();
     } catch (error) {
         console.log("incorrect credentials", error);
+        return null;
+    }
+};
+
+export const googleAuthRequest = async (name: string, email: string): Promise<AuthResponse> => {
+    try {
+        const response = await fetch(`${API_USER_URL}/google-auth`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({name, email}),
+        });
+
+        if (!response) {
+            return null;
+        }
+        return response.json();
+    } catch (error) {
+        console.log("google authentification failed", error);
         return null;
     }
 };

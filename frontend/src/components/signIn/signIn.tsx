@@ -3,13 +3,14 @@ import styles from "./signIn.module.scss";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
-import { loginRequest } from "../../services/user";
+import { googleAuthRequest, loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react";
 
 export default function SignIn() {
     const router = useRouter();
+    const { data, status } = useSession();
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState<boolean>(false);
@@ -24,6 +25,22 @@ export default function SignIn() {
             setEmailValue(storedEmail);
         }
     }, []);
+
+    useEffect(() => {
+        const handleGoogleAuth = async () => {
+            if (status == "authenticated" && data?.user?.email) {
+                const authResult = await googleAuthRequest(data.user.name, data.user.email);
+                if (authResult) {
+                    setUser({ userId: authResult.userId, name: authResult.name, email: authResult.email });
+                    localStorage.setItem("userId", authResult.userId);
+                    localStorage.setItem("token", authResult.token);
+                    router.push("/dashboard");
+                }
+            }
+        };
+
+        handleGoogleAuth();
+    }, [status]);
 
     const validateInputs = (): void => {
         const email = document.getElementById("email") as HTMLInputElement;
@@ -59,7 +76,7 @@ export default function SignIn() {
         };
         const userData = await loginRequest(formData);
         if (userData) {
-            setUser({userId: userData.userId, name: userData.name, email: userData.email})
+            setUser({ userId: userData.userId, name: userData.name, email: userData.email });
             localStorage.setItem("userId", userData.userId);
             localStorage.setItem("token", userData.token);
             router.push("/dashboard");
