@@ -271,7 +271,13 @@ const Landing = () => {
                                     <div className={styles.contactItem}>
                                         <GitHubIcon className={styles.contactIcon} />
                                         <span>
-                                            <a href="https://github.com/nuuye/fitness-app-logger">fitness-app-logger</a>
+                                            <a
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                href="https://github.com/nuuye/fitness-app-logger"
+                                            >
+                                                fitness-app-logger
+                                            </a>
                                         </span>
                                     </div>
                                     <div className={styles.contactItem}>
