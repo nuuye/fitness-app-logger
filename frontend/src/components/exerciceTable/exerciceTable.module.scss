@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-
+    background: hsla(220, 35%, 12%, 0.3);
     // Desktop view
     .desktopView {
         display: block;
@@ -24,7 +24,7 @@
 
         // Exercise card styling
         .exerciseCard {
-            margin-bottom: 16px;
+            margin: 16px;
             border: 1px solid hsla(220, 20%, 25%, 0.4);
             border-radius: 12px;
             padding: 16px;

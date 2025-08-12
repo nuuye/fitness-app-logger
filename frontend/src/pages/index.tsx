@@ -17,6 +17,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Facebook, X, Instagram, LinkedIn, Mail, Phone } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const testimonials = [
     {
@@ -266,6 +267,12 @@ const Landing = () => {
                                     <div className={styles.contactItem}>
                                         <Mail className={styles.contactIcon} />
                                         <span>support@fitlogs.com</span>
+                                    </div>
+                                    <div className={styles.contactItem}>
+                                        <GitHubIcon className={styles.contactIcon} />
+                                        <span>
+                                            <a href="https://github.com/nuuye/fitness-app-logger">fitness-app-logger</a>
+                                        </span>
                                     </div>
                                     <div className={styles.contactItem}>
                                         <Phone className={styles.contactIcon} />
