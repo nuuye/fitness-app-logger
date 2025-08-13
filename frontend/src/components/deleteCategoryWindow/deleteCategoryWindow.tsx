@@ -26,9 +26,15 @@ export default function DeleteCategoryWindow({ isCategory, label, onCancel, onCo
                 <div>
                     <h3>Are you sure?</h3>
                     {isCategory ? (
-                        <p>This will permanently delete the category "{label}" and its sub-categories</p>
+                        <p>
+                            This will permanently delete the category <strong>"{label}"</strong> and all its
+                            sub-categories.
+                        </p>
                     ) : (
-                        <p>This will permanently delete the sub-category "{label}" and all related exercices</p>
+                        <p>
+                            This will permanently delete the sub-category <strong>"{label}"</strong> and all related
+                            exercises.
+                        </p>
                     )}
                 </div>
                 <div className={styles.actions}>
@@ -36,7 +42,7 @@ export default function DeleteCategoryWindow({ isCategory, label, onCancel, onCo
                         Cancel
                     </Button>
                     <Button variant="contained" color="error" onClick={() => handleClose(onConfirm)}>
-                        Delete category
+                        {isCategory ? "Delete category" : "Delete sub-category"}
                     </Button>
                 </div>
             </Card>
