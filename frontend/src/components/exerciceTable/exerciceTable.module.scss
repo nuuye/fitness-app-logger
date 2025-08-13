@@ -1,8 +1,7 @@
 .root {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 0px 15px 15px 15px;
+    gap: 16px;
 
     // Desktop view
     .desktopView {
@@ -26,13 +25,22 @@
         // Exercise card styling
         .exerciseCard {
             margin-bottom: 16px;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 12px;
-            color: rgb(187, 186, 185);
+            border: 1px solid hsla(220, 20%, 25%, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            background: linear-gradient(135deg, hsla(220, 35%, 12%, 0.6) 0%, hsla(220, 35%, 8%, 0.6) 100%);
+            backdrop-filter: blur(10px);
+            transition: all 200ms ease;
+
+            &:hover {
+                border-color: hsla(220, 20%, 35%, 0.6);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px hsla(220, 35%, 3%, 0.4);
+            }
 
             &.zebraCard {
-                background-color: rgba(51, 51, 52, 0.3);
+                background: linear-gradient(135deg, hsla(220, 35%, 15%, 0.6) 0%, hsla(220, 35%, 10%, 0.6) 100%);
             }
 
             // Card header with exercise name and buttons
@@ -40,59 +48,101 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 8px;
-                padding-bottom: 8px;
-                border-bottom: 1px solid #444;
+                margin-bottom: 12px;
+                padding-bottom: 12px;
+                border-bottom: 1px solid hsla(220, 20%, 25%, 0.3);
 
                 .exerciseName {
                     .checkBox {
-                        color: rgb(187, 186, 185);
+                        color: hsl(220, 20%, 75%);
+                        transition: color 200ms ease;
+
+                        &:hover {
+                            color: hsl(210, 100%, 65%);
+                        }
                     }
                 }
 
                 .exerciceNameContainer {
                     display: flex;
                     align-items: center;
+                    gap: 8px;
 
                     .editCheckBox {
-                        color: rgb(187, 186, 185);
+                        color: hsl(220, 20%, 75%);
+                        transition: color 200ms ease;
+
+                        &:hover {
+                            color: hsl(210, 100%, 65%);
+                        }
                     }
 
                     .editInput {
-                        background-color: rgb(110 110 110);
-                        border-radius: 3px;
-                        padding-left: 3px;
+                        background: hsla(220, 35%, 12%, 0.8);
+                        border: 1px solid hsla(220, 20%, 25%, 0.5);
+                        border-radius: 6px;
+                        padding: 8px 12px;
                         font-size: 15px;
-                        color: rgb(187, 186, 185);
+                        color: white;
+                        transition: all 200ms ease;
+
+                        &:focus {
+                            outline: none;
+                            border-color: hsl(210, 100%, 50%);
+                            box-shadow: 0 0 0 2px hsla(210, 100%, 50%, 0.2);
+                        }
                     }
                 }
 
                 .cardActions {
                     display: flex;
+                    gap: 8px;
 
                     .deleteIcon {
                         width: 20px;
                         height: 20px;
-                        color: rgb(165, 27, 27);
+                        color: hsl(0, 70%, 55%);
+                        cursor: pointer;
+                        padding: 2px;
+                        border-radius: 4px;
+                        transition: all 200ms ease;
+
                         &:hover {
-                            color: rgb(230, 7, 7);
+                            color: hsl(0, 80%, 65%);
+                            background: hsla(0, 70%, 55%, 0.1);
+                            transform: scale(1.1);
                         }
                     }
 
                     .editIcon {
-                        height: 16px;
-                        width: 16px;
-                        color: rgb(187, 186, 185);
+                        height: 18px;
+                        width: 18px;
+                        color: hsl(220, 20%, 75%);
+                        cursor: pointer;
+                        padding: 2px;
+                        border-radius: 4px;
+                        transition: all 200ms ease;
+
                         &:hover {
-                            color: rgb(255, 255, 255);
+                            color: hsl(210, 100%, 65%);
+                            background: hsla(210, 100%, 65%, 0.1);
+                            transform: scale(1.1);
                         }
                     }
+
                     .validIcon {
                         height: 20px;
                         width: 20px;
-                        color: rgb(187, 186, 185);
+                        color: hsl(120, 60%, 55%);
+                        cursor: pointer;
+                        padding: 2px;
+                        border-radius: 4px;
+                        transition: all 200ms ease;
+
                         &:hover {
-                            color: rgb(255, 255, 255);
+                            color: hsl(120, 70%, 65%);
+                            background: hsla(120, 60%, 55%, 0.1);
+                            transform: scale(1.1);
                         }
                     }
                 }
@@ -100,41 +150,53 @@
 
             // Sets list in card
             .setsList {
-                padding-left: 12px;
+                padding-left: 16px;
 
                 .setItem {
                     display: flex;
-                    margin: 8px 0;
+                    margin: 12px 0;
                     align-items: center;
+                    gap: 12px;
 
                     .setLabel {
-                        font-weight: 500;
-                        margin-right: 12px;
-                        min-width: 50px;
-                        color: rgb(187, 186, 185);
+                        font-weight: 600;
+                        min-width: 60px;
+                        color: hsl(210, 100%, 75%);
+                        font-size: 0.9rem;
                     }
 
                     .setValue {
                         flex: 1;
+                        color: hsl(220, 20%, 85%);
                     }
 
                     .exerciceWeightContainer {
                         .editWeightInput {
-                            background-color: rgb(110 110 110);
-                            border-radius: 3px;
-                            padding-left: 3px;
-                            font-size: 15px;
-                            color: rgb(187, 186, 185);
+                            background: hsla(220, 35%, 12%, 0.8);
+                            border: 1px solid hsla(220, 20%, 25%, 0.5);
+                            border-radius: 6px;
+                            padding: 6px 10px;
+                            font-size: 14px;
+                            color: white;
+                            width: 80px;
+                            transition: all 200ms ease;
+
+                            &:focus {
+                                outline: none;
+                                border-color: hsl(210, 100%, 50%);
+                                box-shadow: 0 0 0 2px hsla(210, 100%, 50%, 0.2);
+                            }
                         }
                     }
                 }
             }
+
             .performanceDate {
-                margin-top: 12px;
-                padding-top: 8px;
-                border-top: 1px solid #444;
+                margin-top: 16px;
+                padding-top: 12px;
+                border-top: 1px solid hsla(220, 20%, 25%, 0.3);
                 font-size: 0.85rem;
-                color: #666;
+                color: hsl(220, 20%, 60%);
                 font-style: italic;
                 text-align: right;
                 width: 100%;
@@ -144,106 +206,207 @@
 
     // Original desktop table styling
     table {
-        color: rgb(187, 186, 185);
+        color: white;
         width: 100%;
         border-collapse: collapse;
-        table-layout: fixed; //keeps equal column width
+        table-layout: fixed;
+        background: linear-gradient(135deg, hsla(220, 35%, 12%, 0.4) 0%, hsla(220, 35%, 8%, 0.4) 100%);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px hsla(220, 35%, 3%, 0.3);
 
         thead {
+            background: linear-gradient(135deg, hsla(220, 35%, 15%, 0.8) 0%, hsla(220, 35%, 10%, 0.8) 100%);
+
             tr {
-                border-bottom: 3px solid #444;
-                th:first-child {
-                    text-align: left;
+                border-bottom: 2px solid hsla(220, 20%, 25%, 0.4);
+
+                th {
+                    font-weight: 600;
+                    color: hsl(210, 100%, 75%);
+                    text-transform: uppercase;
+                    font-size: 0.85rem;
+                    letter-spacing: 0.05em;
+
+                    &:first-child {
+                        text-align: left;
+                    }
                 }
             }
         }
 
         tbody {
             th .checkBox {
-                color: rgb(187, 186, 185);
+                color: hsl(220, 20%, 75%);
+                transition: color 200ms ease;
+
+                &:hover {
+                    color: hsl(210, 100%, 65%);
+                }
             }
+
             .zebraRow {
-                background-color: rgba(51, 51, 52, 0.3);
+                background: linear-gradient(135deg, hsla(220, 35%, 15%, 0.3) 0%, hsla(220, 35%, 10%, 0.3) 100%);
             }
+
+            tr {
+                transition: all 200ms ease;
+
+                &:hover {
+                    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.05) 0%, hsla(210, 100%, 40%, 0.05) 100%);
+                }
+            }
+
             th {
                 .exerciceNameContainer {
                     display: flex;
                     align-items: center;
+                    gap: 8px;
 
                     .editCheckBox {
-                        color: rgb(187, 186, 185);
+                        color: hsl(220, 20%, 75%);
+                        transition: color 200ms ease;
+
+                        &:hover {
+                            color: hsl(210, 100%, 65%);
+                        }
                     }
+
                     .editInput {
-                        background-color: rgb(110 110 110);
-                        border-radius: 3px;
-                        padding-left: 3px;
+                        background: hsla(220, 35%, 12%, 0.8);
+                        border: 1px solid hsla(220, 20%, 25%, 0.5);
+                        border-radius: 6px;
+                        padding: 6px 10px;
                         font-size: 15px;
-                        color: rgb(187, 186, 185);
+                        color: white;
+                        transition: all 200ms ease;
+
+                        &:focus {
+                            outline: none;
+                            border-color: hsl(210, 100%, 50%);
+                            box-shadow: 0 0 0 2px hsla(210, 100%, 50%, 0.2);
+                        }
                     }
                 }
             }
+
             .exerciceWeightContainer {
                 .editWeightInput {
-                    background-color: rgb(110 110 110);
-                    border-radius: 3px;
-                    padding-left: 3px;
+                    background: hsla(220, 35%, 12%, 0.8);
+                    border: 1px solid hsla(220, 20%, 25%, 0.5);
+                    border-radius: 6px;
+                    padding: 6px 10px;
                     font-size: 15px;
-                    color: rgb(187, 186, 185);
+                    color: white;
+                    width: 80px;
+                    transition: all 200ms ease;
+
+                    &:focus {
+                        outline: none;
+                        border-color: hsl(210, 100%, 50%);
+                        box-shadow: 0 0 0 2px hsla(210, 100%, 50%, 0.2);
+                    }
                 }
             }
+
             .deleteIcon {
                 width: 20px;
                 height: 20px;
-                color: rgb(165, 27, 27);
+                color: hsl(0, 70%, 55%);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 6px;
+                transition: all 200ms ease;
+
                 &:hover {
-                    color: rgb(230, 7, 7);
+                    color: hsl(0, 80%, 65%);
+                    background: hsla(0, 70%, 55%, 0.1);
+                    transform: scale(1.1);
                 }
             }
+
             .editIcon {
-                height: 16px;
-                width: 16px;
-                color: rgb(187, 186, 185);
+                height: 18px;
+                width: 18px;
+                color: hsl(220, 20%, 75%);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 6px;
+                transition: all 200ms ease;
+
                 &:hover {
-                    color: rgb(255, 255, 255);
+                    color: hsl(210, 100%, 65%);
+                    background: hsla(210, 100%, 65%, 0.1);
+                    transform: scale(1.1);
                 }
             }
+
             .validIcon {
                 height: 20px;
                 width: 20px;
-                color: rgb(187, 186, 185);
+                color: hsl(120, 60%, 55%);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 6px;
+                transition: all 200ms ease;
+
                 &:hover {
-                    color: rgb(255, 255, 255);
+                    color: hsl(120, 70%, 65%);
+                    background: hsla(120, 60%, 55%, 0.1);
+                    transform: scale(1.1);
                 }
             }
+
             .iconColumn {
-                width: 50px;
+                width: 60px;
                 text-align: center;
-                padding: 0;
+                padding: 12px 8px;
             }
         }
 
         th,
         td {
             text-align: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid #444;
+            padding: 16px 20px;
+            border-bottom: 1px solid hsla(220, 20%, 25%, 0.2);
+            vertical-align: middle;
         }
 
         th[scope="row"] {
             text-align: left;
-            padding: 5px 16px;
+            padding: 12px 20px;
+            font-weight: 500;
         }
     }
 
     .addButton {
-        margin-left: 10px;
-        width: 150px;
-        border-radius: 25px;
-        background-color: hsl(210, 58%, 32%);
+        align-self: flex-start;
+        min-width: 160px;
+        height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, hsl(210, 100%, 50%) 0%, hsl(210, 100%, 40%) 100%);
+        color: white;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 4px 12px hsla(210, 100%, 50%, 0.3);
+        transition: all 200ms ease;
+
+        &:hover {
+            background: linear-gradient(135deg, hsl(210, 100%, 55%) 0%, hsl(210, 100%, 45%) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px hsla(210, 100%, 50%, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px hsla(210, 100%, 50%, 0.3);
+        }
 
         @media (max-width: 768px) {
-            width: calc(100% - 20px);
+            width: calc(100% - 32px);
             margin: 0 auto;
+            align-self: center;
         }
     }
 }

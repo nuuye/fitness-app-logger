@@ -6,7 +6,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -14,45 +15,119 @@
     animation: fadeIn 0.3s ease-out forwards;
 
     .card {
-        max-width: 400px;
-        padding: 20px;
-        border-radius: 12px;
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-        background: rgb(18, 37, 50);
-        animation: fadeIn 0.3s ease-out forwards;
+        width: 100%;
+        max-width: 450px;
+        margin: 20px;
+        padding: 32px;
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(135deg, hsla(220, 35%, 12%, 0.7) 0%, hsla(220, 35%, 8%, 0.7) 100%);
+        backdrop-filter: blur(20px);
+        border: 1px solid hsla(220, 20%, 25%, 0.4);
+        box-shadow: 0 8px 32px hsla(220, 35%, 3%, 0.3);
+        animation: slideIn 0.3s ease-out forwards;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
         @media (max-width: 575px) {
-            max-width: 335px;
+            max-width: 90%;
+            margin: 16px;
+            padding: 24px;
+            gap: 24px;
         }
-        @media (max-width: 470px) {
-            max-width: 245px;
-        }
-        @media (max-width: 360px) {
-            max-width: 185px;
-        }
+
         h3 {
-            margin-top: unset;
-            color: rgb(187, 186, 185);
+            margin: 0;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+
+            @media (max-width: 470px) {
+                font-size: 1.3rem;
+            }
         }
-        p{
-            color: rgb(187, 186, 185);
+
+        p {
+            margin: 8px 0 0 0;
+            color: hsl(220, 20%, 75%);
+            font-size: 1rem;
+            line-height: 1.5;
+            font-weight: 400;
+
+            @media (max-width: 470px) {
+                font-size: 0.9rem;
+            }
+
+            // Highlight the label with a subtle accent
+            strong {
+                color: hsl(210, 100%, 75%);
+                font-weight: 500;
+            }
         }
+
         .actions {
             display: flex;
             justify-content: flex-end;
-            gap: 15px;
-            width: 100%;
+            gap: 16px;
+            align-items: center;
+
             Button {
-                border-radius: 50px;
+                border-radius: 8px;
+                font-weight: 500;
+                padding: 12px 20px;
+                min-width: 100px;
+                height: 44px;
+                transition: all 200ms ease;
+
+                &:first-child {
+                    color: hsl(220, 20%, 75%);
+                    border: 1px solid hsla(220, 20%, 25%, 0.4);
+                    background: hsla(220, 35%, 12%, 0.5);
+
+                    &:hover {
+                        background: hsla(220, 35%, 15%, 0.8);
+                        border-color: hsla(220, 20%, 35%, 0.6);
+                        color: white;
+                        transform: translateY(-1px);
+                    }
+                }
+
+                &:last-child {
+                    color: white;
+                    border: none;
+                    background: linear-gradient(135deg, hsl(0, 70%, 55%) 0%, hsl(0, 70%, 45%) 100%);
+                    box-shadow: 0 4px 12px hsla(0, 70%, 50%, 0.3);
+                    font-weight: 600;
+
+                    &:hover {
+                        background: linear-gradient(135deg, hsl(0, 70%, 60%) 0%, hsl(0, 70%, 50%) 100%);
+                        transform: translateY(-1px);
+                        box-shadow: 0 6px 16px hsla(0, 70%, 50%, 0.4);
+                    }
+
+                    &:active {
+                        transform: translateY(0);
+                        box-shadow: 0 2px 8px hsla(0, 70%, 50%, 0.3);
+                    }
+                }
             }
+
             @media (max-width: 470px) {
                 flex-direction: column-reverse;
+                gap: 12px;
+
+                Button {
+                    width: 100%;
+                    min-width: auto;
+                }
             }
         }
     }
 }
 
-// entry animation
+// Entry animations
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -62,16 +137,42 @@
     }
 }
 
-.rootContainer.exit {
-    animation: fadeOut 0.3s ease-out forwards;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-// exit animation
+// Exit animation
+.rootContainer.exit {
+    animation: fadeOut 0.25s ease-out forwards;
+
+    .card {
+        animation: slideOut 0.25s ease-out forwards;
+    }
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
     to {
         opacity: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
     }
 }
