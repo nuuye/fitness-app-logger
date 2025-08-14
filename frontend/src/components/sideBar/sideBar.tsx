@@ -42,7 +42,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
         const [showMenu, setShowMenu] = useState<boolean>(false);
         const [mobileSideBar, setMobileSideBar] = useState<boolean>(false);
-        const [categories, setCategories] = useState<categoryType[]>(null);
+        const [categories, setCategories] = useState<categoryType[]>([]);
 
         useImperativeHandle(ref, () => ({
             handleCategoryDelete,
