@@ -3,10 +3,10 @@ import styles from "./signIn.module.scss";
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormLabel, Link, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
-import { googleAuthRequest, loginRequest } from "../../services/user";
+import { loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
-import { getSession, signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 export default function SignIn() {
     const router = useRouter();
@@ -222,7 +222,7 @@ export default function SignIn() {
                         startIcon={<GoogleIcon />}
                         disabled={loading}
                     >
-                        {loading ? "Connexion..." : "Se connecter avec Google"}
+                        {loading ? "Redirecting..." : "Sign in with Google"}
                     </Button>
                 </div>
                 <div className={styles.footer}>

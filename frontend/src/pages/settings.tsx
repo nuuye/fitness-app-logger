@@ -79,6 +79,11 @@ export default function Settings() {
             if (success) {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
+                setUser({
+                    userId: null,
+                    name: null,
+                    email: null,
+                });
                 router.push("/");
             }
         } catch (error) {
@@ -105,7 +110,7 @@ export default function Settings() {
         }
     };
 
-    if(sideBarOpen === null) return null;
+    if (sideBarOpen === null) return null;
 
     return (
         <AuthWrapper>
@@ -168,11 +173,21 @@ export default function Settings() {
                             <div className={styles.dataContainer}>
                                 <div className={styles.nameContainer}>
                                     <span>Name:</span>
-                                    <Input disableUnderline  value={name} type="text" onChange={(e) => setName(e.target.value)} />
+                                    <Input
+                                        disableUnderline
+                                        value={name}
+                                        type="text"
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
                                 </div>
                                 <div className={styles.emailContainer}>
                                     <span>Email:</span>
-                                    <Input disableUnderline  value={email} type="text" onChange={(e) => setEmail(e.target.value)} />
+                                    <Input
+                                        disableUnderline
+                                        value={email}
+                                        type="text"
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
                                 </div>
                                 <Button className={styles.cancelButton} variant="outlined" onClick={handleCancelEdit}>
                                     Cancel
@@ -186,7 +201,12 @@ export default function Settings() {
                                 >
                                     Change my password
                                 </Button>
-                                <Button className={`${styles.saveButton} ${canSave && styles.activeButton}`} variant="contained" disabled={!canSave} onClick={handleSaveForm}>
+                                <Button
+                                    className={`${styles.saveButton} ${canSave && styles.activeButton}`}
+                                    variant="contained"
+                                    disabled={!canSave}
+                                    onClick={handleSaveForm}
+                                >
                                     Save
                                 </Button>
                             </div>
