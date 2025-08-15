@@ -90,14 +90,6 @@ exports.googleAuth = (req, res, next) => {
                     expiresIn: "24h",
                 });
 
-                res.cookie("jwtToken", token, {
-                    httpOnly: true,
-                    secure: false,
-                    sameSite: "Lax",
-                    path: "/",
-                    maxAge: 24 * 60 * 60 * 1000,
-                });
-
                 // Return a success message
                 res.status(200).json({
                     userId: user._id,
@@ -121,14 +113,6 @@ exports.googleAuth = (req, res, next) => {
                             .save()
                             .then((user) => {
                                 const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
-
-                                res.cookie("jwtToken", token, {
-                                    httpOnly: true,
-                                    secure: false,
-                                    sameSite: "Lax",
-                                    path: "/",
-                                    maxAge: 24 * 60 * 60 * 1000,
-                                });
 
                                 res.status(200).json({
                                     userId: user._id,

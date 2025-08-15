@@ -18,7 +18,7 @@
 
         @media (max-width: 768px) {
             gap: 25px;
-            padding: 40px 15px 30px;
+            padding-top: 40px;
         }
 
         .textContainer {
@@ -398,13 +398,26 @@
                 padding: 4rem 0 3rem;
 
                 @media (max-width: 768px) {
+                    grid-template-columns: repeat(3, 1fr);
+                    grid-template-rows: repeat(2, 1fr);
+                    gap: 2rem;
+                    padding: 3rem 0 2rem;
+                }
+                @media (max-width: 500px) {
                     grid-template-columns: 1fr;
+                    grid-template-rows: repeat(4, 1fr);
                     gap: 2rem;
                     padding: 3rem 0 2rem;
                 }
             }
 
             .brandSection {
+                @media (max-width: 768px) {
+                    grid-area: 1 / 1 / 2 / 4;
+                }
+                @media (max-width: 500px) {
+                    grid-area: 1 / 1 / 2 / 2;
+                }
                 .brandName {
                     font-size: 2rem;
                     font-weight: 700;
@@ -436,7 +449,8 @@
                 }
             }
 
-            .linksSection {
+            .linksSection1,
+            .linksSection2 {
                 .sectionTitle {
                     font-size: 1.1rem;
                     font-weight: 600;
@@ -466,8 +480,30 @@
                     }
                 }
             }
+            .linksSection1 {
+                @media (max-width: 768px) {
+                    grid-area: 2 / 1 / 3 / 2;
+                }
+                @media (max-width: 500px) {
+                    grid-area: 2 / 1 / 3 / 2;
+                }
+            }
+            .linksSection2 {
+                @media (max-width: 768px) {
+                    grid-area: 2 / 2 / 3 / 3;
+                }
+                @media (max-width: 500px) {
+                    grid-area: 3 / 1 / 4 / 2;
+                }
+            }
 
             .contactSection {
+                @media (max-width: 768px) {
+                    grid-area: 2 / 3 / 3 / 4;
+                }
+                @media (max-width: 500px) {
+                    grid-area: 4 / 1 / 5 / 2;
+                }
                 .sectionTitle {
                     font-size: 1.1rem;
                     font-weight: 600;
