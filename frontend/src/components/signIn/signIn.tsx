@@ -10,8 +10,6 @@ import { getSession, signIn, useSession } from "next-auth/react";
 
 export default function SignIn() {
     const router = useRouter();
-    const { data: session } = useSession();
-
     const [loading, setLoading] = useState(false);
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
