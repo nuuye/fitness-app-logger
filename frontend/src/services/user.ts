@@ -39,21 +39,22 @@ export const loginRequest = async (credentials: UserCredentials): Promise<AuthRe
     }
 };
 
-export const googleAuthRequest = async (name: string, email: string): Promise<AuthResponse> => {
+export const googleAuthRequest = async (name: string, email: string) => {
     try {
         const response = await fetch(`${API_USER_URL}/google-auth`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({name, email}),
+            body: JSON.stringify({ name, email }),
         });
 
-        if (!response) {
+        if (!response.ok) {
+            console.error(`HTTP Error: ${response.status}`);
             return null;
         }
-        return response.json();
+
+        return await response.json();
     } catch (error) {
-        console.log("google authentification failed", error);
+        console.error("google authentification failed", error);
         return null;
     }
 };

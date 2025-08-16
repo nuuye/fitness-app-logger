@@ -114,7 +114,6 @@ exports.getAllSubCategories = (req, res, next) => {
 exports.getAllUserSubCategories = (req, res, next) => {
     SubCategory.find({ userId: req.params.userId })
         .then((subcategories) => {
-            console.log("here: ", subcategories);
             if (subcategories.some((subcategory) => subcategory.userId != req.auth.userId)) {
                 return res.status(403).json({ message: "Not authorized" });
             }

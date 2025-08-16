@@ -80,20 +80,14 @@ exports.login = (req, res, next) => {
 };
 
 exports.googleAuth = (req, res, next) => {
-    const { email } = req.body;
-    User.findOne({ email })
+    console.log('backend email: ', req.body.email);
+
+    User.findOne({ email: req.body.email })
         .then((user) => {
+            console.log('user value:', user);
             if (user) { // if an email is found with google sso
                 const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, {
                     expiresIn: "24h",
-                });
-
-                res.cookie("jwtToken", token, {
-                    httpOnly: true,
-                    secure: false,
-                    sameSite: "Lax",
-                    path: "/",
-                    maxAge: 24 * 60 * 60 * 1000,
                 });
 
                 // Return a success message
@@ -105,33 +99,31 @@ exports.googleAuth = (req, res, next) => {
                 });
 
             } else { //if no email is found with google sso, we create a new account
-                const newUser = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: null,
-                });
 
-                newUser
-                    .save()
-                    .then((user) => {
-                        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
-
-                        res.cookie("jwtToken", token, {
-                            httpOnly: true,
-                            secure: false,
-                            sameSite: "Lax",
-                            path: "/",
-                            maxAge: 24 * 60 * 60 * 1000,
+                const randomPassword = Math.random().toString(36).slice(-8); // mot de passe aléatoire
+                bcrypt.hash(randomPassword, 10)
+                    .then((hash) => {
+                        const newUser = new User({
+                            name: req.body.name,
+                            email: req.body.email,
+                            password: hash,
                         });
 
-                        res.status(200).json({
-                            userId: user._id,
-                            name: user.name,
-                            email: user.email,
-                            token: token,
-                        });
+                        newUser
+                            .save()
+                            .then((user) => {
+                                const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
+
+                                res.status(200).json({
+                                    userId: user._id,
+                                    name: user.name,
+                                    email: user.email,
+                                    token: token,
+                                });
+                            })
+                            .catch((err) => res.status(400).json({ err }));
                     })
-                    .catch((err) => res.status(400).json({ err }));
+                    .catch((err) => res.status(500).json({ err }));
             }
         })
         .catch((err) => {

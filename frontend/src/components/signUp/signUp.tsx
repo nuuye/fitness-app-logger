@@ -6,11 +6,11 @@ import { GoogleIcon } from "../customIcons/customIcons";
 import { googleAuthRequest, signupRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
-import { signIn, useSession } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 export default function SignUp() {
     const router = useRouter();
-    const { data, status } = useSession();
+    const [loading, setLoading] = useState(false);
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
@@ -27,21 +27,40 @@ export default function SignUp() {
         }
     }, []);
 
-    useEffect(() => {
-        const handleGoogleAuth = async () => {
-            if (status == "authenticated" && data?.user?.email && data?.user?.name) {
-                const authResult = await googleAuthRequest(data.user.name, data.user.email);
-                if (authResult) {
-                    setUser({ userId: authResult.userId, name: authResult.name, email: authResult.email });
-                    localStorage.setItem("userId", authResult.userId);
-                    localStorage.setItem("token", authResult.token);
-                    router.push("/dashboard");
-                }
-            }
-        };
+    const handleGoogleSignIn = async () => {
+        setLoading(true);
+        console.log("Tentative de connexion Google...");
 
-        handleGoogleAuth();
-    }, [status]);
+        try {
+            const result = await signIn("google", {
+                redirect: false,
+                callbackUrl: "/dashboard",
+            });
+
+            console.log("Résultat signIn:", result);
+
+            if (result?.error) {
+                console.error("Erreur de connexion:", result.error);
+            } else {
+                // 🔹 Recharger la session
+                const session = await getSession();
+                console.log("session added props: ", session?.user?.userId, session?.user?.token);
+
+                setUser({
+                    userId: session?.user?.userId,
+                    name: session?.user?.name,
+                    email: session?.user?.email,
+                });
+
+                localStorage.setItem("userId", session?.user?.userId || "");
+                localStorage.setItem("token", session?.user?.token || "");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la connexion:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const validateInputs = (): void => {
         const email = document.getElementById("email") as HTMLInputElement;
@@ -219,7 +238,7 @@ export default function SignUp() {
                         className={styles.googleButton}
                         fullWidth
                         variant="outlined"
-                        onClick={() => alert("Sign up with Google")}
+                        onClick={handleGoogleSignIn}
                         startIcon={<GoogleIcon />}
                     >
                         Sign up with Google

@@ -197,7 +197,7 @@ const Landing = () => {
                             </div>
 
                             {/* Quick Links */}
-                            <div className={styles.linksSection}>
+                            <div className={styles.linksSection1}>
                                 <h4 className={styles.sectionTitle}>Quick Links</h4>
                                 <ul className={styles.linksList}>
                                     <li>
@@ -229,7 +229,7 @@ const Landing = () => {
                             </div>
 
                             {/* Support */}
-                            <div className={styles.linksSection}>
+                            <div className={styles.linksSection2}>
                                 <h4 className={styles.sectionTitle}>Support</h4>
                                 <ul className={styles.linksList}>
                                     <li>
