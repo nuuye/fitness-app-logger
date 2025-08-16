@@ -7,17 +7,36 @@ import { useRouter } from "next/router";
 export default function AppBar() {
     const router = useRouter();
 
+    const handleScroll = (id: string) => {
+        if (router.pathname === "/") {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        } else {
+            router.push(`/#${id}`);
+        }
+    };
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.leftNavContainer}>
-                <div className={styles.logoContainer} onClick={() => router.push('/')}>
+                <div className={styles.logoContainer} onClick={() => router.push("/")}>
                     <Image alt="logo" src={logo}></Image>
                 </div>
                 <div className={styles.sectionContainer}>
-                    <Button className={styles.sectionButtonContainer} variant="text">
+                    <Button
+                        className={styles.sectionButtonContainer}
+                        variant="text"
+                        onClick={() => handleScroll("featuresSection")}
+                    >
                         Features
                     </Button>
-                    <Button className={styles.sectionButtonContainer} variant="text">
+                    <Button
+                        className={styles.sectionButtonContainer}
+                        variant="text"
+                        onClick={() => handleScroll("testimonialsSection")}
+                    >
                         Testimonials
                     </Button>
                     <Button className={styles.sectionButtonContainer} variant="text">
