@@ -54,8 +54,10 @@ export default function footer() {
                     <div className={styles.linksSection1}>
                         <h4 className={styles.sectionTitle}>Quick Links</h4>
                         <ul className={styles.linksList}>
-                            <li onClick={() => handleScroll("featuresSection")}>
-                                <a className={styles.footerLink}>Features</a>
+                            <li>
+                                <a onClick={() => handleScroll("featuresSection")} className={styles.footerLink}>
+                                    Features
+                                </a>
                             </li>
                             <li>
                                 <a href="/pricing" className={styles.footerLink}>
