@@ -2,6 +2,7 @@ import styles from "./pricing.module.scss";
 import PricingCard from "../components/pricingCard/pricingCard";
 import AppBar from "../components/appBar/appBar";
 import { useRouter } from "next/router";
+import Footer from "../components/footer/footer";
 
 export default function Pricing() {
     const router = useRouter();
@@ -39,9 +40,8 @@ export default function Pricing() {
                 <div className={styles.header}>
                     <h1>Simple & Transparent Pricing</h1>
                     <p>
-                        Fitlogs is currently free for everyone.
-                        Track your fitness journey without limits, and stay tuned for exciting premium features coming
-                        soon!
+                        Fitlogs is currently free for everyone. Track your fitness journey without limits, and stay
+                        tuned for exciting premium features coming soon!
                     </p>
                 </div>
 
@@ -74,6 +74,7 @@ export default function Pricing() {
                     />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

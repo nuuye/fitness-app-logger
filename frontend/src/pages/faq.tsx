@@ -1,6 +1,7 @@
 import styles from "./faq.module.scss";
 import FAQItem from "../components/faqItem/faqItem";
 import AppBar from "../components/appBar/appBar";
+import Footer from "../components/footer/footer";
 
 export default function FAQ() {
     return (
@@ -221,6 +222,7 @@ export default function FAQ() {
                     </FAQItem>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
