@@ -26,7 +26,7 @@
             linear-gradient(150deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9),
             linear-gradient(30deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9),
             linear-gradient(150deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9);
-        background-size: 60px 90px; // Pattern plus large
+        background-size: 60px 90px;
         background-position: 0 0, 0 0, 30px 45px, 30px 45px;
         pointer-events: none;
         z-index: 0;
@@ -86,7 +86,7 @@
     flex-wrap: wrap;
     gap: 32px;
     margin: 60px 0;
-    //justify-content: center;
+    align-items: stretch;
 
     @media (max-width: 768px) {
         gap: 24px;
@@ -112,6 +112,8 @@
     animation: fadeInUp 0.6s ease-out;
     animation-fill-mode: both;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 
     &:hover {
         transform: translateY(-8px);
@@ -143,6 +145,7 @@
         background: linear-gradient(135deg, hsl(210, 100%, 15%) 0%, hsl(210, 100%, 10%) 100%);
         position: relative;
         overflow: hidden;
+        flex-shrink: 0;
 
         &::after {
             content: "";
@@ -165,7 +168,9 @@
 
     .content {
         padding: 24px;
-
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
         .category {
             color: hsl(210, 100%, 65%);
             font-weight: 600;
@@ -184,6 +189,7 @@
             line-height: 1.6;
             margin-bottom: 20px;
             font-size: 0.95rem;
+            flex-grow: 1;
         }
 
         .meta {
@@ -192,7 +198,7 @@
             align-items: center;
             padding-top: 16px;
             border-top: 1px solid hsla(220, 20%, 25%, 0.2);
-
+            margin-top: auto;
             .date {
                 color: hsl(220, 20%, 60%);
                 font-size: 0.85rem;
