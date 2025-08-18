@@ -4,6 +4,8 @@
     margin-top: 4rem;
     border-top: 1px solid hsla(220, 20%, 25%, 0.3);
     width: 100%;
+    position: relative;
+    z-index: 2;
     .footerContainer {
         padding: 0 2rem;
     }
