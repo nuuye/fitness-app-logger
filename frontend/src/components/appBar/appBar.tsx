@@ -49,6 +49,13 @@ export default function AppBar() {
                     >
                         Blog
                     </Button>
+                    <Button
+                        className={styles.sectionButtonContainer}
+                        variant="text"
+                        onClick={() => router.push("/faq")}
+                    >
+                        FAQ
+                    </Button>
                 </div>
             </div>
             <div className={styles.rightNavContainer}>

@@ -266,6 +266,12 @@
     }
 }
 
+.noResults {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* Search Bar */
 .searchContainer {
     max-width: 500px;

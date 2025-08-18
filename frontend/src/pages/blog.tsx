@@ -149,7 +149,12 @@ const BlogPage = () => {
 
                             {/* Content */}
                             <div className={styles.content}>
-                                <Chip className={styles.category} label={post.category} variant="outlined" color="primary" />
+                                <Chip
+                                    className={styles.category}
+                                    label={post.category}
+                                    variant="outlined"
+                                    color="primary"
+                                />
 
                                 <h3 className={styles.title}>{post.title}</h3>
 
@@ -170,8 +175,7 @@ const BlogPage = () => {
                 {/* No Results */}
                 {filteredPosts.length === 0 && (
                     <div className={styles.noResults}>
-                        <div className={styles.noResultsIcon}>🔍</div>
-                        <h3 className={styles.noResultsTitle}>No articles found</h3>
+                        <h3 className={styles.noResultsTitle}>🔍 No articles found</h3>
                         <p className={styles.noResultsText}>Try adjusting your search or category filter</p>
                     </div>
                 )}
