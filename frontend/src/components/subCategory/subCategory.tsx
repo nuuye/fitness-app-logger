@@ -16,7 +16,7 @@ interface subCategoryProps {
 }
 
 export default function SubCategory({ label, onChangeSubCategoryLabel,  onClickDelete, id }: subCategoryProps) {
-    const [showMore, setShowMore] = useState<boolean>(false);
+    const [onHover, setOnHover] = useState<boolean>(false);
     const [subCategoryLabel, setSubCategoryLabel] = useState<string>(label);
     const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
@@ -36,8 +36,8 @@ export default function SubCategory({ label, onChangeSubCategoryLabel,  onClickD
     return (
         <ListItemButton
             sx={{ pl: 2, pr: 1 }}
-            onMouseEnter={() => setShowMore(true)}
-            onMouseLeave={() => setShowMore(false)}
+            onMouseEnter={() => setOnHover(true)}
+            onMouseLeave={() => setOnHover(false)}
         >
             <ListItemIcon>
                 <AdjustIcon fontSize="small" className={styles.adjustIcon} />
@@ -60,7 +60,7 @@ export default function SubCategory({ label, onChangeSubCategoryLabel,  onClickD
             ) : (
                 <ListItemText primary={subCategoryLabel} />
             )}
-            {showMore && (
+            {onHover && (
                 <ListItemIcon className={styles.iconContainer}>
                     {isInputVisible ? (
                         <FileDownloadDoneIcon onClick={handleShowInput} className={styles.validIcon} fontSize="small" />

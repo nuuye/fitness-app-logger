@@ -4,7 +4,7 @@ import styles from "./warningPopup.module.scss";
 
 interface warningPopupProps {
     title?: string;
-    text: string;
+    text: string | React.ReactNode;
     onCancel: () => void;
     onConfirm?: () => void;
     confirmation?: boolean;

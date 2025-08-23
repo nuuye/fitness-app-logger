@@ -52,6 +52,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         //retrieving the user and its categories on page loading
         useEffect(() => {
             setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
+            
             const redirectLogin = () => {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");

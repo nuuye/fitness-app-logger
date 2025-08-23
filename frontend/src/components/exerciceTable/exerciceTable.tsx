@@ -309,7 +309,12 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                             setExerciceToDelete(null);
                         }}
                         title="Warning"
-                        text={`You are about to delete all data related to ${Object.keys(exerciceToDelete)[0]}`}
+                        text={
+                            <>
+                                You are about to delete all data related to{" "}
+                                <strong>{Object.keys(exerciceToDelete)[0]}</strong>
+                            </>
+                        }
                     />,
                     document.body
                 )}
