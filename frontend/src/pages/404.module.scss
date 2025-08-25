@@ -1,0 +1,91 @@
+.root {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, hsl(220, 35%, 9%) 0%, hsl(220, 35%, 6%) 100%);
+    background-image: radial-gradient(ellipse 80% 60% at 30% 20%, hsla(207, 100%, 15%, 0.3), transparent),
+        radial-gradient(ellipse 60% 80% at 70% 80%, hsla(210, 100%, 12%, 0.2), transparent);
+    color: white;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.03;
+        background-image: linear-gradient(
+                30deg,
+                #097cb9 12%,
+                transparent 12.5%,
+                transparent 87%,
+                #097cb9 87.5%,
+                #097cb9
+            ),
+            linear-gradient(150deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9),
+            linear-gradient(30deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9),
+            linear-gradient(150deg, #097cb9 12%, transparent 12.5%, transparent 87%, #097cb9 87.5%, #097cb9);
+        background-size: 60px 90px;
+        background-position: 0 0, 0 0, 30px 45px, 30px 45px;
+        pointer-events: none;
+        z-index: 0;
+    }
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+
+    @media (max-width: 768px) {
+        padding: 0 20px;
+    }
+
+    /* 404 Number */
+    .errorNumber {
+        font-size: clamp(6rem, 15vw, 10rem);
+        font-weight: 300;
+        letter-spacing: -0.02em;
+        margin-bottom: 40px;
+        color: hsl(220, 20%, 40%);
+        opacity: 0.7;
+    }
+
+    .errorTitle {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, hsl(210, 100%, 75%) 0%, hsl(210, 100%, 50%) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .errorSubtitle {
+        font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+        color: hsl(220, 20%, 75%);
+        margin-bottom: 60px;
+        line-height: 1.6;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
