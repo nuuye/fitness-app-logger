@@ -7,10 +7,12 @@ import { loginRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
 import { getSession, signIn } from "next-auth/react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function SignIn() {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
+    const [loadingSignIn, setLoadingSignIn] = useState(false);
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState<boolean>(false);
@@ -27,7 +29,7 @@ export default function SignIn() {
     }, []);
 
     const handleGoogleSignIn = async () => {
-        setLoading(true);
+        setGoogleLoading(true);
         console.log("Tentative de connexion Google...");
 
         try {
@@ -57,7 +59,7 @@ export default function SignIn() {
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
         } finally {
-            setLoading(false);
+            setGoogleLoading(false);
         }
     };
 
@@ -84,21 +86,29 @@ export default function SignIn() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (emailError || passwordError) {
-            event.preventDefault();
-            return;
-        }
-        const rawdata = new FormData(event.currentTarget);
-        const formData = {
-            email: rawdata.get("email") as string,
-            password: rawdata.get("password") as string,
-        };
-        const userData = await loginRequest(formData);
-        if (userData) {
-            setUser({ userId: userData.userId, name: userData.name, email: userData.email });
-            localStorage.setItem("userId", userData.userId);
-            localStorage.setItem("token", userData.token);
-            router.push("/dashboard");
+        if (emailError || passwordError) return;
+
+        setLoadingSignIn(true);
+
+        try {
+            const rawdata = new FormData(event.currentTarget);
+            const formData = {
+                email: rawdata.get("email") as string,
+                password: rawdata.get("password") as string,
+            };
+
+            const userData = await loginRequest(formData);
+
+            if (userData) {
+                setUser({ userId: userData.userId, name: userData.name, email: userData.email });
+                localStorage.setItem("userId", userData.userId);
+                localStorage.setItem("token", userData.token);
+                router.push("/dashboard");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la connexion:", error);
+        } finally {
+            setLoadingSignIn(false);
         }
     };
 
@@ -210,8 +220,9 @@ export default function SignIn() {
                             fullWidth
                             variant="contained"
                             onClick={validateInputs}
+                            disabled={loadingSignIn}
                         >
-                            Sign in
+                            {loadingSignIn ? <CircularProgress size={22} color="inherit" thickness={4} /> : "Sign in"}
                         </Button>
                     </Box>
                     <Button
@@ -220,9 +231,9 @@ export default function SignIn() {
                         variant="outlined"
                         onClick={handleGoogleSignIn}
                         startIcon={<GoogleIcon />}
-                        disabled={loading}
+                        disabled={googleLoading}
                     >
-                        {loading ? "Redirecting..." : "Sign in with Google"}
+                        {googleLoading ? "Redirecting..." : "Sign in with Google"}
                     </Button>
                 </div>
                 <div className={styles.footer}>

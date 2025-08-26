@@ -1,16 +1,18 @@
 import Card from "@mui/material/Card";
 import styles from "./signUp.module.scss";
-import { Box, Button, FormControl, FormLabel, Link, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, FormControl, FormLabel, Link, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { GoogleIcon } from "../customIcons/customIcons";
-import { googleAuthRequest, signupRequest } from "../../services/user";
+import { signupRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
 import { getSession, signIn } from "next-auth/react";
 
 export default function SignUp() {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
+    const [loadingSignUp, setLoadingSignUp] = useState(false);
+
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
@@ -28,7 +30,7 @@ export default function SignUp() {
     }, []);
 
     const handleGoogleSignIn = async () => {
-        setLoading(true);
+        setGoogleLoading(true);
         console.log("Tentative de connexion Google...");
 
         try {
@@ -58,7 +60,7 @@ export default function SignUp() {
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
         } finally {
-            setLoading(false);
+            setGoogleLoading(false);
         }
     };
 
@@ -94,27 +96,31 @@ export default function SignUp() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (nameError || emailError || passwordError) {
-            event.preventDefault();
-            return;
-        }
-        const rawData = new FormData(event.currentTarget);
+        if (nameError || emailError || passwordError) return;
 
-        const formData = {
-            name: rawData.get("name") as string,
-            email: rawData.get("email") as string,
-            password: rawData.get("password") as string,
-        };
+        setLoadingSignUp(true);
 
-        const newUser = await signupRequest(formData);
+        try {
+            const rawData = new FormData(event.currentTarget);
 
-        if (newUser) {
-            setUser({ userId: newUser.userId, name: newUser.name, email: newUser.email });
-            localStorage.setItem("userId", newUser.userId);
-            localStorage.setItem("token", newUser.token);
-            router.push("/dashboard");
-        } else {
-            console.log("error while creating user");
+            const formData = {
+                name: rawData.get("name") as string,
+                email: rawData.get("email") as string,
+                password: rawData.get("password") as string,
+            };
+
+            const newUser = await signupRequest(formData);
+
+            if (newUser) {
+                setUser({ userId: newUser.userId, name: newUser.name, email: newUser.email });
+                localStorage.setItem("userId", newUser.userId);
+                localStorage.setItem("token", newUser.token);
+                router.push("/dashboard");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la connexion:", error);
+        } finally {
+            setLoadingSignUp(false);
         }
     };
 
@@ -230,8 +236,9 @@ export default function SignUp() {
                             fullWidth
                             variant="contained"
                             onClick={validateInputs}
+                            disabled={loadingSignUp}
                         >
-                            Sign up
+                            {loadingSignUp ? <CircularProgress size={22} color="inherit" thickness={4} /> : "Sign up"}
                         </Button>
                     </Box>
                     <Button
@@ -240,8 +247,9 @@ export default function SignUp() {
                         variant="outlined"
                         onClick={handleGoogleSignIn}
                         startIcon={<GoogleIcon />}
+                        disabled={googleLoading}
                     >
-                        Sign up with Google
+                        {googleLoading ? "Redirecting..." : "Sign in with Google"}
                     </Button>
                 </div>
                 <div className={styles.footer}>
