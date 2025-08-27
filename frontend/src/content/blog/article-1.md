@@ -4,7 +4,7 @@ title: "The Science Behind Progressive Overload"
 description: "Understanding how to systematically increase training demands to maximize muscle growth and strength gains over time."
 category: "Training"
 date: "2024-08-26"
-readTime: "6 min read"
+readTime: "9 min read"
 icon: "💪"
 ---
 

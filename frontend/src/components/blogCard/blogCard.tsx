@@ -18,27 +18,29 @@ export default function BlogCard({ post }: blogCardProps) {
 
     return (
         <article key={post.id} className={styles.blogCard}>
-            {/* Image Placeholder */}
-            <div className={styles.imageContainer}>
-                <div className={styles.imagePlaceholder}>{post.icon}</div>
-            </div>
+            <a href={`blog/article/${post.id}`}>
+                {/* Image Placeholder */}
+                <div className={styles.imageContainer}>
+                    <div className={styles.imagePlaceholder}>{post.icon}</div>
+                </div>
 
-            {/* Content */}
-            <div className={styles.content}>
-                <Chip className={styles.category} label={post.category} variant="outlined" color="primary" />
+                {/* Content */}
+                <div className={styles.content}>
+                    <Chip className={styles.category} label={post.category} variant="outlined" color="primary" />
 
-                <h3 className={styles.title}>{post.title}</h3>
+                    <h3 className={styles.title}>{post.title}</h3>
 
-                <p className={styles.description}>{post.description}</p>
+                    <p className={styles.description}>{post.description}</p>
 
-                <div className={styles.meta}>
-                    <span className={styles.date}>{formatDate(post.date)}</span>
-                    <div className={styles.readTime}>
-                        <Clock className={styles.clockIcon} />
-                        {post.readTime}
+                    <div className={styles.meta}>
+                        <span className={styles.date}>{formatDate(post.date)}</span>
+                        <div className={styles.readTime}>
+                            <Clock className={styles.clockIcon} />
+                            {post.readTime}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </article>
     );
 }

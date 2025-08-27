@@ -67,7 +67,14 @@ const BlogPage = () => {
                 <div className={styles.container}>
                     <div className={styles.header}>
                         <h1>Fitness Blog</h1>
-                        <p>Chargement des articles...</p>
+                        <div className={styles.loadingContainer}>
+                            <span className={styles.loadingText}>Loading articles</span>
+                            <div className={styles.loadingDots}>
+                                <div className={styles.dot}></div>
+                                <div className={styles.dot}></div>
+                                <div className={styles.dot}></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <Footer />

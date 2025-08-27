@@ -67,6 +67,46 @@
         line-height: 1.6;
     }
 
+    .loadingContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+
+        .loadingText {
+            font-size: 1.2rem;
+            color: hsl(220, 20%, 75%);
+        }
+    }
+
+    .loadingDots {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        margin-top: 8px;
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: hsl(210, 100%, 60%);
+            border-radius: 50%;
+            animation: loadingBounce 1.5s ease-in-out infinite;
+
+            &:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.5s;
+            }
+
+            &:nth-child(3) {
+                animation-delay: 1s;
+            }
+        }
+    }
+
     @media (max-width: 768px) {
         padding: 40px 0 30px;
 
@@ -76,6 +116,19 @@
 
         p {
             font-size: 1.1rem;
+        }
+
+        .loadingContainer {
+            gap: 10px;
+
+            .loadingText {
+                font-size: 1.1rem;
+            }
+        }
+
+        .loadingDots .dot {
+            width: 6px;
+            height: 6px;
         }
     }
 }
@@ -97,9 +150,6 @@
         gap: 20px;
     }
 }
-
-/* Blog Card */
-
 
 /* Categories Filter */
 .categoriesFilter {
@@ -210,5 +260,19 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes loadingBounce {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        background: hsl(220, 20%, 50%);
+    }
+    30% {
+        transform: translateY(-6px);
+        background: hsl(210, 100%, 60%);
+        box-shadow: 0 4px 8px hsla(210, 100%, 60%, 0.4);
     }
 }
