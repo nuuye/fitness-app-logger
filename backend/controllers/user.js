@@ -80,8 +80,6 @@ exports.login = (req, res, next) => {
 };
 
 exports.googleAuth = (req, res, next) => {
-    console.log('backend email: ', req.body.email);
-
     User.findOne({ email: req.body.email })
         .then((user) => {
             console.log('user value:', user);

@@ -1,3 +1,4 @@
+// pages/blog/index.tsx - Version qui marche immédiatement
 import React, { useEffect, useState } from "react";
 import { Search, BookOpen, Utensils, Dumbbell, Heart } from "lucide-react";
 import styles from "./index.module.scss";
@@ -10,30 +11,37 @@ const BlogPage = () => {
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [searchTerm, setSearchTerm] = useState("");
     const [blogPosts, setBlogPosts] = useState<blogPost[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setBlogPosts([
-            {
-                id: 1,
-                title: "The Science Behind Progressive Overload",
-                excerpt:
-                    "Understanding how to systematically increase training demands to maximize muscle growth and strength gains over time.",
-                category: "Training",
-                date: "2024-08-15",
-                readTime: "5 min read",
-                icon: "💪",
-            },
-            {
-                id: 2,
-                title: "Macronutrients: Your Complete Guide",
-                excerpt:
-                    "Learn how to balance proteins, carbohydrates, and fats to fuel your workouts and support your fitness goals.",
-                category: "Nutrition",
-                date: "2024-08-12",
-                readTime: "7 min read",
-                icon: "🥗",
-            },
-        ]);
+        const loadArticles = async () => {
+            try {
+                let articles: blogPost[] = [];
+
+                // Charger les articles via API route
+                try {
+                    const response = await fetch(`/api/articles/`);
+                    console.log("response: ", response);
+                    if (response.ok) {
+                        articles = await response.json();
+                    }
+                } catch (error) {
+                    console.warn(`Error while loading articles:`, error);
+                }
+
+                console.log(articles);
+
+                // Trier par date (plus récent en premier)
+                articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                setBlogPosts(articles);
+            } catch (error) {
+                console.error("Erreur lors du chargement des articles:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadArticles();
     }, []);
 
     const categories = [
@@ -48,9 +56,24 @@ const BlogPage = () => {
         const matchesCategory = selectedCategory === "all" || post.category === selectedCategory;
         const matchesSearch =
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+            post.description.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesCategory && matchesSearch;
     });
+
+    if (loading) {
+        return (
+            <div className={styles.root}>
+                <AppBar />
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <h1>Fitness Blog</h1>
+                        <p>Chargement des articles...</p>
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
+    }
 
     return (
         <div className={styles.root}>
@@ -99,7 +122,7 @@ const BlogPage = () => {
                 {/* Blog Grid */}
                 <div className={styles.blogGrid}>
                     {filteredPosts.map((post) => (
-                        <BlogCard post={post} />
+                        <BlogCard key={post.id} post={post} />
                     ))}
                 </div>
 

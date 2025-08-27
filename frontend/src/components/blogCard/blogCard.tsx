@@ -29,7 +29,7 @@ export default function BlogCard({ post }: blogCardProps) {
 
                 <h3 className={styles.title}>{post.title}</h3>
 
-                <p className={styles.excerpt}>{post.excerpt}</p>
+                <p className={styles.description}>{post.description}</p>
 
                 <div className={styles.meta}>
                     <span className={styles.date}>{formatDate(post.date)}</span>
