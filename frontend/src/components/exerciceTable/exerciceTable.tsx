@@ -25,15 +25,6 @@ export interface ExerciceTableRef {
     handleCreateExercice: () => void;
 }
 
-interface ExerciceTableProps {
-    subCategoryId: string;
-    selectedDate?: string;
-}
-// Define what the parent will be able to call via the ref
-export interface ExerciceTableRef {
-    handleCreateExercice: () => void;
-}
-
 const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCategoryId, selectedDate }, ref) => {
     const [exercices, setExercices] = useState<ExerciceType[]>([]);
     const [previousPerformances, setPreviousPerformances] = useState<PerformanceType[]>();
@@ -43,11 +34,6 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
     useImperativeHandle(ref, () => ({
         handleCreateExercice,
     }));
-
-    useEffect(() => {
-        console.log(selectedDate);
-        console.log(exercices);
-    }, [exercices, selectedDate]);
 
     useEffect(() => {
         const storageUserId = localStorage.getItem("userId");

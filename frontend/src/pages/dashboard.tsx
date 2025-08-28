@@ -10,6 +10,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import WarningPopup from "../components/warningPopup/warningPopup";
 
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
@@ -25,6 +26,7 @@ export default function Dashboard() {
 
     const [value, setValue] = useState<Dayjs | null>(dayjs());
     const [selectedDateISO, setSelectedDateISO] = useState<string | undefined>(undefined);
+    const [displayWarning, setDisplayWarning] = useState<boolean>(false);
 
     useEffect(() => {
         if (value) {
@@ -49,7 +51,11 @@ export default function Dashboard() {
     }, []);
 
     const triggerCreateExercice = () => {
-        tableRef.current?.handleCreateExercice();
+        if (!selectedSubCategoryId || !selectedDateISO) {
+            setDisplayWarning(true);
+        } else {
+            tableRef.current?.handleCreateExercice();
+        }
     };
 
     const triggerDeleteCategory = (id: string) => {
@@ -100,6 +106,13 @@ export default function Dashboard() {
                             triggerDeleteCategory(tempCategory.id);
                             handleCancelWindow();
                         }}
+                    />
+                )}
+                {displayWarning && (
+                    <WarningPopup
+                        title="Warning"
+                        text="Please create or select a sub-category before adding a new exercice."
+                        onCancel={() => setDisplayWarning(false)}
                     />
                 )}
                 <SideBar
