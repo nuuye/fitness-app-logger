@@ -158,20 +158,6 @@ Post-exercise rehydration is crucial for recovery and preparation for subsequent
 
 **Why 125-150%?**: You continue losing fluid through breathing, urination, and ongoing sweat even after exercise stops.
 
-### Rehydration Strategies
-
-**Rapid Rehydration**: When you have another training session within 12 hours
-
--   Consume 600-700ml per kg of body weight lost
--   Include sodium (1,150-1,700mg per liter of fluid)
--   Cool beverages (10-15°C) enhance absorption
-
-**Standard Rehydration**: For normal recovery periods
-
--   Consume fluids gradually over 4-6 hours
--   Include foods with high water content
--   Monitor urine color to assess progress
-
 ### Foods That Support Rehydration
 
 **High Water Content Foods**: Watermelon (91% water), cucumber (96% water), oranges (87% water)
@@ -205,44 +191,6 @@ Cold environments present unique hydration challenges often overlooked by athlet
 **Layered Clothing**: Heavy clothing can increase sweat rates despite cool temperatures.
 
 **Indoor Heating**: Dry heated air increases fluid needs even at rest.
-
-## Special Populations and Considerations
-
-### Youth Athletes
-
-Children have unique hydration needs and vulnerabilities:
-
-**Higher Surface Area to Body Weight Ratio**: Children gain heat faster and have higher fluid turnover rates.
-
-**Lower Sweat Rates**: Children produce less sweat but may be more susceptible to dehydration.
-
-**Thirst Recognition**: May be less aware of thirst cues, especially during intense play.
-
-**Practical Approach**: Encourage frequent fluid breaks and provide flavored options to increase consumption.
-
-### Older Adults
-
-Aging affects hydration status and regulation:
-
-**Decreased Thirst Sensitivity**: Older adults feel thirsty at higher levels of dehydration.
-
-**Reduced Kidney Function**: Less efficient at concentrating urine and conserving water.
-
-**Medication Effects**: Diuretics, blood pressure medications, and others can affect fluid balance.
-
-**Heat Tolerance**: Reduced ability to regulate body temperature increases heat illness risk.
-
-### Female Athletes
-
-Women face unique hydration considerations:
-
-**Menstrual Cycle Effects**: Hormonal fluctuations can affect fluid retention and sweat rates.
-
-**Iron Deficiency**: More common in female athletes and can impair thermoregulation.
-
-**Body Composition**: Generally higher body fat percentage may affect heat dissipation.
-
-**Eating Disorders**: May lead to dehydration through restricted fluid intake or diuretic abuse.
 
 ## Hydration Myths and Misconceptions
 
@@ -299,28 +247,6 @@ Travel presents unique challenges for maintaining hydration:
 **Time Zone Changes**: Maintain regular fluid intake despite disrupted meal schedules.
 
 **Different Climates**: Allow extra time for acclimatization to new environmental conditions.
-
-## Monitoring and Tracking Hydration
-
-### Daily Monitoring
-
-**Urine Tracking**: Check color and frequency throughout the day.
-
-**Body Weight Trends**: Daily morning weights can identify chronic dehydration patterns.
-
-**Energy and Performance**: Poor hydration often manifests as decreased energy or workout quality.
-
-**Sleep Quality**: Dehydration can impair sleep quality and recovery.
-
-### Technology Tools
-
-**Smart Water Bottles**: Track intake volume and remind you to drink.
-
-**Fitness Apps**: Many apps, including Fitlogs, allow hydration tracking alongside training data.
-
-**Wearable Devices**: Some newer devices estimate sweat rate and fluid needs based on activity and environmental data.
-
-**Urine Analysis**: Specialized strips can provide more detailed hydration assessment.
 
 ## Creating Your Personal Hydration Plan
 

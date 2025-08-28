@@ -12,7 +12,6 @@ export default function SignUp() {
     const router = useRouter();
     const [googleLoading, setGoogleLoading] = useState(false);
     const [loadingSignUp, setLoadingSignUp] = useState(false);
-
     const { setUser } = useUser();
     const [emailValue, setEmailValue] = useState<string>("");
     const [emailError, setEmailError] = useState(false);
