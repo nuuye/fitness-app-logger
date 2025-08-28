@@ -55,10 +55,7 @@ export default function ArticlePage() {
             <div className={styles.container}>
                 {/* Header de l'article */}
                 <div className={styles.articleHeader}>
-                    <div className={styles.titleContainer}>
-                        <h1 className={styles.title}>{article.title}</h1>
-                        {article.icon && <span className={styles.emoji}>{article.icon}</span>}
-                    </div>
+                    <h1 className={styles.title}>{article.title}</h1>
                     <div className={styles.meta}>
                         <div className={styles.metaItem}>
                             <span>{article.date}</span>
