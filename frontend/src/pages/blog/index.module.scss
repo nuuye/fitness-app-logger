@@ -33,6 +33,13 @@
     }
 }
 
+.loadingRoot {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    padding: unset;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -67,17 +74,28 @@
         line-height: 1.6;
     }
 
-    .loadingContainer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        margin-top: 16px;
+    @media (max-width: 768px) {
+        padding: 40px 0 30px;
 
-        .loadingText {
-            font-size: 1.2rem;
-            color: hsl(220, 20%, 75%);
+        h1 {
+            font-size: 2.2rem;
         }
+
+        p {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    .loadingText {
+        font-size: 1.2rem;
+        color: hsl(220, 20%, 75%);
     }
 
     .loadingDots {
@@ -106,18 +124,7 @@
             }
         }
     }
-
     @media (max-width: 768px) {
-        padding: 40px 0 30px;
-
-        h1 {
-            font-size: 2.2rem;
-        }
-
-        p {
-            font-size: 1.1rem;
-        }
-
         .loadingContainer {
             gap: 10px;
 
@@ -132,7 +139,6 @@
         }
     }
 }
-
 /* Blog Grid */
 .blogGrid {
     display: flex;

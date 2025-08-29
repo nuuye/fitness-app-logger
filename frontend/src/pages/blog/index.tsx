@@ -1,4 +1,3 @@
-// pages/blog/index.tsx - Version qui marche immédiatement
 import React, { useEffect, useState } from "react";
 import { Search, BookOpen, Utensils, Dumbbell, Heart } from "lucide-react";
 import styles from "./index.module.scss";
@@ -8,17 +7,18 @@ import { blogPost } from "../../types/blog";
 import BlogCard from "../../components/blogCard/blogCard";
 
 const BlogPage = () => {
-    const [selectedCategory, setSelectedCategory] = useState("all");
-    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<string>("all");
+    const [searchTerm, setSearchTerm] = useState<string>("");
     const [blogPosts, setBlogPosts] = useState<blogPost[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<string>("Loading articles");
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const loadArticles = async () => {
             try {
                 let articles: blogPost[] = [];
 
-                // Charger les articles via API route
+                // Load articles
                 try {
                     const response = await fetch(`/api/articles/`);
                     console.log("response: ", response);
@@ -31,13 +31,13 @@ const BlogPage = () => {
 
                 console.log(articles);
 
-                // Trier par date (plus récent en premier)
+                // Sorting by date (most recent first)
                 articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
                 setBlogPosts(articles);
             } catch (error) {
                 console.error("Erreur lors du chargement des articles:", error);
             } finally {
-                setLoading(false);
+                setLoading("");
             }
         };
 
@@ -62,22 +62,15 @@ const BlogPage = () => {
 
     if (loading) {
         return (
-            <div className={styles.root}>
-                <AppBar />
-                <div className={styles.container}>
-                    <div className={styles.header}>
-                        <h1>Fitness Blog</h1>
-                        <div className={styles.loadingContainer}>
-                            <span className={styles.loadingText}>Loading articles</span>
-                            <div className={styles.loadingDots}>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
-                                <div className={styles.dot}></div>
-                            </div>
-                        </div>
+            <div className={`${styles.root} ${styles.loadingRoot}`}>
+                <div className={styles.loadingContainer}>
+                    <span className={styles.loadingText}>{loading}</span>
+                    <div className={styles.loadingDots}>
+                        <div className={styles.dot}></div>
+                        <div className={styles.dot}></div>
+                        <div className={styles.dot}></div>
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }
@@ -129,7 +122,7 @@ const BlogPage = () => {
                 {/* Blog Grid */}
                 <div className={styles.blogGrid}>
                     {filteredPosts.map((post) => (
-                        <BlogCard key={post.id} post={post} />
+                        <BlogCard key={post.id} post={post} onClick={() => setLoading("Loading article")} />
                     ))}
                 </div>
 

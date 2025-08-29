@@ -32,6 +32,13 @@
     }
 }
 
+.loadingRoot {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    padding: unset;
+}
+
 .container {
     max-width: 900px;
     margin: 80px auto 0px;
@@ -45,17 +52,15 @@
     }
 }
 
-.loading {
+.loadingContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
-    min-height: 50vh;
-    font-size: 1.2rem;
-    color: hsl(220, 20%, 75%);
 
     .loadingText {
-        font-weight: 500;
+        font-size: 1.2rem;
+        color: hsl(220, 20%, 75%);
     }
 
     .loadingDots {

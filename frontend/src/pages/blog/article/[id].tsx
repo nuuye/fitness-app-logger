@@ -34,15 +34,13 @@ export default function ArticlePage() {
 
     if (!article) {
         return (
-            <div className={styles.root}>
-                <div className={styles.container}>
-                    <div className={styles.loading}>
-                        <div className={styles.loadingText}>Loading article</div>
-                        <div className={styles.loadingDots}>
-                            <div className={styles.dot}></div>
-                            <div className={styles.dot}></div>
-                            <div className={styles.dot}></div>
-                        </div>
+            <div className={`${styles.root} ${styles.loadingRoot}`}>
+                <div className={styles.loadingContainer}>
+                    <div className={styles.loadingText}>Loading article</div>
+                    <div className={styles.loadingDots}>
+                        <div className={styles.dot}></div>
+                        <div className={styles.dot}></div>
+                        <div className={styles.dot}></div>
                     </div>
                 </div>
             </div>

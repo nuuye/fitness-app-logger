@@ -5,9 +5,10 @@ import { blogPost } from "../../types/blog";
 
 interface blogCardProps {
     post: blogPost;
+    onClick: () => void;
 }
 
-export default function BlogCard({ post }: blogCardProps) {
+export default function BlogCard({ post, onClick }: blogCardProps) {
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString("en-US", {
             year: "numeric",
@@ -17,7 +18,7 @@ export default function BlogCard({ post }: blogCardProps) {
     };
 
     return (
-        <article key={post.id} className={styles.blogCard}>
+        <article key={post.id} className={styles.blogCard} onClick={onClick}>
             <a href={`blog/article/${post.id}`}>
                 {/* Image Placeholder */}
                 <div className={styles.imageContainer}>
