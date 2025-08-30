@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import styles from "./PricingCard.module.scss";
+import styles from "./pricingCard.module.scss";
 
 interface pricingCardProps {
     title: string;
