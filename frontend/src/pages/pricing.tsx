@@ -28,11 +28,6 @@ export default function Pricing() {
         router.push("/signup");
     };
 
-    const handleNotifyMe = () => {
-        // Open email signup modal or navigate to notification signup
-        console.log("Notify Me clicked");
-    };
-
     return (
         <div className={styles.root}>
             <AppBar />
@@ -66,11 +61,9 @@ export default function Pricing() {
                         period="month"
                         description="Advanced features for serious fitness enthusiasts and professionals."
                         features={proPlanFeatures}
-                        buttonText="Notify Me"
                         buttonVariant="secondary"
                         badge="Coming Soon"
                         badgeType="coming"
-                        onButtonClick={handleNotifyMe}
                     />
                 </div>
             </div>

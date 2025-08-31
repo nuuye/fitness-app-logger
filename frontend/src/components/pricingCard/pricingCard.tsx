@@ -10,12 +10,12 @@ interface pricingCardProps {
     period: string;
     description: string;
     features: string[];
-    buttonText: string;
+    buttonText?: string;
     buttonVariant: "primary" | "secondary";
     badge: string;
     badgeType: "free" | "coming";
     isCurrent?: boolean;
-    onButtonClick: () => void;
+    onButtonClick?: () => void;
 }
 
 export default function pricingCard({
@@ -62,13 +62,16 @@ export default function pricingCard({
                 ))}
             </ul>
 
-            <Button
-                className={`${styles.ctaButton} ${styles[buttonVariant === "primary" ? "ctaPrimary" : "ctaSecondary"]}`}
-                onClick={onButtonClick}
-                startIcon={badgeType === "coming" ? <NotificationsIcon /> : undefined}
-            >
-                {buttonText}
-            </Button>
+            {buttonText && (
+                <Button
+                    className={`${styles.ctaButton} ${
+                        styles[buttonVariant === "primary" ? "ctaPrimary" : "ctaSecondary"]
+                    }`}
+                    onClick={onButtonClick}
+                >
+                    {buttonText}
+                </Button>
+            )}
         </div>
     );
 }
