@@ -46,23 +46,10 @@ const testimonials = [
 const Landing = () => {
     const router = useRouter();
     const [emailValue, setEmailValue] = useState<string>("");
-    const currentYear = new Date().getFullYear();
 
     useEffect(() => {
         localStorage.removeItem("userEmail");
     }, []);
-
-    useEffect(() => {
-        if (router.asPath.includes("#")) {
-            const id = router.asPath.split("#")[1];
-            const element = document.getElementById(id);
-            if (element) {
-                setTimeout(() => {
-                    element.scrollIntoView({ behavior: "smooth" });
-                }, 100);
-            }
-        }
-    }, [router.asPath]);
 
     const handleStartButton = async () => {
         localStorage.setItem("userEmail", emailValue);
@@ -71,13 +58,6 @@ const Landing = () => {
             router.push("/signin");
         } else {
             router.push("/signup");
-        }
-    };
-
-    const handleScroll = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
         }
     };
 
@@ -117,7 +97,7 @@ const Landing = () => {
                         <Image priority className={styles.previewImage} alt="previewContent" src={previewImage}></Image>
                     </div>
                 </div>
-                <div className={styles.featuresSection} id="featuresSection">
+                <div className={styles.featureSection} id="featureSection">
                     <div className={styles.featuresContainer}>
                         <h2 className={styles.featuresTitle}>
                             Why Fit<span style={{ color: "hsl(210, 100%, 65%)" }}>logs</span>?
@@ -156,7 +136,7 @@ const Landing = () => {
                         </div>
                     </div>
                 </div>
-                <div className={styles.testimonialsSection} id="testimonialsSection">
+                <div className={styles.testimonialSection} id="testimonialSection">
                     <div className={styles.testimonialsContainer}>
                         <h2 className={styles.testimonialsTitle}>
                             <span className={styles.communityTitle}>

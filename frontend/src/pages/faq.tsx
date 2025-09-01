@@ -2,8 +2,22 @@ import styles from "./faq.module.scss";
 import FAQItem from "../components/faqItem/faqItem";
 import AppBar from "../components/appBar/appBar";
 import Footer from "../components/footer/footer";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function FAQ() {
+    const router = useRouter();
+    const { section } = router.query;
+
+    useEffect(() => {
+        if (section) {
+            // waiting everything is mounted
+            setTimeout(() => {
+                document.getElementById(section as string)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }, 200);
+        }
+    }, [section]);
+
     return (
         <div className={styles.root}>
             <AppBar />
@@ -17,7 +31,7 @@ export default function FAQ() {
                 </div>
 
                 <div className={styles.faqList}>
-                    <FAQItem title="About Fitlogs">
+                    <FAQItem title="About Fitlogs" id="about" forceOpen={section === "about"}>
                         <p>
                             <strong>Fitlogs</strong> is a comprehensive fitness tracking application designed to help
                             you monitor and analyze your workout performance over time.
@@ -45,7 +59,7 @@ export default function FAQ() {
                         </p>
                     </FAQItem>
 
-                    <FAQItem title="Help Center / How to get help">
+                    <FAQItem title="Help Center" id="help" forceOpen={section === "help"}>
                         <p>Need assistance with Fitlogs? We're here to help! Here are the best ways to get support:</p>
 
                         <h4>📧 Email Support</h4>
@@ -53,7 +67,9 @@ export default function FAQ() {
                             Send us an email at <a href="mailto:support@fitlogs.com">support@fitlogs.com</a> for
                             detailed questions or technical issues. We typically respond within 24 hours.
                         </p>
+                    </FAQItem>
 
+                    <FAQItem title="Report an Issue" id="bug" forceOpen={section === "bug"}>
                         <h4>🐛 Bug Reports</h4>
                         <p>
                             Found a bug? Please report it to <a href="mailto:bugs@fitlogs.com">bugs@fitlogs.com</a> with
@@ -67,7 +83,7 @@ export default function FAQ() {
                         </ul>
                     </FAQItem>
 
-                    <FAQItem title="Privacy Policy">
+                    <FAQItem title="Privacy Policy" id="privacy" forceOpen={section === "privacy"}>
                         <p>
                             At Fitlogs, we take your privacy seriously. This policy outlines how we collect, use, and
                             protect your personal information.
@@ -114,7 +130,7 @@ export default function FAQ() {
                         </p>
                     </FAQItem>
 
-                    <FAQItem title="Cookies">
+                    <FAQItem title="Cookies" id="cookies" forceOpen={section === "cookies"}>
                         <p>Fitlogs uses cookies to provide you with a secure and seamless experience.</p>
 
                         <h4>🍪 How We Use Cookies</h4>
@@ -132,7 +148,7 @@ export default function FAQ() {
                         </p>
                     </FAQItem>
 
-                    <FAQItem title="Terms of Service">
+                    <FAQItem title="Terms of Service" id="terms" forceOpen={section === "terms"}>
                         <p>By using Fitlogs, you agree to these terms and conditions. Please read them carefully.</p>
 
                         <h4>✅ Acceptable Use</h4>
@@ -175,7 +191,7 @@ export default function FAQ() {
                         </p>
                     </FAQItem>
 
-                    <FAQItem title="Security">
+                    <FAQItem title="Security" id="security" forceOpen={section === "security"}>
                         <p>
                             Security is a priority in Fitlogs development. Your data is protected through multiple
                             layers of security measures implemented throughout the application.

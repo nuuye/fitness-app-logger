@@ -18,6 +18,17 @@ export default function AppBar() {
         }
     };
 
+    const handleAboutScroll = (id: string) => {
+        if (router.pathname === "/faq") {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        } else {
+            router.push(`/faq?section=${id}`);
+        }
+    };
+
     return (
         <div className={styles.mainContainer}>
             <div className={styles.leftNavContainer}>
@@ -28,18 +39,22 @@ export default function AppBar() {
                     <Button
                         className={styles.sectionButtonContainer}
                         variant="text"
-                        onClick={() => handleScroll("featuresSection")}
+                        onClick={() => handleScroll("featureSection")}
                     >
                         Features
                     </Button>
                     <Button
                         className={styles.sectionButtonContainer}
                         variant="text"
-                        onClick={() => handleScroll("testimonialsSection")}
+                        onClick={() => handleScroll("testimonialSection")}
                     >
                         Testimonials
                     </Button>
-                    <Button className={styles.sectionButtonContainer} variant="text">
+                    <Button
+                        className={styles.sectionButtonContainer}
+                        variant="text"
+                        onClick={() => handleAboutScroll("about")}
+                    >
                         About
                     </Button>
                     <Button

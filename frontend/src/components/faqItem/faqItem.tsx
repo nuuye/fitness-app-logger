@@ -6,17 +6,19 @@ interface faqItemProps {
     title: string;
     children: React.ReactNode;
     defaultOpen?: boolean;
+    id?: string;
+    forceOpen?: boolean;
 }
 
-export default function faqItem({ title, children, defaultOpen = false } : faqItemProps)  {
-    const [isOpen, setIsOpen] = useState(defaultOpen);
+export default function faqItem({ id, title, children, defaultOpen = false, forceOpen = false }: faqItemProps) {
+    const [isOpen, setIsOpen] = useState(defaultOpen || forceOpen);
 
     const toggleOpen = () => {
         setIsOpen(!isOpen);
     };
 
     return (
-        <div className={`${styles.faqItem} ${isOpen ? styles.open : ""}`}>
+        <div id={id} className={`${styles.faqItem} ${isOpen ? styles.open : ""}`}>
             <div className={styles.header} onClick={toggleOpen}>
                 <h3 className={styles.title}>{title}</h3>
                 <button className={`${styles.toggleButton} ${isOpen && styles.rotated}`}>
@@ -29,4 +31,4 @@ export default function faqItem({ title, children, defaultOpen = false } : faqIt
             </div>
         </div>
     );
-};
+}

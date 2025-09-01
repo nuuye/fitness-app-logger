@@ -20,6 +20,17 @@ export default function footer() {
         }
     };
 
+    const handleFaqScroll = (id: string) => {
+        if (router.pathname === "/faq") {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+            }
+        } else {
+            router.push(`/faq?section=${id}`);
+        }
+    };
+
     return (
         <div className={styles.footer}>
             <div className={styles.footerContainer}>
@@ -62,7 +73,7 @@ export default function footer() {
                         <h4 className={styles.sectionTitle}>Quick Links</h4>
                         <ul className={styles.linksList}>
                             <li>
-                                <a onClick={() => handleScroll("featuresSection")} className={styles.footerLink}>
+                                <a onClick={() => handleScroll("featureSection")} className={styles.footerLink}>
                                     Features
                                 </a>
                             </li>
@@ -72,7 +83,7 @@ export default function footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="/about" className={styles.footerLink}>
+                                <a onClick={() => handleFaqScroll("about")} className={styles.footerLink}>
                                     About Fitlogs
                                 </a>
                             </li>
@@ -82,8 +93,8 @@ export default function footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="/help" className={styles.footerLink}>
-                                    Help Center
+                                <a href="/faq" className={styles.footerLink}>
+                                    FAQ
                                 </a>
                             </li>
                         </ul>
@@ -94,27 +105,27 @@ export default function footer() {
                         <h4 className={styles.sectionTitle}>Support</h4>
                         <ul className={styles.linksList}>
                             <li>
-                                <a href="/contact" className={styles.footerLink}>
-                                    Contact Us
+                                <a onClick={() => handleFaqScroll("help")} className={styles.footerLink}>
+                                    Help Center
                                 </a>
                             </li>
                             <li>
-                                <a href="/faq" className={styles.footerLink}>
-                                    FAQ
+                                <a onClick={() => handleFaqScroll("cookies")} className={styles.footerLink}>
+                                    Cookies
                                 </a>
                             </li>
                             <li>
-                                <a href="/privacy" className={styles.footerLink}>
+                                <a onClick={() => handleFaqScroll("privacy")} className={styles.footerLink}>
                                     Privacy Policy
                                 </a>
                             </li>
                             <li>
-                                <a href="/terms" className={styles.footerLink}>
+                                <a onClick={() => handleFaqScroll("terms")} className={styles.footerLink}>
                                     Terms of Service
                                 </a>
                             </li>
                             <li>
-                                <a href="/security" className={styles.footerLink}>
+                                <a onClick={() => handleFaqScroll("security")} className={styles.footerLink}>
                                     Security
                                 </a>
                             </li>
@@ -157,17 +168,6 @@ export default function footer() {
                 <div className={styles.footerBottom}>
                     <div className={styles.footerBottomContent}>
                         <p className={styles.copyright}>© {currentYear} Fitlogs. All rights reserved.</p>
-                        <div className={styles.footerBottomLinks}>
-                            <a href="/privacy" className={styles.bottomLink}>
-                                Privacy
-                            </a>
-                            <a href="/terms" className={styles.bottomLink}>
-                                Terms
-                            </a>
-                            <a href="/cookies" className={styles.bottomLink}>
-                                Cookies
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
