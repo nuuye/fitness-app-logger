@@ -17,6 +17,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { editCategoryRequest } from "../../services/category";
+import AlignHorizontalLeftIcon from "@mui/icons-material/AlignHorizontalLeft";
 
 interface categoryProps {
     label: string;
@@ -89,7 +90,7 @@ export default function Category({
                 onClick={() => setCategoryListOpen(!categoryListOpen)}
             >
                 <ListItemIcon>
-                    <ArticleIcon className={styles.categoriesIcon} />
+                    <AlignHorizontalLeftIcon className={styles.categoriesIcon} />
                 </ListItemIcon>
                 {isInputVisible ? (
                     <Input
