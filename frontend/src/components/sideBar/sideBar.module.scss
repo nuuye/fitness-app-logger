@@ -39,6 +39,11 @@
         background: hsla(220, 20%, 60%, 0.7);
     }
 
+    :global(a) {
+        color: inherit;
+        text-decoration: none;
+    }
+
     &.rootSideBarClosed {
         width: 60px;
 
@@ -100,6 +105,9 @@
                     transform: translateY(-1px);
                 }
             }
+            .wrappedProfileSection {
+                margin-right: 3px;
+            }
 
             .menuButton {
                 color: hsl(220, 20%, 65%);
@@ -141,8 +149,7 @@
                 }
 
                 &.wrapIconClosed {
-                    margin-right: unset;
-                    margin-left: auto;
+                    margin-right: 3px;
                     margin-bottom: 10px;
                 }
 
@@ -176,10 +183,10 @@
                 padding: 0;
             }
 
-            .homeContainer {
+            .analyticsContainer {
                 color: hsl(220, 20%, 75%);
 
-                &.homeContainerHidden {
+                &.analyticsContainerHidden {
                     display: none;
                 }
 
@@ -187,11 +194,11 @@
                     display: none;
                 }
 
-                &.homeContainerMenu {
+                &.analyticsContainerMenu {
                     display: block;
                 }
 
-                .homeIcon {
+                .insightsIcon {
                     color: hsl(210, 100%, 65%);
                     transition: all 200ms ease;
 
@@ -234,6 +241,7 @@
 
             &.wrappedFooter {
                 gap: 8px;
+                margin-right: 3px;
             }
 
             .footerButton {
@@ -244,13 +252,18 @@
                 @media (max-width: 575px) {
                     display: none;
                 }
+                a {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                }
             }
             .removeFooterButton {
                 display: none;
             }
 
             .settingsButton,
-            .homeButton {
+            .analyticsButton {
                 width: 100%;
                 color: hsl(220, 20%, 75%);
                 border: 1px solid hsla(220, 20%, 25%, 0.4);

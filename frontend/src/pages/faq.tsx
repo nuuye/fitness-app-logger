@@ -165,7 +165,6 @@ export default function FAQ() {
                         <ul>
                             <li>Attempting to hack, reverse engineer, or compromise our systems</li>
                             <li>Sharing false or misleading information</li>
-                            <li>Using the service to spam or harass other users</li>
                             <li>Violating any applicable laws or regulations</li>
                         </ul>
 
@@ -184,10 +183,6 @@ export default function FAQ() {
                         <p>
                             Fitlogs is provided "as is" without warranties. We are not liable for indirect damages or
                             loss of data, though we take every precaution to protect your information.
-                        </p>
-
-                        <p>
-                            View the complete <a href="/terms">Terms of Service document</a> for full legal details.
                         </p>
                     </FAQItem>
 

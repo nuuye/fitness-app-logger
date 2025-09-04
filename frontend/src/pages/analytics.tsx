@@ -1,4 +1,4 @@
-import styles from "./home.module.scss";
+import styles from "./analytics.module.scss";
 import SideBar, { SideBarRef } from "../components/sideBar/sideBar";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -46,7 +46,7 @@ const COLORS = [
     "#2ecc71",
 ];
 
-export default function Home() {
+export default function Analytics() {
     const router = useRouter();
     const sideBarRef = useRef<SideBarRef>(null);
 

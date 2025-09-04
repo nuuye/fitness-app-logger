@@ -12,13 +12,14 @@ import { Button, IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { logoutRequest } from "../../services/user";
-import HomeIcon from "@mui/icons-material/Home";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { BiLogOut } from "react-icons/bi";
 import Category from "../Category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 import { useUser } from "../../context/userContext";
+import InsightsIcon from "@mui/icons-material/Insights";
+import Link from "next/link";
 
 interface sideBarProps {
     retrieveSubCategory: (subCategoryId: string) => void;
@@ -157,10 +158,12 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                             mobileSideBar && styles.headerMenu
                         }`}
                     >
-                        <div className={styles.profileSection} onClick={() => router.push("/settings")}>
-                            <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
-                            {sideBarOpen && <span>{user ? user.name : ""}</span>}
-                        </div>
+                        <Link prefetch href="/settings">
+                            <div className={`${styles.profileSection} ${!sideBarOpen && styles.wrappedProfileSection}`}>
+                                <Avatar sx={{ width: 38, height: 38 }}>{userInitials}</Avatar>
+                                {sideBarOpen && <span>{user ? user.name : ""}</span>}
+                            </div>
+                        </Link>
 
                         {!mobileSideBar ? (
                             sideBarOpen ? (
@@ -190,17 +193,18 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                     </div>
                     <div className={styles.body}>
                         <List
-                            className={`${styles.homeContainer} ${!sideBarOpen && styles.homeContainerHidden} ${
-                                showMenu && styles.homeContainerMenu
-                            }`}
+                            className={`${styles.analyticsContainer} ${
+                                !sideBarOpen && styles.analyticsContainerHidden
+                            } ${showMenu && styles.analyticsContainerMenu}`}
                         >
-                            <ListItemButton onClick={() => router.push("/home")}>
-                                <ListItemIcon>
-                                    <HomeIcon className={styles.homeIcon} />
-                                </ListItemIcon>
-                                <ListItemText primary="Analytics" />
-                            </ListItemButton>
-
+                            <Link prefetch href="/analytics">
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <InsightsIcon className={styles.insightsIcon} />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Analytics" />
+                                </ListItemButton>
+                            </Link>
                             {categories &&
                                 categories.map((category) => (
                                     <Category
@@ -227,36 +231,42 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                 <ListItemText primary="Add new category" />
                             </ListItemButton>
                             {mobileSideBar && (
-                                <ListItemButton onClick={() => router.push("/settings")}>
-                                    <ListItemIcon>
-                                        <SettingsOutlinedIcon className={styles.homeIcon} />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Settings" />
-                                </ListItemButton>
+                                <Link prefetch href="/settings">
+                                    <ListItemButton>
+                                        <ListItemIcon>
+                                            <SettingsOutlinedIcon className={styles.insightsIcon} />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Settings" />
+                                    </ListItemButton>
+                                </Link>
                             )}
                         </List>
                     </div>
 
                     <div className={`${styles.footer} ${!sideBarOpen && styles.wrappedFooter}`}>
                         <div className={`${styles.footerButton} ${sideBarOpen && styles.removeFooterButton}`}>
-                            <Button
-                                className={`${styles.homeButton} ${
-                                    sideBarOpen ? styles.wrappedHomeButtonHidden : styles.wrappedHomeButton
-                                }`}
-                                variant="outlined"
-                                startIcon={<HomeIcon />}
-                                onClick={() => router.push("/home")}
-                            ></Button>
+                            <Link prefetch href="/analytics">
+                                <Button
+                                    className={`${styles.analyticsButton} ${
+                                        sideBarOpen ? styles.wrappedHomeButtonHidden : styles.wrappedHomeButton
+                                    }`}
+                                    variant="outlined"
+                                    startIcon={<InsightsIcon />}
+                                ></Button>
+                            </Link>
                         </div>
                         <div className={styles.footerButton}>
-                            <Button
-                                className={`${styles.settingsButton} ${!sideBarOpen && styles.wrappedSettingsButton}`}
-                                variant="outlined"
-                                startIcon={<SettingsOutlinedIcon />}
-                                onClick={() => router.push("/settings")}
-                            >
-                                {sideBarOpen ? "Settings" : ""}
-                            </Button>
+                            <Link prefetch href="/settings">
+                                <Button
+                                    className={`${styles.settingsButton} ${
+                                        !sideBarOpen && styles.wrappedSettingsButton
+                                    }`}
+                                    variant="outlined"
+                                    startIcon={<SettingsOutlinedIcon />}
+                                >
+                                    {sideBarOpen ? "Settings" : ""}
+                                </Button>
+                            </Link>
                         </div>
                         <div className={styles.footerButton}>
                             <Button
