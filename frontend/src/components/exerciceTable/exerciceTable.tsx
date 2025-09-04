@@ -15,6 +15,8 @@ import {
 } from "../../services/exercice";
 import Input from "@mui/material/Input";
 import { ExerciceType, PerformanceType } from "../../types/exercice";
+import WarningPopup from "../warningPopup/warningPopup";
+import { createPortal } from "react-dom";
 
 interface ExerciceTableProps {
     subCategoryId: string;
@@ -29,6 +31,7 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
     const [exercices, setExercices] = useState<ExerciceType[]>([]);
     const [previousPerformances, setPreviousPerformances] = useState<PerformanceType[]>();
     const [newPerformance, setNewPerformance] = useState<PerformanceType>();
+    const [exerciceToDelete, setExerciceToDelete] = useState<Record<string, string> | null>(null);
 
     // Expose methods to parent via useImperativeHandle
     useImperativeHandle(ref, () => ({
@@ -297,6 +300,19 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
 
     return (
         <div className={styles.root}>
+            {exerciceToDelete &&
+                createPortal(
+                    <WarningPopup
+                        onCancel={() => setExerciceToDelete(null)}
+                        onConfirm={() => {
+                            handleDeleteExercice(Object.values(exerciceToDelete)[0]);
+                            setExerciceToDelete(null);
+                        }}
+                        title="Warning"
+                        text={`You are about to delete all data related to ${Object.keys(exerciceToDelete)[0]}`}
+                    />,
+                    document.body
+                )}
             <div className={styles.desktopView}>
                 <table>
                     <thead>
@@ -426,7 +442,10 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                     <BorderColorIcon className={styles.editIcon} />
                                                 </IconButton>
                                             )}
-                                            <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">
+                                            <IconButton
+                                                onClick={() => setExerciceToDelete({ [row.name]: row._id })}
+                                                color="error"
+                                            >
                                                 <DeleteIcon className={styles.deleteIcon} />
                                             </IconButton>
                                         </td>

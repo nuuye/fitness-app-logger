@@ -6,9 +6,11 @@ interface warningPopupProps {
     title?: string;
     text: string;
     onCancel: () => void;
+    onConfirm?: () => void;
+    confirmation?: boolean;
 }
 
-export default function WarningPopup({ title, text, onCancel }: warningPopupProps) {
+export default function WarningPopup({ title, text, onCancel, confirmation = false, onConfirm }: warningPopupProps) {
     const [isExiting, setIsExiting] = useState(false);
 
     // Function to handle exit animation
@@ -27,9 +29,20 @@ export default function WarningPopup({ title, text, onCancel }: warningPopupProp
                     <p>{text}</p>
                 </div>
                 <div className={styles.actions}>
-                    <Button variant="outlined" onClick={() => handleClose(onCancel)}>
-                        OK
-                    </Button>
+                    {confirmation ? (
+                        <Button variant="outlined" onClick={() => handleClose(onCancel)}>
+                            OK
+                        </Button>
+                    ) : (
+                        <div className={styles.confirmationContainer}>
+                            <Button variant="outlined" onClick={() => handleClose(onCancel)}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained" color="error" onClick={() => handleClose(onConfirm)}>
+                                Delete
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </Card>
         </div>
