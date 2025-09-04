@@ -131,7 +131,7 @@ exports.googleAuth = (req, res, next) => {
 
 exports.logout = (req, res, next) => {
     res.clearCookie("jwtToken", {
-        secure: true, // Match login settings
+        secure: false, // Match login settings
         sameSite: "Lax", // Match login settings
         path: "/", // Ensure it clears the correct cookie
     });
