@@ -1,21 +1,26 @@
+version: "3.9"
 services:
     frontend:
         build:
             context: ./frontend
         volumes:
-            - ./frontend:/app
+            - ./frontend:/app:cached
             - /app/node_modules
         ports:
             - "3000:3000"
         depends_on:
             - backend
         environment:
-            - NODE_ENV=development
+            - NODE_ENV=production
             - NEXT_PUBLIC_API_USER_URL=http://localhost:8000/api/auth
             - NEXT_PUBLIC_API_EXERCICE_URL=http://localhost:8000/api/exercice
             - NEXT_PUBLIC_API_CATEGORY_URL=http://localhost:8000/api/category
             - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://localhost:8000/api/subCategory
-
+        command: >
+            sh -c "if [ \"$NODE_ENV\" = 'production' ]; 
+                then npm run start -p 3000 -H 0.0.0.0; 
+                else npm run dev -p 3000 -H 0.0.0.0; 
+                fi"
 
     backend:
         build:
