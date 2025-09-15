@@ -1,6 +1,8 @@
-**/node_modules/
 README.md
 **/dist
 .git
 npm-debug.log
-
+node_modules
+.next
+Dockerfile
+docker-compose*
