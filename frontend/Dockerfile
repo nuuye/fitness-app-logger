@@ -14,13 +14,15 @@ RUN npm run build
 FROM node:18-alpine
 WORKDIR /app
 
-COPY --from=builder /app ./
+# Copier seulement les fichiers nécessaires depuis le builder
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
 
 # Par défaut en prod
 ENV NODE_ENV=production
 EXPOSE 3000
 
 # Lancement conditionnel
-# docker run -e NODE_ENV=production
-# docker run -e NODE_ENV=development ...
-CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then npm run start -p 3000 -H 0.0.0.0; else npm run dev -p 3000 -H 0.0.0.0; fi"]
+CMD ["sh", "-c", "if [ \"$NODE_ENV\" = 'production' ]; then npm run start -- -p 3000 -H 0.0.0.0; else npm run dev -- -p 3000 -H 0.0.0.0; fi"]
