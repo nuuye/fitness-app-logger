@@ -3,33 +3,32 @@ services:
     frontend:
         build:
             context: ./frontend
-        volumes:
-            - ./frontend:/app:cached
-            - /app/node_modules
+            args:
+                - NODE_ENV=production
         ports:
             - "3000:3000"
         depends_on:
             - backend
         environment:
             - NODE_ENV=production
-            - NEXT_PUBLIC_API_USER_URL=http://localhost:8000/api/auth
-            - NEXT_PUBLIC_API_EXERCICE_URL=http://localhost:8000/api/exercice
-            - NEXT_PUBLIC_API_CATEGORY_URL=http://localhost:8000/api/category
-            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://localhost:8000/api/subCategory
-        command: sh -c "if [ \"$NODE_ENV\" = 'production' ]; then npm run start; else npm run dev; fi"
+            # Utiliser l'IP publique de votre EC2 ou un nom de domaine
+            - NEXT_PUBLIC_API_USER_URL=http://13.60.226.133:8000/api/auth
+            - NEXT_PUBLIC_API_EXERCICE_URL=http://13.60.226.133:8000/api/exercice
+            - NEXT_PUBLIC_API_CATEGORY_URL=http://13.60.226.133:8000/api/category
+            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://13.60.226.133:8000/api/subcategory
+        restart: unless-stopped
 
     backend:
         build:
             context: ./backend
-        volumes:
-            - ./backend:/app
-            - /app/node_modules
         ports:
             - "8000:8000"
         depends_on:
             - mongo
         environment:
+            - NODE_ENV=production
             - MONGO_URI=mongodb://mongo:27017/mydb
+        restart: unless-stopped
 
     mongo:
         image: mongo:latest
@@ -37,6 +36,7 @@ services:
             - "27017:27017"
         volumes:
             - mongo-data:/data/db
+        restart: unless-stopped
 
 volumes:
     mongo-data:
