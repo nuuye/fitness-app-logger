@@ -4,29 +4,30 @@ services:
         build:
             context: ./frontend
             args:
-                - NODE_ENV=production
+                - NODE_ENV=${NODE_ENV}
         ports:
             - "3000:3000"
         depends_on:
             - backend
         environment:
-            - NODE_ENV=production
-            # Utiliser l'IP publique de votre EC2 ou un nom de domaine
-            - NEXT_PUBLIC_API_USER_URL=http://13.60.226.133:8000/api/auth
-            - NEXT_PUBLIC_API_EXERCICE_URL=http://13.60.226.133:8000/api/exercice
-            - NEXT_PUBLIC_API_CATEGORY_URL=http://13.60.226.133:8000/api/category
-            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://13.60.226.133:8000/api/subcategory
+            - NODE_ENV=${NODE_ENV}
+            - NEXT_PUBLIC_API_USER_URL=http://${EC2_PUBLIC_IP}:8000/api/auth
+            - NEXT_PUBLIC_API_EXERCICE_URL=http://${EC2_PUBLIC_IP}:8000/api/exercice
+            - NEXT_PUBLIC_API_CATEGORY_URL=http://${EC2_PUBLIC_IP}:8000/api/category
+            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://${EC2_PUBLIC_IP}:8000/api/subcategory
         restart: unless-stopped
 
     backend:
         build:
             context: ./backend
+            args:
+                - NODE_ENV=${NODE_ENV}
         ports:
             - "8000:8000"
         depends_on:
             - mongo
         environment:
-            - NODE_ENV=production
+            - NODE_ENV=${NODE_ENV}
             - MONGO_URI=mongodb://mongo:27017/mydb
         restart: unless-stopped
 
