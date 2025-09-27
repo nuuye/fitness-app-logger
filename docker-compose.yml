@@ -8,12 +8,8 @@ services:
             - "3000:3000"
         depends_on:
             - backend
-        environment:
-            - NODE_ENV=${NODE_ENV}
-            - NEXT_PUBLIC_API_USER_URL=http://${EC2_PUBLIC_IP}:8000/api/auth
-            - NEXT_PUBLIC_API_EXERCICE_URL=http://${EC2_PUBLIC_IP}:8000/api/exercice
-            - NEXT_PUBLIC_API_CATEGORY_URL=http://${EC2_PUBLIC_IP}:8000/api/category
-            - NEXT_PUBLIC_API_SUBCATEGORY_URL=http://${EC2_PUBLIC_IP}:8000/api/subcategory
+        env_file:
+            - ./frontend/.env
         restart: unless-stopped
 
     backend:
@@ -28,6 +24,8 @@ services:
         environment:
             - NODE_ENV=${NODE_ENV}
             - MONGO_URI=mongodb://mongo:27017/mydb
+        env_file:
+            - ./backend/.env
         restart: unless-stopped
 
     mongo:
