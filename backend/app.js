@@ -12,17 +12,19 @@ const userRoutes = require("./routes/user");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-//Allow requests between different server, disabling CORS
-app.use(
-    cors({
-        origin: process.env.CORS_IP, // frontend link
-        credentials: true, // Allow cookies and authorization headers
-        methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        allowedHeaders: "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
-    })
-);
+// Configuration CORS centralisée
+const corsOptions = {
+    origin: process.env.CORS_IP, // frontend link
+    credentials: true, // Allow cookies and authorization headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    exposedHeaders: ['set-cookie'],
+    optionsSuccessStatus: 204
+};
 
-app.options("*", cors());
+// Apply CORS with same config
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 //link mongo to our app
 mongoose
