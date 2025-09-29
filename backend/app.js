@@ -15,7 +15,7 @@ const cors = require("cors");
 //Allow requests between different server, disabling CORS
 app.use(
     cors({
-        origin: "http://localhost:3000", // frontend link
+        origin: process.env.CORS_IP, // frontend link
         credentials: true, // Allow cookies and authorization headers
         methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
         allowedHeaders: "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization",
