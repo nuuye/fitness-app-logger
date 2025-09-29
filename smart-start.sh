@@ -22,15 +22,27 @@ get_public_ip() {
     local env=$(detect_environment)
     
     if [ "$env" = "ec2" ]; then
-        # Sur EC2, récupérer l'IP publique
-        local ip=$(curl -s --max-time 5 http://169.254.169.254/latest/meta-data/public-ipv4 2>/dev/null)
+        # Récupérer le token IMDSv2 (obligatoire sur cette instance)
+        local token=$(curl -s -X PUT "http://169.254.169.254/latest/api/token" \
+            -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" \
+            --max-time 5 2>/dev/null)
+        
+        if [ -z "$token" ]; then
+            echo "localhost"
+            return
+        fi
+        
+        # Récupérer l'IP publique avec le token
+        local ip=$(curl -s -H "X-aws-ec2-metadata-token: $token" \
+            http://169.254.169.254/latest/meta-data/public-ipv4 \
+            --max-time 5 2>/dev/null)
+        
         if [ $? -eq 0 ] && [ ! -z "$ip" ]; then
             echo "$ip"
         else
             echo "localhost"
         fi
     else
-        # En local, utiliser localhost
         echo "localhost"
     fi
 }
