@@ -39,8 +39,8 @@ get_public_ip() {
 ENV_TYPE=$(detect_environment)
 CURRENT_IP=$(get_public_ip)
 
-echo "🌍 Environnement détecté: $ENV_TYPE"
-echo "📍 IP configurée: $CURRENT_IP"
+echo "> Environnement détecté: $ENV_TYPE"
+echo "> IP configurée: $CURRENT_IP"
 
 # Adapter NODE_ENV selon l'environnement
 if [ "$ENV_TYPE" = "ec2" ]; then
@@ -58,17 +58,17 @@ if [ -f ".env" ]; then
     OLD_ENV=$(grep "^NODE_ENV=" .env | cut -d'=' -f2 2>/dev/null || echo "")
     
     if [ "$OLD_IP" != "$CURRENT_IP" ]; then
-        echo "🔄 L'IP a changé de '$OLD_IP' vers '$CURRENT_IP'"
+        echo "> L'IP a changé de '$OLD_IP' vers '$CURRENT_IP'"
         NEED_REBUILD=true
     fi
     
     if [ "$OLD_ENV" != "$TARGET_NODE_ENV" ]; then
-        echo "🔄 L'environnement a changé de '$OLD_ENV' vers '$TARGET_NODE_ENV'"
+        echo "> L'environnement a changé de '$OLD_ENV' vers '$TARGET_NODE_ENV'"
         NEED_REBUILD=true
     fi
     
     if [ "$NEED_REBUILD" = false ]; then
-        echo "✅ Configuration inchangée"
+        echo "> Configuration inchangée"
     fi
 else
     echo "📝 Création du fichier .env"
@@ -99,11 +99,11 @@ if [ -f "frontend/.env" ]; then
     if [ "$ENV_TYPE" = "ec2" ]; then
         # Sur EC2 : remplacer localhost par l'IP réelle
         sed -i "s|http://localhost:8000|http://$CURRENT_IP:8000|g" frontend/.env
-        echo "✅ URLs mises à jour: localhost → $CURRENT_IP"
+        echo "> URLs mises à jour: localhost → $CURRENT_IP"
     else
         # En local : s'assurer que c'est localhost
         sed -i "s|http://[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+:8000|http://localhost:8000|g" frontend/.env
-        echo "✅ URLs mises à jour pour développement local"
+        echo "> URLs mises à jour pour développement local"
     fi
     
     # Mettre à jour NODE_ENV
@@ -113,11 +113,11 @@ if [ -f "frontend/.env" ]; then
     
     echo "📋 URLs d'API configurées:"
     grep "NEXT_PUBLIC_API_" frontend/.env | while IFS= read -r line; do
-        echo "   🔗 $line"
+        echo "   * $line"
     done
 else
     echo "⚠️ Fichier frontend/.env non trouvé"
-    echo "💡 Créez-le avec vos variables sensibles et les URLs appropriées"
+    echo "> Créez-le avec vos variables sensibles et les URLs appropriées"
 fi
 
 # Gestion Docker selon l'environnement
@@ -133,7 +133,7 @@ if [ "$NEED_REBUILD" = true ] || [ "$1" = "--force" ]; then
     docker-compose down 2>/dev/null || true
     docker-compose up --build -d
 else
-    echo "▶️ Démarrage des conteneurs existants..."
+    echo "> Démarrage des conteneurs existants..."
     docker-compose up -d
 fi
 
@@ -143,7 +143,7 @@ echo "📊 Statut des conteneurs:"
 docker-compose ps
 
 echo ""
-echo "🎉 Application disponible sur:"
+echo "> Application disponible sur:"
 echo "   Frontend: http://$CURRENT_IP:3000"
 echo "   Backend:  http://$CURRENT_IP:8000"
 echo ""
@@ -151,4 +151,4 @@ echo "🔧 Configuration:"
 echo "   Environnement: $ENV_TYPE ($TARGET_NODE_ENV)"
 echo "   IP: $CURRENT_IP"
 echo ""
-echo "💡 Pour forcer une reconstruction: $0 --force"
+echo "¤ Pour forcer une reconstruction: $0 --force"
