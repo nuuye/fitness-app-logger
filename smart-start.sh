@@ -139,7 +139,7 @@ if [ -f "backend/.env" ]; then
     
     if [ "$ENV_TYPE" = "ec2" ]; then
         # Sur EC2 : remplacer localhost par l'IP réelle
-        sed -i "s/^CORS_IP=.*/CORS_IP=http://$CURRENT_IP:3000/" backend/.env
+        sed -i "s|^CORS_IP=.*|CORS_IP=http://$CURRENT_IP:3000|" backend/.env
         echo "(backend)> URLs mises à jour: localhost → $CURRENT_IP"
     else
         # En local : s'assurer que c'est localhost
