@@ -156,6 +156,55 @@ else
     echo "> Créez-le avec vos variables sensibles et les URLs appropriées"
 fi
 
+# Mise à jour du DNS CloudFlare
+if [ "$ENV_TYPE" = "ec2" ]; then
+    # --- CONFIG ---
+    CF_API_TOKEN=$(grep "^CF_API_TOKEN=" .env | cut -d'=' -f2 2>/dev/null || echo "")
+    ZONE_ID=$(grep "^ZONE_ID=" .env | cut -d'=' -f2 2>/dev/null || echo "")
+    RECORD_NAME=$(grep "^RECORD_NAME=" .env | cut -d'=' -f2 2>/dev/null || echo "")
+
+    if [ -z "$CF_API_TOKEN" ] || [ -z "$ZONE_ID" ] || [ -z "$RECORD_NAME" ]; then
+        echo "❌ Variables Cloudflare manquantes dans le .env"
+        exit 1
+    fi
+
+    # Récupération de l'ID de l'enregistrement DNS sur Cloudflare
+    RECORD_ID=$(curl -s -X GET \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=$RECORD_NAME" \
+        -H "Authorization: Bearer $CF_API_TOKEN" \
+        -H "Content-Type: application/json" | jq -r '.result[0].id')
+
+    if [ "$RECORD_ID" = "null" ]; then
+        echo "❌ Impossible de trouver l'enregistrement DNS $RECORD_NAME dans la zone Cloudflare."
+        exit 1
+    fi
+
+    # Récupération de l'IP enregistrée sur Cloudflare
+    CLOUDFLARE_OLD_IP=$(curl -s -X GET \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
+        -H "Authorization: Bearer $CF_API_TOKEN" \
+        -H "Content-Type: application/json" | jq -r '.result.content')
+
+    # Comparaison
+    if [ "$CURRENT_IP" = "$CLOUDFLARE_OLD_IP" ]; then
+        echo "✅ L'IP Cloudflare est déjà à jour ($CURRENT_IP)."
+    else
+        echo "🔄 Mise à jour de l'enregistrement DNS..."
+        UPDATE=$(curl -s -X PUT \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data "{\"type\":\"A\",\"name\":\"$RECORD_NAME\",\"content\":\"$CURRENT_IP\",\"ttl\":120,\"proxied\":true}")
+
+        if echo "$UPDATE" | grep -q '"success":true'; then
+            echo "✅ Enregistrement mis à jour : $RECORD_NAME → $CURRENT_IP"
+        else
+            echo "❌ Erreur lors de la mise à jour Cloudflare :"
+            echo "$UPDATE"
+        fi
+    fi
+fi
+
 # Gestion Docker selon l'environnement
 if [ "$ENV_TYPE" = "local" ] && [ "$NEED_REBUILD" = true ]; then
     echo "🧹 Nettoyage Docker pour éviter les conflits..."
@@ -186,5 +235,8 @@ echo ""
 echo "🔧 Configuration:"
 echo "   Environnement: $ENV_TYPE ($TARGET_NODE_ENV)"
 echo "   IP: $CURRENT_IP"
+if [ "$ENV_TYPE" = "ec2" ]; then
+    echo "   DNS Cloudflare: $RECORD_NAME → $CURRENT_IP"
+fi
 echo ""
 echo "¤ Pour forcer une reconstruction: $0 --force"
