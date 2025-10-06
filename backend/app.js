@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const rateLimit = require("express-rate-limit");
-//import mongoDB
 const mongoose = require("mongoose");
 
 const categoryRoutes = require("./routes/category");
@@ -12,17 +11,26 @@ const userRoutes = require("./routes/user");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-// Configuration CORS centralisée
+const allowedOrigins = process.env.CORS_IP.split(",");
+
 const corsOptions = {
-    origin: process.env.CORS_IP, // frontend link
-    credentials: true, // Allow cookies and authorization headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-    exposedHeaders: ['set-cookie'],
-    optionsSuccessStatus: 204
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.warn(`❌ Origin not allowed by CORS: ${origin}`);
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+    exposedHeaders: ["set-cookie"],
+    optionsSuccessStatus: 204,
 };
 
-// Apply CORS with same config
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
