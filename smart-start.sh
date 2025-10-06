@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # smart-start.sh - Script intelligent adaptatif local/EC2
-#chmod +x smart-start.sh
-#./smart-start.sh
+# chmod +x smart-start.sh
+# ./smart-start.sh
 
 set -e
 
@@ -102,59 +102,6 @@ EOF
 fi
 
 echo "📄 Fichier .env racine mis à jour"
-
-# Mettre à jour le frontend/.env selon l'environnement
-if [ -f "frontend/.env" ]; then
-    echo "📝 Mise à jour du frontend/.env..."
-    cp frontend/.env frontend/.env.backup
-    
-    if [ "$ENV_TYPE" = "ec2" ]; then
-        # Sur EC2 : remplacer localhost par l'IP réelle
-        sed -i "s|http://localhost:8000|http://$CURRENT_IP:8000|g" frontend/.env
-        echo "(frontend)> URLs mises à jour: localhost → $CURRENT_IP"
-    else
-        # En local : s'assurer que c'est localhost
-        sed -i "s|http://[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+:8000|http://localhost:8000|g" frontend/.env
-        echo "(frontend)> URLs mises à jour pour développement local"
-    fi
-    
-    # Mettre à jour NODE_ENV
-    if grep -q "^NODE_ENV=" frontend/.env; then
-        sed -i "s/^NODE_ENV=.*/NODE_ENV=$TARGET_NODE_ENV/" frontend/.env
-    fi
-    
-    echo "(frontend)📋 URLs d'API configurées:"
-    grep "NEXT_PUBLIC_API_" frontend/.env | while IFS= read -r line; do
-        echo "   * $line"
-    done
-else
-    echo "⚠️ Fichier frontend/.env non trouvé"
-    echo "> Créez-le avec vos variables sensibles et les URLs appropriées"
-fi
-
-# Mettre à jour le backend/.env selon l'environnement
-if [ -f "backend/.env" ]; then
-    echo "📝 Mise à jour du backend/.env..."
-    cp backend/.env backend/.env.backup
-    
-    if [ "$ENV_TYPE" = "ec2" ]; then
-        # Sur EC2 : remplacer localhost par l'IP réelle
-        sed -i "s|^CORS_IP=.*|CORS_IP=http://$CURRENT_IP:3000|" backend/.env
-        echo "(backend)> URLs mises à jour: localhost → $CURRENT_IP"
-    else
-        # En local : s'assurer que c'est localhost
-        sed -i "s|http://[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+:3000|http://localhost:3000|g" backend/.env
-        echo "(backend)> URLs mises à jour pour développement local"
-    fi
-    
-    # Mettre à jour NODE_ENV
-    if grep -q "^NODE_ENV=" backend/.env; then
-        sed -i "s/^NODE_ENV=.*/NODE_ENV=$TARGET_NODE_ENV/" backend/.env
-    fi
-else
-    echo "⚠️ Fichier backend/.env non trouvé"
-    echo "> Créez-le avec vos variables sensibles et les URLs appropriées"
-fi
 
 # Mise à jour du DNS CloudFlare
 if [ "$ENV_TYPE" = "ec2" ]; then
