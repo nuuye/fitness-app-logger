@@ -1,7 +1,7 @@
 ---
 id: 4
 title: "Building Your First Workout Routine"
-description: "A beginner's guide to creating an effective workout plan that fits your schedule and fitness level."
+description: "A guide to creating an effective workout plan that fits your schedule and fitness level."
 category: "Training"
 date: "2024-08-08"
 readTime: "10 min read"
