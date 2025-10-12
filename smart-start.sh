@@ -126,13 +126,30 @@ if [ "$ENV_TYPE" = "ec2" ]; then
         exit 1
     fi
 
-    # Récupération de l'IP enregistrée sur Cloudflare
+    # Récupération de l'ID de l'enregistrement DNS api sur Cloudflare
+    API_RECORD_ID=$(curl -s -X GET \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=api" \
+        -H "Authorization: Bearer $CF_API_TOKEN" \
+        -H "Content-Type: application/json" | jq -r '.result[0].id')
+
+    if [ "$API_RECORD_ID" = "null" ]; then
+        echo "❌ Impossible de trouver l'enregistrement DNS api dans la zone Cloudflare."
+        exit 1
+    fi
+
+    # Récupération de l'IP enregistrée sur Cloudflare pour frontend
     CLOUDFLARE_OLD_IP=$(curl -s -X GET \
         "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
         -H "Authorization: Bearer $CF_API_TOKEN" \
         -H "Content-Type: application/json" | jq -r '.result.content')
 
-    # Comparaison
+    # Récupération de l'IP enregistrée sur Cloudflare pour le backend
+    CLOUDFLARE_OLD_API_IP=$(curl -s -X GET \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$API_RECORD_ID" \
+        -H "Authorization: Bearer $CF_API_TOKEN" \
+        -H "Content-Type: application/json" | jq -r '.result.content')
+
+    # Comparaison pour frontend
     if [ "$CURRENT_IP" = "$CLOUDFLARE_OLD_IP" ]; then
         echo "✅ L'IP Cloudflare est déjà à jour ($CURRENT_IP)."
     else
@@ -147,6 +164,25 @@ if [ "$ENV_TYPE" = "ec2" ]; then
             echo "✅ Enregistrement mis à jour : $RECORD_NAME → $CURRENT_IP"
         else
             echo "❌ Erreur lors de la mise à jour Cloudflare :"
+            echo "$UPDATE"
+        fi
+    fi
+
+    # Comparaison pour backend
+    if [ "$CURRENT_IP" = "$CLOUDFLARE_OLD_API_IP" ]; then
+        echo "✅ L'IP api Cloudflare est déjà à jour ($CURRENT_IP)."
+    else
+        echo "🔄 Mise à jour de l'enregistrement DNS api..."
+        UPDATE=$(curl -s -X PUT \
+            "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$API_RECORD_ID" \
+            -H "Authorization: Bearer $CF_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data "{\"type\":\"A\",\"name\":\"api\",\"content\":\"$CURRENT_IP\",\"ttl\":120,\"proxied\":true}")
+
+        if echo "$UPDATE" | grep -q '"success":true'; then
+            echo "✅ Enregistrement mis à jour : api → $CURRENT_IP"
+        else
+            echo "❌ Erreur lors de la mise à jour api Cloudflare :"
             echo "$UPDATE"
         fi
     fi
@@ -184,6 +220,7 @@ echo "   Environnement: $ENV_TYPE ($TARGET_NODE_ENV)"
 echo "   IP: $CURRENT_IP"
 if [ "$ENV_TYPE" = "ec2" ]; then
     echo "   DNS Cloudflare: $RECORD_NAME → $CURRENT_IP"
+    echo "   DNS API Cloudflare: api → $CURRENT_IP"
 fi
 echo ""
 echo "¤ Pour forcer une reconstruction: $0 --force"
