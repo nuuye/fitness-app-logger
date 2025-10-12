@@ -3,20 +3,21 @@ const express = require("express");
 const app = express();
 const rateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
+// === Import routes ===
 const categoryRoutes = require("./routes/category");
 const subCategoryRoutes = require("./routes/subCategory");
 const exerciceRoutes = require("./routes/exercice");
 const userRoutes = require("./routes/user");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
 
+// === CORS configuration ===
 const allowedOrigins = process.env.CORS_IP.split(",");
 
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin) return callback(null, true);
-
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -31,39 +32,41 @@ const corsOptions = {
     optionsSuccessStatus: 204,
 };
 
+// === Middlewares globaux ===
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
-//link mongo to our app
-mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => console.log("Connexion à MongoDB réussie !"))
-    .catch((err) => console.error("Connexion à MongoDB échouée !", err));
-
-app.use(express.json()); //retrieve requests bodies
-
+app.set("trust proxy", 1);
+app.use(express.json());
 app.use(cookieParser());
 
-app.set("trust proxy", 1);
-
-// Set up rate limiter: maximum of 100 requests per 15 minutes per IP
+// === Rate limiter  ===
 const limiter = rateLimit({
-    windowMs: 25 * 60 * 1000, // 15 minutes
-    max: 310, // Limit each IP to 100 requests per `window`
+    windowMs: 25 * 60 * 1000, // 25 minutes
+    max: 310,
     message: "Too many requests from this IP, please try again later",
 });
-
-// Apply the rate limiter to all requests
 app.use(limiter);
 
+// === Connexion MongoDB ===
+mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => console.log("✅ Connexion à MongoDB réussie !"))
+    .catch((err) => console.error("❌ Connexion à MongoDB échouée :", err));
+
+// === Routes ===
 app.get("/", (req, res) => {
     res.send("API is running!");
 });
 
-//we give the initial routes to route files
 app.use("/api/auth", userRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/subCategory", subCategoryRoutes);
 app.use("/api/exercice", exerciceRoutes);
+
+// === Catch-all 404 ===
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
 
 module.exports = app;
