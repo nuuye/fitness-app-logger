@@ -128,7 +128,7 @@ if [ "$ENV_TYPE" = "ec2" ]; then
 
     # Récupération de l'ID de l'enregistrement DNS api sur Cloudflare
     API_RECORD_ID=$(curl -s -X GET \
-        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=api" \
+        "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=api.$RECORD_NAME" \
         -H "Authorization: Bearer $CF_API_TOKEN" \
         -H "Content-Type: application/json" | jq -r '.result[0].id')
 
@@ -177,7 +177,7 @@ if [ "$ENV_TYPE" = "ec2" ]; then
             "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$API_RECORD_ID" \
             -H "Authorization: Bearer $CF_API_TOKEN" \
             -H "Content-Type: application/json" \
-            --data "{\"type\":\"A\",\"name\":\"api\",\"content\":\"$CURRENT_IP\",\"ttl\":120,\"proxied\":true}")
+            --data "{\"type\":\"A\",\"name\":\"api.$RECORD_NAME\",\"content\":\"$CURRENT_IP\",\"ttl\":120,\"proxied\":true}")
 
         if echo "$UPDATE" | grep -q '"success":true'; then
             echo "✅ Enregistrement mis à jour : api → $CURRENT_IP"
