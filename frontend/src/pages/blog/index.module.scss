@@ -146,6 +146,7 @@
     gap: 32px;
     margin: 60px 0;
     align-items: stretch;
+    justify-content: center;
 
     @media (max-width: 768px) {
         gap: 24px;
@@ -224,7 +225,9 @@
     max-width: 500px;
     margin: 0 auto 40px;
     position: relative;
-
+    @media (max-width: 480px) {
+        margin: 0px 20px;
+    }
     .searchInput {
         width: 90%;
         padding: 16px 20px 16px 50px;
@@ -234,7 +237,12 @@
         color: white;
         font-size: 1rem;
         transition: all 200ms ease;
-
+        @media (max-width: 650px) {
+            width: 85%;
+        }
+        @media (max-width: 480px) {
+            width: 80%;
+        }
         &::placeholder {
             color: hsl(220, 20%, 60%);
         }
