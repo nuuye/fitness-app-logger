@@ -72,6 +72,9 @@ export default function Dashboard() {
             setSelectedSubCategoryLabel(retrieveSubCategory.name);
             localStorage.setItem("subCategory", retrieveSubCategory.name);
         }
+        if(!hideMenu){
+            setHideMenu(true);
+        }
     };
 
     const handleCancelWindow = () => {

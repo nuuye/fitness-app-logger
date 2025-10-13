@@ -212,7 +212,14 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
                                         key={category._id}
                                         user={user}
                                         categoryId={category._id}
-                                        retrieveSubCategory={retrieveSubCategory}
+                                        retrieveSubCategory={(subCategoryId) => {
+                                            retrieveSubCategory(subCategoryId);
+                                            // Fermer le menu mobile quand une sous-catégorie est sélectionnée
+                                            if (mobileSideBar) {
+                                                setShowMenu(false);
+                                                retrieveShowMenuStatus(false);
+                                            }
+                                        }}
                                         onClickDelete={(categoryId) => {
                                             onClickDelete(categoryId, category.name);
                                         }}
