@@ -20,7 +20,7 @@ const BlogPage = () => {
 
                 // Load articles
                 try {
-                    const response = await fetch(`/api/articles/`);
+                    const response = await fetch(`/api/frontend/articles/`);
                     console.log("response: ", response);
                     if (response.ok) {
                         articles = await response.json();
