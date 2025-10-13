@@ -26,7 +26,7 @@ export default function ArticlePage() {
 
     useEffect(() => {
         if (id) {
-            fetch(`/api/articles/${id}`)
+            fetch(`/api/frontend/articles/${id}`)
                 .then((res) => res.json())
                 .then((data) => setArticle(data));
         }
