@@ -153,10 +153,6 @@ export default function footer() {
                                 </span>
                             </div>
                             <div className={styles.contactItem}>
-                                <Phone className={styles.contactIcon} />
-                                <span>+33 (0) 7 43 50 96 00</span>
-                            </div>
-                            <div className={styles.contactItem}>
                                 <FmdGoodIcon className={styles.contactIcon} />
                                 <span>Paris, FR</span>
                             </div>
