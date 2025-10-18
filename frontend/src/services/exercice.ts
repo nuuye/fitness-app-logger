@@ -1,7 +1,6 @@
 import { ExerciceType, PerformanceType } from "../types/exercice";
 
-const API_EXERCICE_URL = process.env.NEXT_PUBLIC_API_EXERCICE_URL;
-
+const API_EXERCICE_URL = process.env.EXERCICE_API_URL;
 
 export const createExerciceRequest = async (
     name: string,
@@ -62,7 +61,6 @@ export const getAllExerciceRequest = async (userId: string, subCategoryId: strin
             return null;
         }
         return response.json();
-        
     } catch (error) {
         console.log("error retrieving exercices", error);
         return null;
@@ -89,7 +87,6 @@ export const getAllUserExerciceRequest = async (userId: string): Promise<Exercic
             return null;
         }
         return response.json();
-        
     } catch (error) {
         console.log("error retrieving exercices", error);
         return null;
@@ -123,7 +120,11 @@ export const deleteExerciceRequest = async (exerciceId: string): Promise<boolean
     }
 };
 
-export const editExerciceRequest = async (exerciceId: string, label?: string, perfomances?: PerformanceType[]): Promise<boolean> => {
+export const editExerciceRequest = async (
+    exerciceId: string,
+    label?: string,
+    perfomances?: PerformanceType[]
+): Promise<boolean> => {
     try {
         const token = localStorage.getItem("token");
         if (!token) {

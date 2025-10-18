@@ -1,6 +1,6 @@
 import { subCategoryType } from "./../types/subCategory";
 
-const API_SUBCATEGORY_URL = process.env.NEXT_PUBLIC_API_SUBCATEGORY_URL;
+const API_SUBCATEGORY_URL = process.env.SUBCATEGORY_API_URL;
 
 //API request to create a sub category
 export const createSubCategoryRequest = async (

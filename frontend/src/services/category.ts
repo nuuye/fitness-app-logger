@@ -1,5 +1,5 @@
 import { categoryType } from "../types";
-const API_CATEGORY_URL = process.env.NEXT_PUBLIC_API_CATEGORY_URL;
+const API_CATEGORY_URL = process.env.CATEGORY_API_URL;
 
 //API request to create a category
 export const createCategoryRequest = async (label: string, userId: string): Promise<categoryType> => {

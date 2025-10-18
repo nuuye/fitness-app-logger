@@ -1,5 +1,5 @@
 import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
-const API_USER_URL = process.env.NEXT_PUBLIC_API_USER_URL;
+const API_USER_URL = process.env.USER_API_URL;
 
 export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
     try {
