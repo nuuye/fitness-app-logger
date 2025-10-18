@@ -1,6 +1,6 @@
 import { ExerciceType, PerformanceType } from "../types/exercice";
 
-const API_EXERCICE_URL = process.env.EXERCICE_API_URL;
+const API_EXERCICE_URL = process.env.NEXT_PUBLIC_EXERCICE_API_URL;
 
 export const createExerciceRequest = async (
     name: string,
