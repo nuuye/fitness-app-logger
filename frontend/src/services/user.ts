@@ -1,22 +1,27 @@
-import { User, UserCredentials, AuthResponse, SignupFormValues } from "../types";
+import { User, UserCredentials, AuthResponse, AuthResponseWithStatus ,SignupFormValues } from "../types";
 const API_USER_URL = process.env.NEXT_PUBLIC_USER_API_URL;
 
-export const signupRequest = async (data: SignupFormValues): Promise<AuthResponse> => {
+export const signupRequest = async (formValues: SignupFormValues): Promise<AuthResponseWithStatus> => {
     try {
         const response = await fetch(`${API_USER_URL}/signup`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify(data),
+            body: JSON.stringify(formValues),
         });
-
-        if (!response) {
-            return null;
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            return { status: 201, data };
+        } else if (response.status === 409) {
+            return { status: 409, data: null };
+        } else {
+            return { status: 500, data: null };
         }
-        return response.json();
     } catch (error) {
         console.log("error creating an account: ", error);
-        return null;
+        return { status: 500, data: null };
     }
 };
 

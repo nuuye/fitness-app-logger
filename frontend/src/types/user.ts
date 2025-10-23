@@ -16,6 +16,11 @@ export interface AuthResponse {
     token: string;
 }
 
+export interface AuthResponseWithStatus {
+    status: 201 | 409 | 500;
+    data: { userId: string; name: string; email: string; token: string } | null;
+};
+
 export interface SignupFormValues {
     name: string;
     email: string;

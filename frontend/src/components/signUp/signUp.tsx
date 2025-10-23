@@ -108,16 +108,28 @@ export default function SignUp() {
                 password: rawData.get("password") as string,
             };
 
-            const newUser = await signupRequest(formData);
+            const result = await signupRequest(formData);
 
-            if (newUser) {
-                setUser({ userId: newUser.userId, name: newUser.name, email: newUser.email });
-                localStorage.setItem("userId", newUser.userId);
-                localStorage.setItem("token", newUser.token);
+            if (result.status === 201 && result.data) {
+                setUser({
+                    userId: result.data.userId,
+                    name: result.data.name,
+                    email: result.data.email,
+                });
+                localStorage.setItem("userId", result.data.userId);
+                localStorage.setItem("token", result.data.token);
                 router.push("/dashboard");
+            } else if (result.status === 409) {
+                // Gérer le conflit (email déjà utilisé)
+                alert("Un compte existe déjà avec cet email");
+                // Ou afficher un message d'erreur dans l'UI
+            } else {
+                // Gérer les autres erreurs
+                alert("Une erreur est survenue lors de l'inscription");
             }
         } catch (error) {
-            console.error("Erreur lors de la connexion:", error);
+            console.error("Erreur lors de l'inscription:", error);
+            alert("Une erreur inattendue est survenue");
         } finally {
             setLoadingSignUp(false);
         }

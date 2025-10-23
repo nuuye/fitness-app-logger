@@ -3,42 +3,42 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.signup = (req, res, next) => {
-    //hashing the password
-    bcrypt
-        .hash(req.body.password, 10)
-        .then((hash) => {
-            //create a new user
-            const newUser = new User({
-                name: req.body.name,
-                email: req.body.email,
-                password: hash,
-            });
-            //save the new user
-            newUser
-                .save()
-                .then((user) => {
-                    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
+exports.signup = async (req, res, next) => {
+    try {
+        const { name, password } = req.body;
+        const email = req.body.email.trim().toLowerCase();
 
-                    res.cookie("jwtToken", token, {
-                        httpOnly: true,
-                        secure: false,
-                        sameSite: "Lax",
-                        path: "/",
-                        maxAge: 24 * 60 * 60 * 1000,
-                    });
+        const isRegistered = await User.findOne({ email });
+        if (isRegistered) {
+            return res.status(409).json({ message: "Email address already registered" });
+        }
 
-                    res.status(200).json({
-                        userId: user._id,
-                        name: user.name,
-                        email: user.email,
-                        token: token,
-                    });
-                })
-                .catch((err) => res.status(400).json({ err }));
-        })
-        .catch((err) => res.status(500).json({ err }));
+        const hash = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, email, password: hash });
+        const user = await newUser.save();
+
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_TOKEN, { expiresIn: "24h" });
+
+        res.cookie("jwtToken", token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "Lax",
+            path: "/",
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+
+        return res.status(201).json({
+            userId: user._id,
+            name: user.name,
+            email: user.email,
+            token: token,
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
 };
+
 
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })

@@ -1,5 +1,4 @@
 const Category = require("../models/category");
-const Exercice = require("../models/exercice");
 const subCategory = require("../models/subCategory");
 
 //creates a subCategory
