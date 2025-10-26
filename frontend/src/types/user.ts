@@ -17,7 +17,7 @@ export interface AuthResponse {
 }
 
 export interface AuthResponseWithStatus {
-    status: 201 | 409 | 500;
+    status: 201 | 409 | 500; //success | conflict | error
     data: { userId: string; name: string; email: string; token: string } | null;
 };
 

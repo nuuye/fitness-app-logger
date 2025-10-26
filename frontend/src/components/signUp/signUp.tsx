@@ -120,12 +120,8 @@ export default function SignUp() {
                 localStorage.setItem("token", result.data.token);
                 router.push("/dashboard");
             } else if (result.status === 409) {
-                // Gérer le conflit (email déjà utilisé)
-                alert("Un compte existe déjà avec cet email");
-                // Ou afficher un message d'erreur dans l'UI
-            } else {
-                // Gérer les autres erreurs
-                alert("Une erreur est survenue lors de l'inscription");
+                setEmailError(true);
+                setEmailErrorMessage("This email is already registered");
             }
         } catch (error) {
             console.error("Erreur lors de l'inscription:", error);
