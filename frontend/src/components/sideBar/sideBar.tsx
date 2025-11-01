@@ -102,7 +102,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         //async function to retrieve categories related to the current user
         const retrieveCategories = async (userId: string) => {
             const categoriesData = await retrieveCategoriesRequest(userId);
-            if (categoriesData) {
+            if (categoriesData && Array.isArray(categoriesData)) {
                 setCategories(categoriesData);
             }
         };
