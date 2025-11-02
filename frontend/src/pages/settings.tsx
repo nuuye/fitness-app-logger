@@ -14,6 +14,7 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import Input from "@mui/material/Input";
 import { editUserRequest } from "../services/user";
 import ChangePasswordWindow from "../components/changePasswordWindow/changePasswordWindow";
+import { signOut } from "next-auth/react";
 
 export default function Settings() {
     const router = useRouter();
@@ -75,20 +76,22 @@ export default function Settings() {
 
     const handleLogout = async (): Promise<void> => {
         try {
-            const success = await logoutRequest();
-            if (success) {
-                localStorage.removeItem("userId");
-                localStorage.removeItem("token");
-                setUser({
-                    userId: null,
-                    name: null,
-                    email: null,
-                });
-                router.push("/");
-            }
-        } catch (error) {
-            console.error("Logout failed", error);
+            await logoutRequest();
+        } catch (e) {
+            console.warn("Backend logout failed, continuing anyway");
         }
+
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        localStorage.removeItem("subCategoryId");
+        localStorage.removeItem("subCategory");
+        
+        setUser({
+            userId: null,
+            name: null,
+            email: null,
+        });
+        await signOut({ callbackUrl: "/" });
     };
 
     const handleCancelEdit = () => {

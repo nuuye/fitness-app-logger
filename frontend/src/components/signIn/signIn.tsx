@@ -43,7 +43,6 @@ export default function SignIn() {
             if (result?.error) {
                 console.error("Erreur de connexion:", result.error);
             } else {
-                // 🔹 Recharger la session
                 const session = await getSession();
                 console.log("session added props: ", session?.user?.userId, session?.user?.token);
 

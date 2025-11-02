@@ -15,11 +15,12 @@ import { logoutRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { GoSidebarExpand, GoSidebarCollapse } from "react-icons/go";
 import { BiLogOut } from "react-icons/bi";
-import Category from "../Category/category";
+import Category from "../category/category";
 import { createCategoryRequest, retrieveCategoriesRequest } from "../../services/category";
 import { useUser } from "../../context/userContext";
 import InsightsIcon from "@mui/icons-material/Insights";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 interface sideBarProps {
     retrieveSubCategory: (subCategoryId: string) => void;
@@ -52,7 +53,7 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         //retrieving the user and its categories on page loading
         useEffect(() => {
             setSideBarOpen(localStorage.getItem("sideBarOpen") === "true");
-            
+
             const redirectLogin = () => {
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
@@ -125,19 +126,23 @@ const SideBar = forwardRef<SideBarRef, sideBarProps>(
         };
 
         const handleLogout = async (): Promise<void> => {
-            const success = await logoutRequest();
-            if (success) {
-                localStorage.removeItem("userId");
-                localStorage.removeItem("token");
-                localStorage.removeItem("subCategoryId");
-                localStorage.removeItem("subCategory");
-                setUser({
-                    userId: null,
-                    name: null,
-                    email: null,
-                });
-                router.push("/");
+            try {
+                await logoutRequest();
+            } catch (e) {
+                console.warn("Backend logout failed, continuing anyway");
             }
+
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
+            localStorage.removeItem("subCategoryId");
+            localStorage.removeItem("subCategory");
+            
+            setUser({
+                userId: null,
+                name: null,
+                email: null,
+            });
+            await signOut({ callbackUrl: "/" });
         };
 
         const handleShowMenu = () => {
