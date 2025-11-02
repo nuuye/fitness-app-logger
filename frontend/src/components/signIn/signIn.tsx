@@ -30,31 +30,11 @@ export default function SignIn() {
 
     const handleGoogleSignIn = async () => {
         setGoogleLoading(true);
-        console.log("Tentative de connexion Google...");
 
         try {
-            const result = await signIn("google", {
-                redirect: false,
+            await signIn("google", {
                 callbackUrl: "/dashboard",
             });
-
-            console.log("Résultat signIn:", result);
-
-            if (result?.error) {
-                console.error("Erreur de connexion:", result.error);
-            } else {
-                const session = await getSession();
-                console.log("session added props: ", session?.user?.userId, session?.user?.token);
-
-                setUser({
-                    userId: session?.user?.userId,
-                    name: session?.user?.name,
-                    email: session?.user?.email,
-                });
-
-                localStorage.setItem("userId", session?.user?.userId || "");
-                localStorage.setItem("token", session?.user?.token || "");
-            }
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
         } finally {
