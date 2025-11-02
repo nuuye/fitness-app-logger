@@ -24,9 +24,9 @@ export default async function handler(req, res) {
 
                             // Définir le cookie personnalisé
                             res.setHeader("Set-Cookie", [
-                                `jwtToken=${userData.token}; HttpOnly; Path=/; Max-Age=${24 * 60 * 60}; SameSite=Lax${
-                                    process.env.NODE_ENV === "production" ? "; Secure" : ""
-                                }`,
+                                `jwtToken=${userData.token}; HttpOnly; Path=/; Max-Age=${24 * 60 * 60}; SameSite=${
+                                    process.env.NODE_ENV === "production" ? "None" : "Lax"
+                                }${process.env.NODE_ENV === "production" ? "; Secure; Domain=.fitlogs.fr" : ""}`,
                             ]);
 
                             console.log("Cookie défini:", userData.token);
