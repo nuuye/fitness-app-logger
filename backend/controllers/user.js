@@ -21,7 +21,7 @@ exports.signup = async (req, res, next) => {
 
         res.cookie("jwtToken", token, {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === 'production',
             sameSite: "Lax",
             path: "/",
             maxAge: 24 * 60 * 60 * 1000,
@@ -52,7 +52,7 @@ exports.login = (req, res, next) => {
 
                         res.cookie("jwtToken", token, {
                             httpOnly: true,
-                            secure: false,
+                            secure: process.env.NODE_ENV === 'production',
                             sameSite: "Lax",
                             path: "/",
                             maxAge: 24 * 60 * 60 * 1000,
@@ -131,7 +131,7 @@ exports.googleAuth = (req, res, next) => {
 
 exports.logout = (req, res, next) => {
     res.clearCookie("jwtToken", {
-        secure: false, // Match login settings
+        secure: process.env.NODE_ENV === 'production', // Match login settings
         sameSite: "Lax", // Match login settings
         path: "/", // Ensure it clears the correct cookie
     });
