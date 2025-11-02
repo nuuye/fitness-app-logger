@@ -11,10 +11,14 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import WarningPopup from "../components/warningPopup/warningPopup";
+import { useSession } from "next-auth/react";
+import { useUser } from "../context/userContext";
 
 export default function Dashboard() {
     const tableRef = useRef<ExerciceTableRef>(null);
     const sideBarRef = useRef<SideBarRef>(null);
+    const { setUser } = useUser();
+    const { data: session, status } = useSession();
 
     const [sideBarOpen, setSideBarOpen] = useState<boolean | null>(null);
     const [hideMenu, setHideMenu] = useState<boolean>(true);
@@ -50,6 +54,18 @@ export default function Dashboard() {
         });
     }, []);
 
+    useEffect(() => {
+        if (session?.user?.userId) {
+            setUser({
+                userId: session?.user?.userId,
+                name: session?.user?.name,
+                email: session?.user?.email,
+            });
+            localStorage.setItem("userId", session.user.userId);
+            localStorage.setItem("token", session.user.token);
+        }
+    }, [session]);
+
     const triggerCreateExercice = () => {
         if (!selectedSubCategoryId || !selectedDateISO) {
             setDisplayWarning(true);
@@ -72,7 +88,7 @@ export default function Dashboard() {
             setSelectedSubCategoryLabel(retrieveSubCategory.name);
             localStorage.setItem("subCategory", retrieveSubCategory.name);
         }
-        if(!hideMenu){
+        if (!hideMenu) {
             setHideMenu(true);
         }
     };

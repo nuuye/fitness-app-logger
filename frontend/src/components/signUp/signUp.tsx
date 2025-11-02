@@ -6,7 +6,7 @@ import { GoogleIcon } from "../customIcons/customIcons";
 import { signupRequest } from "../../services/user";
 import { useRouter } from "next/router";
 import { useUser } from "../../context/userContext";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export default function SignUp() {
     const router = useRouter();
@@ -30,32 +30,11 @@ export default function SignUp() {
 
     const handleGoogleSignIn = async () => {
         setGoogleLoading(true);
-        console.log("Tentative de connexion Google...");
 
         try {
-            const result = await signIn("google", {
-                redirect: false,
+            await signIn("google", {
                 callbackUrl: "/dashboard",
             });
-
-            console.log("Résultat signIn:", result);
-
-            if (result?.error) {
-                console.error("Erreur de connexion:", result.error);
-            } else {
-                // 🔹 Recharger la session
-                const session = await getSession();
-                console.log("session added props: ", session?.user?.userId, session?.user?.token);
-
-                setUser({
-                    userId: session?.user?.userId,
-                    name: session?.user?.name,
-                    email: session?.user?.email,
-                });
-
-                localStorage.setItem("userId", session?.user?.userId || "");
-                localStorage.setItem("token", session?.user?.token || "");
-            }
         } catch (error) {
             console.error("Erreur lors de la connexion:", error);
         } finally {
