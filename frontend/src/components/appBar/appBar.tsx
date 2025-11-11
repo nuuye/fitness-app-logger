@@ -70,6 +70,11 @@ export default function AppBar() {
                             Blog
                         </Button>
                     </Link>
+                    <Link href="/pricing" prefetch className={styles.link}>
+                        <Button className={styles.sectionButtonContainer} variant="text">
+                            Pricing
+                        </Button>
+                    </Link>
                     <Link href="/faq" prefetch className={styles.link}>
                         <Button className={styles.sectionButtonContainer} variant="text">
                             FAQ
