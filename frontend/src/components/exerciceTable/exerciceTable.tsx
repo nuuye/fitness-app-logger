@@ -520,7 +520,10 @@ const ExerciceTable = forwardRef<ExerciceTableRef, ExerciceTableProps>(({ subCat
                                                 <BorderColorIcon className={styles.editIcon} />
                                             </IconButton>
                                         )}
-                                        <IconButton onClick={() => handleDeleteExercice(row._id)} color="error">
+                                        <IconButton
+                                            onClick={() => setExerciceToDelete({ [row.name]: row._id })}
+                                            color="error"
+                                        >
                                             <DeleteIcon className={styles.deleteIcon} />
                                         </IconButton>
                                     </div>
