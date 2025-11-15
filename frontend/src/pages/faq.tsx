@@ -62,7 +62,7 @@ export default function FAQ() {
                     <FAQItem title="Help Center" id="help" forceOpen={section === "help"}>
                         <p>Need assistance with Fitlogs? We're here to help! Here are the best ways to get support:</p>
 
-                        <h4>📧 Email Support</h4>
+                        <h4>Email Support</h4>
                         <p>
                             Send us an email at <a href="mailto:support@fitlogs.com">support@fitlogs.com</a> for
                             detailed questions or technical issues. We typically respond within 24 hours.
@@ -89,7 +89,7 @@ export default function FAQ() {
                             protect your personal information.
                         </p>
 
-                        <h4>📊 Data Collection</h4>
+                        <h4>Data Collection</h4>
                         <p>We collect only the information necessary to provide and improve our services:</p>
                         <ul>
                             <li>
@@ -107,7 +107,7 @@ export default function FAQ() {
                             </li>
                         </ul>
 
-                        <h4>🔒 Data Protection</h4>
+                        <h4>Data Protection</h4>
                         <p>Your data is protected using industry-standard security measures:</p>
                         <ul>
                             <li>End-to-end encryption for sensitive information</li>
@@ -116,7 +116,7 @@ export default function FAQ() {
                             <li>Limited access to authorized personnel only</li>
                         </ul>
 
-                        <h4>🚫 What We DON'T Do</h4>
+                        <h4>What We DON'T Do</h4>
                         <ul>
                             <li>We never sell your personal data to third parties</li>
                             <li>We don't share your workout data without explicit consent</li>
@@ -151,7 +151,7 @@ export default function FAQ() {
                     <FAQItem title="Terms of Service" id="terms" forceOpen={section === "terms"}>
                         <p>By using Fitlogs, you agree to these terms and conditions. Please read them carefully.</p>
 
-                        <h4>✅ Acceptable Use</h4>
+                        <h4>Acceptable Use</h4>
                         <p>You agree to use Fitlogs for lawful purposes only. You may:</p>
                         <ul>
                             <li>Track your personal fitness activities and progress</li>
@@ -160,7 +160,7 @@ export default function FAQ() {
                             <li>Provide feedback to help us improve the service</li>
                         </ul>
 
-                        <h4>🚫 Prohibited Activities</h4>
+                        <h4>Prohibited Activities</h4>
                         <p>The following activities are strictly prohibited:</p>
                         <ul>
                             <li>Attempting to hack, reverse engineer, or compromise our systems</li>
@@ -168,7 +168,7 @@ export default function FAQ() {
                             <li>Violating any applicable laws or regulations</li>
                         </ul>
 
-                        <h4>📱 Service Availability</h4>
+                        <h4>Service Availability</h4>
                         <p>
                             While we strive for 99.9% uptime, we cannot guarantee uninterrupted service. We reserve the
                             right to:
@@ -179,7 +179,7 @@ export default function FAQ() {
                             <li>Modify features with reasonable notice</li>
                         </ul>
 
-                        <h4>⚖️ Limitation of Liability</h4>
+                        <h4>Limitation of Liability</h4>
                         <p>
                             Fitlogs is provided "as is" without warranties. We are not liable for indirect damages or
                             loss of data, though we take every precaution to protect your information.
@@ -192,7 +192,7 @@ export default function FAQ() {
                             layers of security measures implemented throughout the application.
                         </p>
 
-                        <h4>🔐 Data Encryption</h4>
+                        <h4>Data Encryption</h4>
                         <ul>
                             <li>All passwords are securely hashed using industry-standard bcrypt encryption</li>
                             <li>
@@ -201,14 +201,14 @@ export default function FAQ() {
                             <li>User authentication is required to access your personal dashboard and data</li>
                         </ul>
 
-                        <h4>🛡️ Access Control</h4>
+                        <h4>Access Control</h4>
                         <ul>
                             <li>Protected API routes ensure only authenticated users can access their own data</li>
                             <li>Request rate limiting prevents abuse and protects server resources</li>
                             <li>Each user can only access and modify their own workout data</li>
                         </ul>
 
-                        <h4>👤 Account Security</h4>
+                        <h4>Account Security</h4>
                         <p>Protect your account with these recommended practices:</p>
                         <ul>
                             <li>Use a strong, unique password for your Fitlogs account</li>
